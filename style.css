@@ -18,7 +18,7 @@ body {
 /* Fonts */
 @font-face {
     font-family: 'Bobby Jones';
-    src: url('fonts/Bobby Jones Soft.woff2') format('woff2');
+    src: url('fonts/bobby jones soft.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
   font-display: swap;
@@ -26,8 +26,8 @@ body {
 
 @font-face {
     font-family: 'Schoolbell';
-    src: local('Schoolbell Regular'), local('Schoolbell-Regular'),
-         url('fonts/Schoolbell-Regular.woff2') format('woff2');
+  src: local('Schoolbell Regular'), local('Schoolbell-Regular'),
+     url('fonts/schoolbell-regular.woff2') format('woff2');
     font-weight: 400;
     font-style: normal;
     font-display: swap;
@@ -35,8 +35,8 @@ body {
 
 @font-face {
     font-family: 'DM Sans';
-    src: local('DM Sans Regular'), local('DM Sans'),
-         url('fonts/DMSans-Regular.ttf') format('truetype');
+  src: local('DM Sans Regular'), local('DM Sans'),
+     url('fonts/dmsans-regular.ttf') format('truetype');
     font-weight: 400;
     font-style: normal;
     font-display: swap;
@@ -44,14 +44,14 @@ body {
 
 @font-face {
     font-family: 'Kollektif';
-    src: url('fonts/Kollektif.ttf') format('truetype');
+  src: url('fonts/kollektif.ttf') format('truetype');
     font-weight: 400;
     font-style: normal;
     font-display: swap;
 }
 @font-face {
     font-family: 'Kollektif';
-    src: url('fonts/Kollektif-Bold.ttf') format('truetype');
+  src: url('fonts/kollektif-bold.ttf') format('truetype');
     font-weight: 700;
     font-style: normal;
     font-display: swap;
@@ -383,9 +383,9 @@ main {
 }
 
 /* Placeholders d’images (vous ajouterez les fichiers plus tard) */
-.image-1 { background-image: url('photos/Photo2Pageaccueil.jpg'); }
-.image-2 { background-image: url('photos/Photo3Pageaccueil.jpg'); }
-.image-3 { background-image: url('Logos/Photo4pageaccueil.png'); }
+.image-1 { background-image: url('photos/photo2pageaccueil.jpg'); }
+.image-2 { background-image: url('photos/photo3pageaccueil.jpg'); }
+.image-3 { background-image: url('Logos/photo4pageaccueil.png'); }
 
 /* Final focused crop for the 2nd image in the home mosaic. */
 .concept-grid .image-2 {
@@ -1434,7 +1434,7 @@ html.transition-back-leave .page-shell    { animation: fb-slide-out-right 520ms 
 .mission-page { background:#FDF9F5; }
 
 /* Top hero with overlay title (green text) */
-.mission-hero{ position:relative; width:100%; height: clamp(220px, 41.8vw, 640px); background: url('photos/Photo1notremission.jpg') center/cover no-repeat; overflow: hidden; }
+.mission-hero{ position:relative; width:100%; height: clamp(220px, 41.8vw, 640px); background: url('photos/photo1notremission.jpg') center/cover no-repeat; overflow: hidden; }
 /* Notre mission – recadrage du héros: descendre l’image de 30% */
 .mission-hero { background-position: center 80%; }
 /* Notre mission – recadrage: remonter la photo de 50% (vs 80% -> 30%) */
