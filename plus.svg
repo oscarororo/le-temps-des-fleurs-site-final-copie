@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <!-- Cercle tracé à la main (irrégulier) -->
+  <path d="M104 16c33-4 68 22 74 57 6 35-14 76-49 88-35 12-76-2-96-31C12 101 20 63 45 41c17-15 36-22 59-25z"
+        stroke="#CF2182" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <!-- Deuxième boucle (effet crayonné) -->
+  <path d="M36 58c-4 7-7 17-7 28 0 47 39 86 86 86 20 0 38-6 52-18"
+        stroke="#CF2182" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <!-- Signe plus -->
+  <path d="M100 66v68M66 100h68" stroke="#CF2182" stroke-width="12" stroke-linecap="round"/>
+</svg>

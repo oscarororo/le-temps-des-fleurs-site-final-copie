@@ -1,0 +1,1959 @@
+/* Global background color for the site */
+body{ background-color:#FDF9F5; }
+/* Global Reset */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  overflow-x: auto; /* autorise le scroll horizontal si la page est verrouillée plus large que le viewport */
+  background-color: #FDF9F5;
+    color: #333333;               /* palette: texte #333 */
+    font-family: 'Kollektif', sans-serif; /* corps en Kollektif site-wide */
+}
+
+/* Fonts */
+@font-face {
+    font-family: 'Bobby Jones';
+    src: url('fonts/Bobby Jones Soft.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+    font-family: 'Schoolbell';
+    src: local('Schoolbell Regular'), local('Schoolbell-Regular'),
+         url('fonts/Schoolbell-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'DM Sans';
+    src: local('DM Sans Regular'), local('DM Sans'),
+         url('fonts/DMSans-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Kollektif';
+    src: url('fonts/Kollektif.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Kollektif';
+    src: url('fonts/Kollektif-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Structure Layout */
+html, body {
+    height: 100%;
+}
+
+/* Smooth scrolling across the site */
+html { scroll-behavior: smooth; }
+
+/* Respect user motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  .header, .footer { transition: none !important; }
+}
+
+/* === Header === */
+header {
+    width: 100%;
+    background-color: #D2DCA5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  padding: 0 3vw;
+    height: 47.86px; /* réduit encore de 10% (53.18px -> 47.86px) */
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+  transition: transform 0.3s ease, height 0.25s ease; /* anime aussi la hauteur au hover */
+    will-change: transform;
+}
+
+/* Freeze header during transitions so it doesn't 'jump' when pages animate */
+html.transition-forward-leave header,
+html.transition-back-leave header,
+html.transition-forward header,
+html.transition-back header {
+  transition: none !important;
+  transform: none !important;
+  height: 47.86px !important; /* ensure same height during transition */
+}
+
+/* Avoid .header--hidden applying a translate during transition classes */
+html.transition-forward-leave .header--hidden,
+html.transition-back-leave .header--hidden,
+html.transition-forward .header--hidden,
+html.transition-back .header--hidden {
+  transform: none !important;
+}
+
+/* Masque le header en le décalant vers le haut */
+.header--hidden {
+    transform: translateY(-100%);
+}
+
+.logo {
+    height: 29.92px; /* réduit encore de 10% (33.24px -> 29.92px) */
+    transition: height 0.25s ease; /* anime la taille du logo au hover header */
+    max-width: 100%;
+}
+
+/* Header hover/focus: double la hauteur et agrandit le logo, centre le contenu verticalement */
+header:hover,
+header:focus-within {
+  height: 95.72px; /* x2 de 47.86px */
+}
+header:hover .logo,
+header:focus-within .logo {
+  height: 59.84px; /* x2 de 29.92px */
+}
+
+nav {
+    display: flex;
+    gap: 4vw;
+    flex-wrap: wrap;
+}
+
+nav a {
+    text-decoration: none;
+    color: #385B4F;
+    font-weight: bold;
+    font-size: 1.1rem;
+    transition: color 0.2s ease; /* transition sur la couleur */
+}
+
+nav a:hover {
+    color: #CF2182; /* fuchsia utilisé précédemment */
+    text-shadow: none; /* suppression de l’effet d’ombre */
+}
+
+nav a:focus-visible {
+    outline: 2px dashed #CF2182;
+    outline-offset: 2px;
+}
+
+/* === Main === */
+main {
+    flex: 1;
+    padding-top: 47.86px; /* aligné sur la nouvelle hauteur du header (-10%) */
+    padding-bottom: 60px;
+}
+
+/* === Hero Section === */
+.hero {
+    position: relative; /* pour positionner l'overlay */
+    width: 100%;
+    overflow: hidden;
+  /* Bandeau photo: hauteur +~5% */
+  height: clamp(220px, 41.8vw, 640px);
+}
+
+.hero-image {
+  position: absolute; /* remplit le bandeau défini ci-dessus */
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;   /* couvre sans déformer */
+  transition: transform 0.4s ease;
+  will-change: transform;
+}
+
+.hero:hover .hero-image,
+.hero:focus-within .hero-image {
+  transform: scale(1.07); /* zoom léger au survol comme avant */
+}
+
+/* Overlay centré sur l'image */
+.hero-overlay {
+    position: absolute;
+    inset: 0; /* top:0; right:0; bottom:0; left:0 */
+    display: flex;
+    align-items: center;           /* ancrage vertical au centre */
+    justify-content: center;       /* base au centre horizontal */
+    padding: 0;                    /* pas de padding parasite */
+    pointer-events: none; /* pas d'interaction, clics traversants */
+}
+
+.hero-overlay h1 {
+    margin: 0;
+    text-align: center;            /* centrage du bloc */
+    color: #385B4F;                /* vert sombre demandé */
+    position: relative;
+    left: 0;
+    transform: translateX(-5vw);   /* léger décalage vers la gauche depuis le centre */
+    max-width: 18ch; /* contrôle la longueur de ligne */
+    font-size: clamp(2rem, 5.2vw, 3.6rem); /* un peu plus large sur desktop */
+    line-height: 0.98; /* titrage plus compact */
+    letter-spacing: -0.01em;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.15); /* léger boost de contraste si besoin */
+    white-space: pre-line;   /* respect <br> */
+    text-shadow: none;       /* pas d’ombre si non souhaitée sur la capture */
+}
+
+.hero-overlay .hero-line {
+    display: block;         /* force un retour à la ligne */
+    white-space: nowrap;    /* empêche de casser dans une même ligne */
+}
+
+@media (max-width: 700px) {
+  .hero-overlay {
+    align-items: center; /* recentre verticalement sur mobile */
+    justify-content: center;       /* reste centré sur mobile */
+    padding: 0;
+  }
+  .hero-overlay h1 {
+    left: 0;
+    transform: none;               /* pas de décalage sur mobile */
+    text-align: center;
+    max-width: 24ch;
+    font-size: clamp(1.6rem, 7vw, 2.4rem);
+    line-height: 1.05;
+  }
+}
+
+@media (max-width: 900px) {
+  .hero-overlay h1 {
+    font-size: clamp(1.6rem, 5.2vw, 2.4rem);
+    transform: none; /* centre sur tablettes/mobiles */
+    text-align: center;
+  }
+}
+
+/* Texte descriptif sous l'image (reste centré) */
+.hero-text {
+    padding: 6.9px 3vw; /* reduce side padding so text uses more horizontal space */
+    margin: 0 auto;
+  max-width: 1200px; /* allow wider text columns */
+    text-align: center;
+}
+
+/* Hero subline: use Schoolbell in bold */
+.hero-text .hero-subline {
+  /* Aligner avec le style des titres .legal h2 (ex: "Prix et paiement") */
+  font-family: 'Schoolbell', cursive !important;
+  font-weight: 400;                  /* Schoolbell régulier comme sur les titres légaux */
+  text-transform: uppercase;         /* format capitales */
+  color: #385B4F;                    /* vert sombre */
+  font-size: clamp(0.862rem, 2.8224vw, 1.7248rem); /* +12% vs état courant (0.77 / 2.52 / 1.54) */
+  line-height: 1.35;                 /* un peu plus d'air pour éviter la coupe des accents */
+  /* Forcer sur une seule ligne et étirer sur toute la largeur de la page */
+  white-space: nowrap;               /* une seule ligne */
+  word-break: keep-all;              /* éviter la césure */
+  overflow-wrap: normal;             /* pas de wrap forcé */
+  width: 100vw;                      /* occupe toute la largeur de la fenêtre */
+  max-width: 100vw;                  /* ne pas être limité par le conteneur */
+  margin-left: calc(50% - 50vw);     /* "full-bleed" pour sortir du conteneur centré */
+  margin-right: calc(50% - 50vw);
+  overflow-x: auto;                  /* si trop long sur mobile, défilement horizontal local */
+  overflow-y: visible;               /* s'assure que les diacritiques ne sont pas coupés verticalement */
+  -webkit-overflow-scrolling: touch; /* scroll fluide iOS */
+  /* Marge intérieure verticale pour empêcher la coupe des diacritiques (Safari/iOS) */
+  padding-top: 0.15em;
+  padding-bottom: 0.1em;
+  /* Supprime les marges verticales du paragraphe pour compacter le bandeau */
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+/* Mobile: let the hero subline wrap and stay within the content width */
+@media (max-width: 640px) {
+  .hero-text .hero-subline {
+    white-space: normal;           /* autorise le retour à la ligne */
+    word-break: normal;
+    overflow-wrap: anywhere;       /* casse proprement si nécessaire */
+    width: auto;                   /* ne force pas 100vw */
+    max-width: 100%;               /* reste dans le conteneur */
+    margin-left: auto;             /* annule le full-bleed */
+    margin-right: auto;
+    overflow-x: visible;           /* pas de scroll horizontal local */
+    padding-top: 0;                /* enlève les micro-compensations verticales */
+    padding-bottom: 0;
+  }
+}
+
+/* Apply Bobby Jones font and larger size to the specific homepage phrase */
+.hero-text .hero-subline .bobby-intro{
+  font-family: 'Schoolbell', cursive !important;
+  font-size: clamp(19.2px, 2.04vw, 26.4px); /* identique à .mission-lead .mission-lead-intro (1.2 × clamp(16,1.7vw,22)) */
+}
+
+.hero-text h1 { /* au cas où il en resterait */
+    display: none;
+}
+
+.hero-text p {
+    font-size: 1rem;
+}
+
+/* === Concept section (sous le hero) === */
+.concept-intro {
+  background: #FDF9F5; /* updated per request: light warm banner */
+  padding: 40px 3vw;
+  text-align: center;
+}
+
+.concept-intro h2 {
+  color: #CF2182; /* titre rose comme sur la capture */
+  font-size: 2.5em; /* aligne sur .about-title */
+  margin: 0 0 10px;
+}
+
+.concept-intro p {
+  max-width: 1200px;
+  margin: 0 auto;
+  font-size: 1.2rem; /* augmenté pour la vignette "UN CONCEPT INNOVANT" */
+}
+
+.concept-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0; /* bord à bord comme sur la capture */
+}
+
+.concept-card {
+  min-height: 260px;
+}
+
+.concept-card.text {
+  /* Very subtle darkening to keep harmony but make change minimal */
+  background: #F8F4F1; /* close to original #FDF9F5 but slightly warmer */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 32px 32px;
+}
+
+.concept-kicker {
+  color: #CF2182;
+  letter-spacing: 0.5px;
+  font-size: 2.4rem; /* x2 de 1.2rem */
+  margin: 0 0 12px;
+}
+
+.concept-card.text p {
+  max-width: 56ch; /* élargi pour occuper plus de largeur, sans changer la taille de police */
+  margin: 0;
+  font-size: 1rem; /* uniformiser avec le paragraphe du héros (au lieu de 200%) */
+  line-height: 1.6;
+}
+
+.concept-card.image {
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.concept-card.image::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: inherit;
+  background-size: inherit;
+  background-position: inherit;
+  background-repeat: no-repeat;
+  transform: scale(1.03);
+  transition: transform 0.4s ease;
+}
+
+.concept-card.image:hover::before,
+.concept-card.image:focus-within::before {
+  transform: scale(1.07);
+}
+
+/* Placeholders d’images (vous ajouterez les fichiers plus tard) */
+.image-1 { background-image: url('photos/Photo2Pageaccueil.jpg'); }
+.image-2 { background-image: url('photos/Photo3Pageaccueil.jpg'); }
+.image-3 { background-image: url('Logos/Photo4pageaccueil.png'); }
+
+/* Final focused crop for the 2nd image in the home mosaic. */
+.concept-grid .image-2 {
+  background-position: center 53% !important; /* focus choisi */
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .concept-grid {
+    grid-template-columns: 1fr;
+  }
+  .concept-card.text { padding: 28px 24px; }
+}
+
+/* === Content centré sur toutes les pages === */
+.content-centered, .content {
+  text-align: center;
+  padding: 40px 3vw;
+}
+
+.content-centered h2, .content h2 {
+    margin-bottom: 20px;
+}
+
+.content-centered p, .content p, .content ul {
+  max-width: 1200px;
+  margin: 0 auto 20px;
+  line-height: 1.8;
+  font-size: 1.1rem;
+}
+
+.content ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.content ul li::before {
+    content: "• ";
+    color: #d2dca5;
+}
+
+/* === Forms === */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 400px;
+    margin: 30px auto;
+}
+
+/* Ensure forms inside the contact section match the Contact page layout
+   even though .contact-section centers its children. This forces the
+   form to take the same constrained width and left-align labels. */
+.contact-section form {
+  width: 100%;        /* allow max-width to work reliably */
+  max-width: 400px;   /* keep same constrained width as Contact page */
+  margin: 30px auto;  /* keep vertical spacing and center */
+  text-align: left;   /* labels and inline text align left like on Contact */
+  align-self: center; /* ensure the form is centered as a flex item */
+}
+.contact-section form label {
+  display: block;     /* labels occupy full line and align left */
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+.contact-section form input,
+.contact-section form textarea {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* === Contact hero === */
+.contact-hero {
+  position: relative;
+  height: clamp(220px, 35vw, 360px);
+  background: url('photos/contacteznous.jpg') center 30%/cover no-repeat; /* remonte l'image de ~50% (80% -> 30%) */
+}
+
+.contact-hero-title {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  font-family: 'Bobby Jones', sans-serif;
+  font-size: clamp(2rem, 8vw, 4rem);
+  color: #CF2182;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.contact-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+    text-align: center;
+}
+
+/* Page spécifique "On tente un truc ensemble ?" : plus d'espace au-dessus du titre */
+.contact-page h1 {
+  margin-top: 48px; /* laisse plus d'air au dessus du H1 */
+}
+
+input, textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    background-color: #CF2182; /* fuchsia du site */
+    color: #fff;               /* texte blanc par défaut */
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.35s ease-in-out, color 0.35s ease-in-out; /* hover adouci */
+}
+
+button:hover {
+    background-color: #d2dca5; /* vert pâle au survol */
+    color: #000;               /* meilleur contraste sur fond vert pâle */
+}
+
+button:focus-visible {
+    outline: 2px dashed #CF2182;
+    outline-offset: 2px;
+}
+
+/* === Footer === */
+.footer {
+    width: 100%;
+    background-color: #d2dca5;
+  padding: 0 3vw;
+    color: #CF2182;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: 36px; /* réduit de 10% (40px -> 36px) */
+    z-index: 10;
+    transition: transform 0.3s ease; /* animation de masquage/affichage */
+    will-change: transform;
+}
+
+/* Masque le footer en le décalant vers le bas */
+.footer--hidden {
+    transform: translateY(100%);
+}
+
+.footer-content {
+    display: flex;
+    justify-content: center; /* recentre horizontalement */
+    align-items: center;
+    height: 100%;
+    flex-wrap: wrap;
+    gap: 1rem; /* léger espacement si plusieurs liens */
+}
+
+.footer-links {
+    display: flex;
+  gap: 4vw; /* plus d'espace entre les liens du bandeau bas */
+    flex-wrap: wrap;
+    justify-content: center; /* centre aussi dans le conteneur */
+}
+
+.footer-links a {
+  color: #385B4F; /* align with header link color */
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.81rem; /* réduit de 10% (0.9rem -> 0.81rem) */
+    transition: text-shadow 0.2s ease; /* adoucit l’effet ombre au survol */
+}
+
+.footer-links a:hover {
+  color: #CF2182; /* align hover color with header */
+  text-shadow: none; /* identical to header: no shadow on hover */
+}
+
+.footer-links a:focus-visible {
+    outline: 2px dashed #CF2182;
+    outline-offset: 2px;
+}
+
+.footer-links span {
+  color: #385B4F; /* align footer static text with header color */
+    font-weight: normal;
+    font-size: 0.81rem; /* réduit de 10% pour le texte du footer */
+}
+
+/* === Responsive Footer === */
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    .footer-links {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+/* === About / Statics Pages === */
+.about {
+  padding: 60px 3vw;
+  text-align: center;
+}
+
+.about-title {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.about-subtitle {
+    font-size: 1.2em;
+    margin-bottom: 30px;
+}
+
+.highlight-green {
+    color: #d2dca5;
+    font-weight: bold;
+}
+
+.about-handwritten {
+    font-family: 'Bobby Jones', sans-serif;
+    font-size: 1.8em;
+    margin-bottom: 30px;
+}
+
+.about-content {
+  max-width: 1200px;
+  margin: 0 auto 50px;
+  text-align: center;
+}
+
+.about-visuals {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+}
+
+.about-visuals img {
+    width: 300px;
+    border-radius: 15px;
+    transition: transform 0.35s ease;
+    will-change: transform;
+    display: block;
+}
+
+.about-visuals a:focus-visible img,
+.about-visuals img:hover {
+    transform: scale(1.06);
+}
+
+.about-qualities {
+    list-style: none;
+    padding: 0;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.3em;
+}
+
+.about-origin {
+    margin-top: 40px;
+}
+
+.about-origin-logo {
+    height: 120px; /* Taille augmentée pour le logo Le Casier Français */
+    margin-top: 10px;
+}
+
+/* === Bouton retour accueil === */
+.return-home {
+    text-align: center;
+    margin: 40px 0;
+}
+
+.return-home a {
+    color: #d2dca5;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: color 0.3s ease;
+}
+
+.return-home a:hover {
+    color: #d2dca5;
+}
+
+/* === Police Kollektif pour le texte principal (remplace DM Sans) === */
+main p, main li, main span, main div, .hero-text p, .about-content p, .content-centered p, .contact-section p, form, input, textarea, button {
+    font-family: 'Kollektif', sans-serif !important;
+}
+
+/* Conserver Bobby Jones pour les titres */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Bobby Jones', sans-serif !important;
+}
+
+/* Conserver Bobby Jones pour le header et footer */
+header, header *, .footer, .footer *, .footer-links span {
+    font-family: 'Bobby Jones', sans-serif !important;
+}
+
+/* Appliquer explicitement Kollektif Regular sur les zones de texte de la maquette */
+.hero-text p,
+.concept-intro p,
+.concept-card.text p {
+    font-family: 'Kollektif', sans-serif;
+    font-weight: 400;
+}
+
+/* === Hero overlay final layout: two-line lock === */
+.hero-overlay {
+  /* keep full overlay, centered vertically; slightly left via h1 transform */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.hero-overlay h1 {
+  /* enforce the manual break and avoid extra wrapping via responsive sizing */
+  white-space: pre-line;   /* respect <br> */
+  color: #385B4F;          /* vert sombre demandé */
+  margin: 0;
+  text-align: center;
+  line-height: 1;
+  text-shadow: none;       /* pas d’ombre si non souhaitée sur la capture */
+  font-size: clamp(2rem, 5vw, 3.6rem);
+  transform: translateX(-5vw); /* léger décalage à gauche depuis le centre */
+}
+
+/* (Logo au-dessus du titre retiré à la demande) */
+
+.hero-overlay .hero-line {
+  display: block;         /* force un retour à la ligne */
+  white-space: nowrap;    /* empêche de casser dans une même ligne */
+}
+
+@media (max-width: 700px) {
+  .hero-overlay h1 {
+    font-size: clamp(1.3rem, 5.5vw, 2rem); /* réduit pour garder 2 lignes max sur mobile */
+    transform: none; /* centré sur mobile */
+  }
+}
+
+@media (max-width: 900px) {
+  .hero-overlay h1 {
+    font-size: clamp(1.6rem, 5.2vw, 2.4rem);
+    transform: none; /* centre sur tablettes/mobiles */
+    text-align: center;
+  }
+}
+
+/* Final override: lock hero title to exactly two lines */
+.hero-overlay h1 {
+  max-width: none;          /* ne pas contraindre la largeur du H1 */
+}
+.hero-overlay .hero-line {
+  display: block;           /* une ligne par span */
+  white-space: nowrap;      /* empêche le retour à la ligne dans une ligne */
+}
+
+/* Affiner la taille pour éviter tout dépassement sur petits écrans */
+@media (max-width: 900px) {
+  .hero-overlay h1 { font-size: clamp(1.6rem, 5.2vw, 2.4rem); }
+}
+@media (max-width: 560px) {
+  .hero-overlay h1 { font-size: clamp(1.3rem, 6vw, 1.8rem); }
+}
+@media (max-width: 400px) {
+  .hero-overlay h1 { font-size: clamp(1.1rem, 6.5vw, 1.6rem); }
+}
+
+/* Restore heading font on hero overlay (prevent DM Sans override on spans) */
+.hero-overlay h1,
+.hero-overlay .hero-line {
+  font-family: 'Bobby Jones', sans-serif !important;
+  font-weight: 400; /* moins gras que le bold par défaut des h1 */
+}
+
+/* === Hero overlay: spacing -60% and right shift === */
+@media (min-width: 901px) {
+  .hero-overlay h1 {
+    position: absolute;
+    top: 50%; /* remonte encore de 10% (logo + texte) sur desktop */
+    left: 60%;                 /* décale vers la droite de 60% */
+    transform: translate(-50%, -50%);
+    line-height: 0.4;         /* réduction d’interligne de ~60% */
+  }
+}
+
+/* Conserver la réduction d’interligne aussi sur mobile/tablette, mais centré */
+@media (max-width: 900px) {
+  .hero-overlay h1 {
+    position: absolute;
+    top: 50%; /* remonte encore de 10% (logo + texte) sur mobile/tablette */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    line-height: 0.4;         /* appliquer aussi la réduction sur mobile/tablette */
+  }
+}
+
+/* === Hero overlay: desktop fine-tune (right +20%, font -20%, line-height +10%) === */
+@media (min-width: 901px) {
+  .hero-overlay h1 {
+    left: 70%; /* décale de 10% vers la gauche (80% -> 70%) */
+    font-size: clamp(1.6rem, 4vw, 2.88rem); /* -20% vs 2rem/5vw/3.6rem */
+    line-height: 0.44; /* +10% vs 0.40 */
+  }
+}
+
+/* Accent color for the requested hero fragment */
+.accent { color: #CF2182; }
+
+/* Keep Bobby Jones on accented parts inside the hero overlay */
+.hero-overlay .accent { font-family: 'Bobby Jones', sans-serif !important; }
+
+/* Home hero: force the accent parts to green too */
+.hero .hero-overlay .accent { color: #385B4F !important; }
+
+/* === Bottom banner (payments + socials) === */
+.bottom-banner {
+  background: #FDF9F5; /* fond clair du site unifié */
+  padding: 20px 3vw;
+  border-top: 1px solid rgba(0,0,0,0.05);
+  margin-bottom: calc(36px + 40px); /* espace vide supplémentaire en bas de page */
+  /* Typographic baseline to ensure consistent rendering across pages */
+  font-size: 1rem;
+  line-height: 1.2;
+}
+
+/* Align bottom banner text/link colors with header */
+.bottom-banner,
+.bottom-banner a { color: #385B4F; }
+.bottom-banner a:hover,
+.bottom-banner a:focus { color: #CF2182; }
+
+.bottom-banner-content {
+  /* Replace grid with vertical stack */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Paiements (sous les réseaux sociaux) */
+.payments {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: center; /* centré sous les icônes sociaux */
+  flex-wrap: wrap;         /* retour à la ligne si nécessaire */
+  margin-bottom: 40px; /* espace agrandi sous les logos CB / Mastercard / Visa */
+}
+
+.card-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  padding: 0 10px;
+  background: #FDF9F5;
+  color: #333333; /* texte sombre du site */
+  border: 2px solid #d2dca5; /* vert pâle du site */
+  border-radius: 8px;
+  font-family: 'Kollektif', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Payment logos inside badges */
+.card-badge .card-logo { height: 20px; width: auto; display: block; }
+
+/* Réseau sociaux (centre) */
+.bottom-socials {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+}
+
+.social-circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #d2dca5; /* vert clair (état par défaut souhaité) */
+  color: #333;          /* pictogrammes sombres pour contraste sur vert clair */
+  text-decoration: none;
+  font-family: 'Bobby Jones', sans-serif;
+  font-size: 1.25rem;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.social-circle:hover,
+.social-circle:focus {
+  /* au survol: fuchsia, comme dans la version vert clair précédente */
+  background: #CF2182;
+  color: #fff;
+  outline: none;
+  transform: translateY(-2px);
+}
+
+/* Spécifique au bandeau bas: override la couleur des icônes sans toucher aux tailles ni transitions */
+.bottom-banner .social-circle { color: #CF2182; }
+.bottom-banner .social-circle:hover,
+.bottom-banner .social-circle:focus { color: #d2dca5; }
+
+.social-circle:focus-visible {
+  outline: 2px dashed #CF2182;
+  outline-offset: 2px;
+}
+
+/* Inline SVG icons sizing for social buttons */
+.social-circle svg { width: 22px; height: 22px; display: block; }
+.social-circle svg [fill="none"] { stroke: currentColor; }
+.social-circle svg, .social-circle svg * { fill: currentColor; }
+
+/* Mobile tweaks */
+@media (max-width: 700px) {
+  .bottom-banner-content { gap: 14px; }
+  .payments { justify-content: center; flex-wrap: wrap; }
+}
+
+/* === Cross-document page transitions (View Transitions API) === */
+@keyframes vt-slide-out-left { from { transform: translateX(0) scale(1); opacity:1; } to { transform: translateX(-100%) scale(0.985); opacity:0.98; } }
+@keyframes vt-slide-in-right  { from { transform: translateX(100%) scale(0.985); opacity:0.98; } to { transform: translateX(0) scale(1); opacity:1; } }
+@keyframes vt-slide-out-right{ from { transform: translateX(0) scale(1); opacity:1; } to { transform: translateX(100%) scale(0.985); opacity:0.98; } }
+@keyframes vt-slide-in-left   { from { transform: translateX(-100%) scale(0.985); opacity:0.98; } to { transform: translateX(0) scale(1); opacity:1; } }
+
+/* Forward: new page entre depuis la droite, ancienne sort vers la gauche */
+html.transition-forward::view-transition-old(root) { animation: vt-slide-out-left 520ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+html.transition-forward::view-transition-new(root) { animation: vt-slide-in-right 520ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+/* Back: nouvelle page entre depuis la gauche, ancienne sort vers la droite */
+html.transition-back::view-transition-old(root) { animation: vt-slide-out-right 520ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+html.transition-back::view-transition-new(root) { animation: vt-slide-in-left 520ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  html::view-transition-old(root),
+  html::view-transition-new(root) { animation: none !important; }
+}
+
+/* === Fallback animations (no View Transitions support) === */
+@keyframes fb-slide-out-left { from { opacity: 1; transform: translateX(0) scale(1); } to { opacity: 0.0; transform: translateX(-40px) scale(0.985); } }
+@keyframes fb-slide-in-right  { from { opacity: 0.0; transform: translateX(40px) scale(0.985); } to { opacity: 1; transform: translateX(0) scale(1); } }
+@keyframes fb-slide-out-right{ from { opacity: 1; transform: translateX(0) scale(1); } to { opacity: 0.0; transform: translateX(40px) scale(0.985); } }
+@keyframes fb-slide-in-left   { from { opacity: 0.0; transform: translateX(-40px) scale(0.985); } to { opacity: 1; transform: translateX(0) scale(1); } }
+
+/* Enter animations on the new page (scope to shell so fixed header/footer stay fixed) */
+html.transition-forward .page-shell { animation: fb-slide-in-right 520ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+html.transition-back .page-shell    { animation: fb-slide-in-left  520ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+/* Leave animations on the old page before navigation */
+html.transition-forward-leave .page-shell { animation: fb-slide-out-left 520ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+html.transition-back-leave .page-shell    { animation: fb-slide-out-right 520ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  html.transition-forward .page-shell,
+  html.transition-back .page-shell,
+  html.transition-forward-leave .page-shell,
+  html.transition-back-leave .page-shell { animation: none !important; }
+}
+
+/* === Home menu (3 options) === */
+.home-menu {
+  background: #d2dca5; /* fond vert pâle comme la capture */
+  padding: 48px 3vw;   /* respiration autour des cartes */
+}
+
+.home-menu-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 36px; /* espacement large entre cartes */
+}
+
+/* On laisse les media queries gérer 3/2/1 colonnes sans forcer 3 colonnes partout */
+/* Option: réduire l’écart si nécessaire sur petits écrans */
+@media (max-width: 700px) { .home-menu-grid { gap: 16px; } }
+
+.menu-card {
+  position: relative;
+  display: block;
+  height: clamp(260px, 40vw, 420px);
+  border-radius: 16px;
+  overflow: hidden;
+  text-decoration: none;
+  color: #fff;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  isolation: isolate; /* pour les pseudo-éléments */
+}
+
+/* Background image via CSS vars, avec filtre optionnel par carte */
+.menu-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--bg) center/cover no-repeat;
+  filter: var(--filter, none);
+  transform: scale(1.03); /* léger débord pour éviter bords vides au hover */
+  transition: transform 0.4s ease;
+  z-index: -2;
+}
+
+/* Voile foncé léger pour lisibilité du texte */
+.menu-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  /* very soft dark veil (further reduced per user's request) */
+  background: linear-gradient(180deg, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0.36) 60%);
+  z-index: -1;
+}
+
+/* Titre en overlay */
+.menu-title {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  bottom: auto;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  font-family: 'Bobby Jones', sans-serif;
+  font-weight: 700;
+  letter-spacing: 1px;
+  font-size: clamp(1.1rem, 2.2vw, 2rem);
+  text-shadow: 0 3px 10px rgba(0,0,0,0.35);
+}
+
+/* Icône + circulaire rose */
+.menu-plus {
+  position: absolute;
+  left: 50%;
+  top: 35%; /* 50% - 15% -> rehausse de 15% vers le haut */
+  bottom: auto;
+  transform: translate(-50%, -50%);
+  width: 72px;
+  height: 72px;
+  padding: 6px;
+  border: none;                 /* plus de bordure solide */
+  background: rgba(255,255,255,0.0); /* fond transparent */
+  font-size: 0 !important;
+  color: transparent !important;
+  line-height: 0 !important;
+  text-indent: -9999px; /* cache tout éventuel caractère restant */
+}
+
+.menu-plus::before {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: url('plus.svg') center/contain no-repeat;
+}
+
+.menu-card:hover .menu-plus::before { transform: scale(1.05); }
+.menu-plus::before { transition: transform 0.25s ease; }
+
+/* Hover: zoom léger */
+.menu-card:hover::before { transform: scale(1.07); }
+
+/* Cartes spécifiques: images et filtres */
+.menu-1 { --bg: url('photos/acueillircheznous.jpg'); }
+.menu-2 { --bg: url('Logos/nosdistributeurs.png'); }
+.menu-3 { --bg: url('photos/notrehistoire.jpg'); }
+
+/* Responsive: 1 colonne sur mobile, 2 colonnes sur tablette */
+@media (max-width: 1100px) {
+  .home-menu-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 700px) {
+  .home-menu { padding: 32px 3vw; }
+  .home-menu-grid { grid-template-columns: 1fr; gap: 22px; }
+  .menu-title { bottom: 84px; }
+  .menu-plus { width: 56px; height: 56px; font-size: 1.6rem; }
+}
+
+/* Verrouillage souhaité des 3 vignettes sur une seule ligne même en dessous de 1100px */
+@media (max-width: 1100px) and (min-width: 901px) {
+  .home-menu-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 36px; }
+}
+
+/* Home menu: texte centré avec le + juste en dessous */
+.home-menu .menu-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.home-menu .menu-title {
+  position: static;
+  left: auto; top: auto; bottom: auto;
+  transform: none;
+  text-align: center;
+  margin: 0;
+}
+.home-menu .menu-plus {
+  position: static; /* suit le flux sous le titre */
+  left: auto; top: auto; bottom: auto;
+  transform: none;
+  margin-top: 12px; /* espace entre titre et + */
+}
+
+/* Home menu: enforce Bobby Jones for menu titles */
+.home-menu .menu-title {
+  font-family: 'Bobby Jones', sans-serif !important; /* corrige la police */
+  font-weight: 700;
+  text-transform: uppercase; /* conforme aux cartes */
+  color: #d2dca5; /* titres des 3 vignettes en vert clair */
+}
+
+/* Avoid header overlap when scrolling to the 3-vignettes section */
+#home-menu { scroll-margin-top: 64px; }
+
+/* === A cueillir chez nous (ACN) === */
+.acn-page { background:#FDF9F5; }
+
+/* Bandeau photo avec titre overlay */
+.category-hero{
+  position:relative;
+  height: clamp(133.376px, 21.8247vw, 230.373px); /* +10% supplémentaire vs l'état actuel */
+  background: url('photos/acueillircheznous.jpg') center / cover no-repeat; /* bandeau rempli par l’image */
+  background-position: center 60%; /* descend encore de 5% */
+  overflow: hidden;
+}
+.category-hero::before{
+  content: ""; position:absolute; inset:0;
+  background-image: inherit; background-size: cover; background-position: inherit; background-repeat: no-repeat;
+  transform: scale(1.03); transition: transform 0.4s ease; will-change: transform;
+}
+.category-hero:hover::before,
+.category-hero:focus-within::before{ transform: scale(1.07); }
+/* s'assurer que le titre reste au-dessus */
+.category-hero-title{
+  position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+  margin:0; padding:0 3vw; text-align:center;
+  font-family: 'Bobby Jones', sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:1px;
+  font-size: clamp(28px, 6vw, 64px);
+  color:#d2dca5; /* vert pâle du fond de section pour contraste */
+  text-shadow: 0 4px 16px rgba(0,0,0,0.45);
+  /* Empêche le retour à la ligne sans toucher à la taille, la police ou la position */
+  white-space: nowrap;
+  /* Allow the text-shadow to extend beyond the text box so heavy shadows are visible */
+  overflow: visible; /* previously hidden which clipped large shadows */
+  z-index: 2; /* ensure the title (and its shadow) sits above the ::before image overlay */
+}
+/* Mobile: allow wrapping and remove overflow clipping for category title */
+@media (max-width: 520px){
+  .category-hero-title{ white-space: normal; overflow: visible; }
+}
+
+/* Section principale vert pâle */
+.acn{ background:#d2dca5; padding: 48px 3vw; }
+.acn-inner{ max-width: 1100px; margin:0 auto; }
+
+/* En-tête avec 2 titres et coeur centré */
+.acn-header{ display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap: 24px; margin-bottom: 26px; }
+.acn-heading{
+  font-family:'Bobby Jones', sans-serif; text-transform:uppercase; color:#CF2182; /* rose fuchsia */
+  font-size: clamp(18px, 2.2vw, 26px); text-align:center; margin:0;
+}
+.acn-heart{ color:#CF2182; display:flex; align-items:center; justify-content:center; }
+.acn-heart-img{ width: 36px; height: 36px; object-fit: contain; display:block; }
+
+/* ACN header: adjust heart vertical offset on larger screens (raised a bit) */
+@media (min-width: 901px){
+  .acn-heart{ transform: translateY(16px); }
+}
+
+/* Colonnes */
+.acn-columns{ display:grid; grid-template-columns:1fr 1fr; gap: 48px; }
+.acn-columns > .acn-col { min-width: 0; }
+.acn-desc{ color:#000; font-size: clamp(14px, 1.6vw, 17px); line-height:1.65; text-align:center; max-width: 480px; margin: 0 auto 22px; }
+.soft-note{ opacity:.85; }
+/* Sur ACN, forcer la note entre parenthèses en noir plein */
+.acn-desc .soft-note{ color:#000; opacity:1; }
+
+/* Grille des bouquets (6 ronds) */
+.bouquet-list{ list-style:none; padding:0; margin:0; display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 22px 26px; justify-items:center; }
+.bouquet-item{ text-align:center; }
+.bouquet-thumb{
+  --size: 168px; /* +40% (120px -> 168px) */
+  width: var(--size); height: var(--size);
+  /* irrégularité contrôlée via variables */
+  border-radius: var(--br, 50%);
+  background-color:#eee;
+  background-image: var(--img, none);
+  background-position: var(--pos, center);
+  background-size: cover;
+  background-repeat: no-repeat;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+  transition: transform .2s ease, border-radius .2s ease;
+  /* rotation par variable pour pouvoir combiner avec le zoom */
+  transform: rotate(var(--rot, 0deg));
+}
+.bouquet-item:nth-child(1) .bouquet-thumb{ --br: 52% 48% 51% 49% / 49% 53% 47% 51%; --rot: -1.2deg; }
+.bouquet-item:nth-child(2) .bouquet-thumb{ --br: 50% 52% 48% 50% / 52% 49% 51% 48%; --rot: 1.1deg; }
+.bouquet-item:nth-child(3) .bouquet-thumb{ --br: 53% 47% 50% 50% / 47% 54% 46% 53%; --rot: -0.8deg; }
+.bouquet-item:nth-child(4) .bouquet-thumb{ --br: 49% 51% 53% 47% / 51% 48% 52% 49%; --rot: 0.9deg; }
+.bouquet-item:nth-child(5) .bouquet-thumb{ --br: 51% 49% 47% 53% / 50% 52% 48% 50%; --rot: -1.4deg; }
+.bouquet-item:nth-child(6) .bouquet-thumb{ --br: 48% 52% 50% 50% / 53% 47% 51% 49%; --rot: 1.3deg; }
+
+/* Hover/focus: léger zoom sur les vignettes ACN tout en conservant la rotation */
+.bouquet-item:focus-within .bouquet-thumb,
+.bouquet-thumb:hover{
+  /* stronger hover uplift to signal clickability */
+  transform: rotate(var(--rot, 0deg)) scale(1.08) translateY(-6px);
+  /* deeper shadow for clearer affordance */
+  box-shadow: 0 18px 46px rgba(0,0,0,0.30);
+}
+
+.bouquet-caption{ margin-top:10px; font-size: 18px; /* +~40% (13px -> 18px) */ color:#333; display:flex; /* stack name over price */ flex-direction: column; gap:6px; justify-content:center; align-items:center; text-align:center; }
+
+/* ACN: prix sous le nom, centrés et en fuchsia */
+.acn .bouquet-caption .bouquet-name{ order:1; }
+.acn .bouquet-caption .bouquet-price,
+.acn .bouquet-caption .price{
+  order:2;
+  color:#CF2182;
+  display:block;
+  font-size: 0.8em; /* 80% de la taille de la légende (18px -> ~14.4px) */
+  font-family: 'Schoolbell', cursive !important;
+}
+
+/* ACN: utiliser la police Schoolbell pour les noms de bouquets */
+.acn .bouquet-caption .bouquet-name{
+  font-family: 'Schoolbell', cursive !important;
+  font-weight: 400; /* Schoolbell est regular */
+}
+
+/* Make bouquet thumbnails clearly clickable without underlines and add a subtle hover/focus effect */
+.product-link {
+  text-decoration: none; /* remove underline */
+  color: inherit; /* keep caption color */
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+.product-link:focus-visible {
+  outline: 3px dashed #CF2182;
+  outline-offset: 6px;
+  border-radius: 8px;
+}
+/* Hover and focus effect: lift the bubble, increase shadow, and nudge the caption */
+.product-link:hover .bouquet-thumb,
+.product-link:focus-within .bouquet-thumb {
+  /* stronger lift & shadow on the clickable bouquet links */
+  transform: rotate(var(--rot, 0deg)) scale(1.12) translateY(-8px);
+  box-shadow: 0 22px 60px rgba(0,0,0,0.34);
+  transition: transform 0.18s ease, box-shadow 0.18s ease; /* snappier feedback */
+}
+.product-link:hover .bouquet-caption .bouquet-name,
+.product-link:focus-within .bouquet-caption .bouquet-name {
+  color: #CF2182;
+  transform: translateY(-2px);
+}
+
+/* (duplicate transforms removed) */
+
+/* Disposition en quinconce (stagger) */
+@media (min-width: 481px){
+  /* Quinconce: décale uniquement les items pairs pour éviter tout chevauchement */
+  .bouquet-list .bouquet-item:nth-child(2n){ transform: translateY(12px); }
+  .bouquet-list .bouquet-item:nth-child(2n+1){ transform: none; }
+  /* Inverse sur la colonne de droite */
+  .acn-columns > .acn-col:nth-child(2) .bouquet-list .bouquet-item:nth-child(2n){ transform: translateY(-12px); }
+  .acn-columns > .acn-col:nth-child(2) .bouquet-list .bouquet-item:nth-child(2n+1){ transform: none; }
+}
+
+/* ACN right column: keep lepourtoujours au-dessus de laudacieux tout en quinconce */
+@media (min-width: 481px){
+  .acn-columns > .acn-col:nth-child(2) .bouquet-list .bouquet-item:nth-child(2n){ transform: translateY(12px) !important; }
+  .acn-columns > .acn-col:nth-child(2) .bouquet-list .bouquet-item:nth-child(2n+1){ transform: translateY(-12px) !important; }
+}
+
+/* ACN left column: appliquer la même quinconce (odd up, even down) */
+@media (min-width: 481px){
+  .acn-columns > .acn-col:first-child .bouquet-list .bouquet-item:nth-child(2n+1){ transform: translateY(-12px) !important; }
+  .acn-columns > .acn-col:first-child .bouquet-list .bouquet-item:nth-child(2n){ transform: translateY(12px) !important; }
+}
+
+/* ACN (colonne séchées): positionner "L’audacieux" sous "L’amoureux" (même colonne droite, ligne suivante) */
+@media (min-width: 481px){
+  .acn-columns > .acn-col:nth-child(2) .bouquet-list{ grid-auto-flow: dense; }
+  .acn-columns > .acn-col:nth-child(2) .bouquet-list .bouquet-item:nth-child(1){ grid-column: 1; grid-row: 1; }
+  .acn-columns > .acn-col:nth-child(2) .bouquet-list .bouquet-item:nth-child(2){ grid-column: 2 !important; grid-row: 2 !important; }
+}
+@media (max-width: 900px){
+  .acn-columns > .acn-col:nth-child(2) .bouquet-list .bouquet-item{ grid-column: auto; grid-row: auto; }
+}
+
+/* ACN dried flowers (right column): arrange in quinconce (diagonal), reduced row gap */
+@media (min-width: 481px){
+  .acn-columns > .acn-col:nth-child(2) .bouquet-list{
+    grid-template-columns: repeat(2, minmax(0,1fr)) !important; /* 2 colonnes */
+    grid-auto-flow: dense !important;
+    justify-items: center;
+    row-gap: 8px; /* encore plus serré */
+    column-gap: 8px; /* rapproché davantage pour réduire l'écart horizontal */
+  }
+  /* Positionner en diagonale: 1er en haut à gauche, 2e en bas à droite */
+  .acn-columns > .acn-col:nth-child(2) .bouquet-list .bouquet-item:nth-child(1){
+    grid-column: 1 !important; grid-row: 1 !important; transform: translate(28px, 12px) !important; /* pousse plus vers la droite */
+  }
+  .acn-columns > .acn-col:nth-child(2) .bouquet-list .bouquet-item:nth-child(2){
+    grid-column: 2 !important; grid-row: 2 !important; transform: translate(-8px, -40px) !important;  /* tire vers la gauche pour resserrer l'écart */
+  }
+}
+
+/* Décaler vers la droite les trois bouquets du bas (2 en gauche, 1 en droite) */
+@media (min-width: 481px){
+  /* Colonne gauche (items 3 et 4 sont la rangée du bas) */
+  .acn-columns > .acn-col:first-child .bouquet-list .bouquet-item:nth-child(3){
+    transform: translate(96px, -40px) !important; /* remonte nettement le bouquet bas gauche */
+  }
+  .acn-columns > .acn-col:first-child .bouquet-list .bouquet-item:nth-child(4){
+    transform: translate(96px, -8px) !important;  /* remonte le bouquet bas centre-gauche */
+  }
+}
+
+@media (max-width: 480px){
+  .bouquet-thumb{ --size: 146px; transform: none; }
+  .bouquet-list .bouquet-item{ transform: none; }
+}
+/* Extra small screens: stack bouquets in a single column to avoid overflow */
+@media (max-width: 420px){
+  .bouquet-list{ grid-template-columns: 1fr; }
+}
+
+/* ACN dried flowers: recenter crops by moving images down 10% inside their bubbles */
+.acn-columns > .acn-col:nth-child(2) .bouquet-list .bouquet-item:nth-child(1) .bouquet-thumb{ background-position: center 40% !important; }
+.acn-columns > .acn-col:nth-child(2) .bouquet-list .bouquet-item:nth-child(2) .bouquet-thumb{ background-position: center 40% !important; }
+
+/* ACN (colonne séchées): rapprocher "Le pour toujours" et "L’audacieux" */
+@media (min-width: 481px){
+  .acn-columns > .acn-col:nth-child(2) .bouquet-list{ row-gap: 3px !important; }
+  /* supprimer les anciens micro-ajustements de transform pour ne pas écraser les placements récents */
+}
+
+/* Bloc saison */
+.acn-season{ margin-top: clamp(40px, 6vw, 96px); text-align:center; }
+.season-title{ font-family:'Bobby Jones', sans-serif; color:#CF2182; text-transform:uppercase; font-size: clamp(18px,2.2vw,26px); margin: 10px 0 6px; }
+.season-text{ max-width: 1200px; margin: 0 auto; color:#333; line-height:1.65; }
+
+/* Responsive */
+@media (max-width: 900px){
+  .acn-header{ grid-template-columns:1fr; gap: 12px; }
+  .acn-heart{ order:2; }
+  .acn-columns{ grid-template-columns:1fr; gap: 36px; }
+}
+@media (max-width: 480px){
+  .bouquet-thumb{ --size: 146px; transform: none; }
+  .bouquet-list .bouquet-item{ transform: none; } /* annule la quinconce en mobile */
+}
+
+/* ACN bouquet caption: stack name over price; center; price in fuchsia */
+.acn .bouquet-caption{
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  text-align: center;
+}
+.acn .bouquet-caption .bouquet-name{ order: 1; line-height: 1.2; }
+.acn .bouquet-caption .bouquet-price{
+  order: 2;
+  color: #CF2182; /* fuchsia */
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+/* === Notre histoire (mock exact) === */
+.history-page{ background:#FDF9F5; }
+
+/* Hero photo with overlay title */
+.history-hero{ position:relative; width:100%; height: clamp(154px, 23.8vw, 252px); background: url('photos/notrehistoire.jpg') center/cover no-repeat; background-position: center 50%; overflow: hidden; }
+.history-hero::before{
+  content:""; position:absolute; inset:0;
+  background-image: inherit; background-size: cover; background-position: inherit; background-repeat:no-repeat;
+  transform: scale(1.03); transition: transform 0.4s ease;
+}
+.history-hero:hover::before,
+.history-hero:focus-within::before{ transform: scale(1.07); }
+@media (max-width: 700px){ .history-hero { background-position: center 56%; } }
+
+.history-hero-title{
+  position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+  margin:0; padding:0 2vw; text-align:center; color:#CF2182; /* fuchsia */
+  font-family:'Bobby Jones', sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:2.2px;
+  font-size: clamp(30.6px, 6.75vw, 83.7px); line-height:0.92; /* -10% supplémentaire */
+  text-shadow: 0 2px 12px rgba(0,0,0,0.12);
+  white-space: nowrap; max-width: none;
+  z-index: 1;
+}
+/* Mobile: allow wrapping on history title to avoid overflow */
+@media (max-width: 520px){
+  .history-hero-title{ white-space: normal; }
+}
+@media (max-width: 700px){
+  .history-hero { height: clamp(126px, 29.4vw, 182px); }
+  .history-hero-title { font-size: clamp(21.6px, 6.48vw, 43.2px); letter-spacing: 1.2px; } /* -10% supplémentaire mobile */
+}
+
+/* Green section */
+.history-content{ background:#d2dca5; padding: clamp(36px, 6vw, 72px) 3vw; text-align:center; } /* réduit encore le padding horizontal pour élargir le texte */
+.history-kicker{ color:#CF2182; text-transform:uppercase; font-family:'Bobby Jones', sans-serif; font-weight:700; letter-spacing:1px; margin: 8px 0 22px; font-size: clamp(18px,2.6vw,32px); }
+.history-text{
+  max-width: 1400px;                /* élargit la colonne de lecture */
+  width: min(96vw, 1400px);         /* utilise davantage la largeur d’écran sans déborder */
+  margin: 0 auto 18px;
+}
+.history-text p{ font-family:'Kollektif', sans-serif; font-size: clamp(16px, 1.7vw, 22px); line-height: 1.8; color:#333; margin: 0 0 20px; }
+
+/* Extra spacing between the two intro paragraphs on "Notre histoire" */
+.history-text p + p { margin-top: 22px; }
+
+/* Bullets with little hearts */
+.history-bullets{ list-style:none; padding:0; margin: 10px auto 0; display:flex; flex-direction:column; gap: 14px; width: fit-content; }
+.history-bullets li{ display:flex; align-items:center; gap: 10px; justify-content:center; }
+.heart-icon{ width: 28px; height: 28px; object-fit: contain; display:block; transform: translateY(2px); }
+@media (max-width: 700px){ .heart-icon { width: 24px; height: 24px; transform: translateY(1px); } }
+/* Use Bobby Jones for the bullet texts (override global DM Sans) */
+.history-bullets span{ font-family:'Bobby Jones', sans-serif !important; font-weight:400; color:#000; font-size: clamp(18px, 2.4vw, 28px); letter-spacing: 0.5px; }
+
+@media (max-width: 700px){
+  .history-hero{ height: clamp(180px, 42vw, 260px); }
+  .history-hero-title{ font-size: clamp(36px, 12vw, 72px); }
+  .history-bullets span{ font-size: clamp(16px, 4.4vw, 22px); }
+}
+
+/* === NOTRE MISSION (pixel-spec) === */
+.mission-page { background:#FDF9F5; }
+
+/* Top hero with overlay title (green text) */
+.mission-hero{ position:relative; width:100%; height: clamp(220px, 41.8vw, 640px); background: url('photos/Photo1notremission.jpg') center/cover no-repeat; overflow: hidden; }
+/* Notre mission – recadrage du héros: descendre l’image de 30% */
+.mission-hero { background-position: center 80%; }
+/* Notre mission – recadrage: remonter la photo de 50% (vs 80% -> 30%) */
+.mission-hero { background-position: center 30% !important; }
+.mission-hero::before{
+  content:""; position:absolute; inset:0;
+  background-image: inherit; background-size: cover; background-position: inherit; background-repeat:no-repeat;
+  transform: scale(1.03); transition: transform 0.4s ease;
+}
+.mission-hero:hover::before,
+.mission-hero:focus-within::before{ transform: scale(1.07); }
+.mission-hero-title{
+  position:absolute; left:50%; top:50%; transform:translate(-50%, -50%);
+  margin:0; padding:0 3vw; text-align:center; color:#d2dca5;
+  font-family:'Bobby Jones', sans-serif; font-weight:700; text-transform:uppercase;
+  letter-spacing:1.2px; line-height:1; font-size: clamp(19.6px, 4.76vw, 50.4px); /* -30% */
+  text-shadow: 0 2px 12px rgba(0,0,0,0.18);
+  z-index: 1;
+}
+
+/* Notre mission – force le H1 sur une seule ligne */
+.mission-hero-title{
+  white-space: nowrap;      /* empêche le retour à la ligne */
+  max-width: none;          /* ne pas contraindre la largeur */
+  padding: 0 2vw;           /* réduit les marges latérales */
+}
+@media (max-width: 900px){
+  .mission-hero-title{ font-size: clamp(12.6px, 3.78vw, 39.2px); letter-spacing: 0.8px; } /* -30% */
+}
+@media (max-width: 560px){
+  .mission-hero-title{ font-size: clamp(8.4px, 2.94vw, 25.2px); letter-spacing: 0.4px; } /* -30% */
+}
+@media (max-width: 380px){
+  .mission-hero-title{ font-size: clamp(7px, 2.52vw, 19.6px); letter-spacing: 0.2px; } /* -30% */
+}
+
+/* White intro block with center text and two stacked titles */
+.mission-intro{ background:#FDF9F5; text-align:center; padding: clamp(22px, 4.8vw, 42px) 3vw; }
+.mission-lead{
+  font-family:'Kollektif', sans-serif; color:#333; font-size: clamp(16px, 1.7vw, 22px); line-height:1.8;
+  max-width: 1200px;
+  /* further reduce the bottom spacing to tighten the block per user's request */
+  margin: 0 auto clamp(6px, 1.2vw, 12px);
+}
+/* Première phrase en Bobby Jones et vert foncé */
+.mission-lead .mission-lead-intro{ font-family:'Bobby Jones', sans-serif !important; color:#385B4F; font-size: 1.2em; }
+/* Mission kicker + sub: display inline on same line, use site Kollektif styling and black color */
+/* Align mission kicker/sub to the exact same typographic styling as the paragraph used in the meaning-text
+   (i.e. same as the sentence "Chez nous, ce ne sont pas des machines ...") */
+.mission-kicker,
+.mission-sub{
+  display: inline-block;               /* côte à côte sur une même ligne */
+  vertical-align: middle;
+  font-family: 'Kollektif', sans-serif !important; /* même police que le texte courant */
+  color: #333 !important;               /* même couleur que la phrase ciblée */
+  text-transform: none !important;      /* pas de forced uppercase */
+  letter-spacing: normal !important;
+  font-size: clamp(16px, 1.7vw, 22px) !important; /* même échelle que .meaning-text p */
+  line-height: 1.8 !important;          /* même interligne */
+  margin: 0 8px 0 0;                    /* petit espacement entre kicker et sub */
+  white-space: nowrap;                  /* force la même ligne (wrap autorisé en dessous) */
+}
+/* Small screens: allow wrapping to avoid overflow */
+@media (max-width: 640px){
+  .mission-kicker,
+  .mission-sub{ display: block; text-align: center; white-space: normal; margin: 6px 0; }
+}
+@media (max-width: 640px){ .mission-sub{ font-size: clamp(19.2px, 2.04vw, 26.4px); } }
+@media (max-width: 420px){ .mission-sub{ font-size: clamp(19.2px, 2.04vw, 26.4px); } }
+/* Mobile: allow wrapping for long uppercase subtitles */
+@media (max-width: 640px){
+  .mission-sub{ white-space: normal; overflow-wrap: anywhere; word-break: normal; text-align: center; }
+}
+.fuchsia{ color:#CF2182; }
+
+/* Wide grayscale band image */
+.mission-photo{ width:100%; height: clamp(216px, 35vw, 432px); background: url('photos/notremission2.jpg') center/cover no-repeat; filter: none; position: relative; overflow: hidden; }
+.mission-photo::before{
+  content:""; position:absolute; inset:0;
+  background-image: inherit; background-size: cover; background-position: inherit; background-repeat:no-repeat;
+  filter: inherit; /* conserve le grayscale */
+  transform: scale(1.03); transition: transform 0.4s ease;
+}
+.mission-photo:hover::before,
+.mission-photo:focus-within::before{ transform: scale(1.07); }
+
+/* New two-column mission block: left = square grayscale photo, right = illustration */
+.mission-photo-block {
+  display: flex;
+  gap: 24px;
+  align-items: center; /* center so left/right content align vertically */
+  justify-content: center;
+  padding: 24px 3vw;
+  width: 100%;
+  box-sizing: border-box;
+}
+.mission-photo-block .mission-photo-left,
+.mission-photo-block .mission-photo-right{
+  width: 50%;
+}
+/* Left: force a square area using modern aspect-ratio */
+.mission-photo-block .mission-photo-left{
+  /* make the left image more square/landscape instead of tall portrait
+     prefer a 4:3 rectangle; change to 1/1 for strict square if desired */
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 12px;
+  max-height: 60vh; /* prevent it from becoming overly tall on large screens */
+}
+.mission-photo-block .mission-photo-left img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: grayscale(100%) contrast(0.95) brightness(0.95);
+}
+.mission-photo-block .mission-photo-right{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mission-photo-block .mission-photo-right img{
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+@media (max-width: 900px) {
+  .mission-photo-block{ flex-direction: column; gap: 16px; }
+  .mission-photo-block .mission-photo-left,
+  .mission-photo-block .mission-photo-right{ width: 100%; }
+  .mission-photo-block .mission-photo-left{ aspect-ratio: auto; height: auto; }
+}
+
+/* Meaning section */
+.mission-meaning{ background:#FDF9F5; text-align:center; padding: clamp(24px, 6vw, 56px) 3vw; }
+.meaning-title{ font-family:'Bobby Jones', sans-serif; text-transform:uppercase; color:#CF2182; letter-spacing:1.1px; font-size: clamp(18.2px, 3.64vw, 39.2px); margin: 8px 0 16px; } /* -30% */
+.meaning-text{ max-width: 1200px; margin: 0 auto; } /* retire le bottom-margin pour synchroniser l'espacement via la citation */
+.meaning-text p{ font-family:'Kollektif', sans-serif; color:#333; font-size: clamp(16px, 1.7vw, 22px); line-height:1.8; margin: 0 0 18px; }
+.mission-quote{
+  font-family:'Schoolbell', cursive !important; /* demandé: Schoolbell, override le main p !important */
+  color:#385B4F; /* vert foncé du site */ text-transform:uppercase;
+  font-size: clamp(12px, 2.76vw, 26.4px); /* -40% */ letter-spacing:1px; margin: 80px auto 20px;
+  /* Allow the mission quote to take more horizontal space on wide screens while remaining responsive */
+  max-width: 1400px; /* larger cap for desktop */
+  width: min(92vw, 1400px);
+}
+
+/* Compact the end of the mission page: reduce vertical spacing after the quote
+   while keeping the same typographic styling. Scoped to .mission-page. */
+.mission-page .mission-meaning {
+  /* reduce top/bottom padding so sections sit closer together */
+  padding: clamp(12px, 3vw, 28px) 3vw;
+}
+.mission-page .mission-quote{
+  /* increase the vertical gap above the quote per user's request */
+  margin: 60px auto 20px; /* top, horizontal auto, bottom */
+}
+.mission-page .mission-stats{
+  /* tighten the stats block padding */
+  padding: clamp(8px, 3vw, 20px) 3vw 18px;
+}
+.mission-page .return-home{ margin-top: 10px; margin-bottom: 8px; }
+
+/* Chiffres clés */
+.mission-stats{ text-align:center; padding: clamp(8px, 4.5vw, 36px) 3vw 64px; background:#FDF9F5; }
+.stats-title{ font-family:'Bobby Jones', sans-serif; color:#385B4F; text-transform:uppercase; letter-spacing:1px; font-size: clamp(22px, 4.2vw, 36px); margin: 8px 0 18px; }
+.stats-grid{ display:grid; grid-template-columns: repeat(2, max-content); justify-content: center; align-items:center; justify-items:center; gap: clamp(6px, 1.5vw, 20px); max-width: 1200px; margin: -50px auto 0; }
+/* Logo 100% replacing the right blob */
+.stats-logo-100{ width: clamp(220px, 34vw, 360px); height: auto; display:block; }
+/* Logo 80% replacing the left blob */
+.stats-logo-80{ width: clamp(220px, 34vw, 360px); height: auto; display:block; }
+
+/* Green irregular blobs */
+.blob{
+  --w: clamp(220px, 34vw, 360px);
+  width: var(--w); height: calc(var(--w) * 0.72);
+  background:#d2dca5; color:#000; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;
+  border-radius: 53% 47% 49% 51% / 48% 55% 45% 52%;
+  padding: 18px 20px; box-shadow: 0 12px 26px rgba(0,0,0,0.12);
+}
+.stat-number{ font-family:'Bobby Jones', sans-serif; color:#CF2182; font-size: clamp(36px, 7vw, 72px); line-height:1; }
+.stat-text{ font-family:'Schoolbell', cursive; font-size: clamp(16px, 3.6vw, 28px); line-height:1.35; }
+
+/* Heart image now placed under the stats title */
+.stats-heart{ width: clamp(32px, 6.5vw, 72px); height: auto; display:block; margin: 4px auto 14px; transform: none; }
+
+@media (max-width: 760px){
+  .stats-grid{ grid-template-columns: 1fr; gap: 18px; }
+}
+.faq { padding: 80px 3vw 60px; text-align: center; }
+.faq-logo { width: 180px; height: auto; margin: 16px auto 16px; display: block; }
+.faq-title { font-family: 'Bobby Jones', sans-serif; color: #385B4F; font-size: clamp(1.6rem, 4.2vw, 2.6rem); letter-spacing: 1px; margin: 16px 0 40px; text-transform: uppercase; }
+.faq-section { max-width: 960px; margin: 40px auto 56px; }
+.faq-section + .faq-section { margin-top: 56px; }
+.faq-category { font-family: 'Bobby Jones', sans-serif; color: #d2dca5; font-size: clamp(1.2rem, 3vw, 2rem); text-transform: uppercase; letter-spacing: 1px; margin: 36px 0 16px; }
+.faq-question { font-family: 'Schoolbell', cursive !important; color: #385B4F; /* reduced by ~30% */ font-size: clamp(0.84rem, 2.66vw, 1.4rem); margin: 14px 0 18px; text-transform: uppercase; }
+.faq-answer { font-family: 'Kollektif', sans-serif; color: #333; font-size: 1.06rem; line-height: 1.85; margin: 0 auto 14px; max-width: 840px; }
+.faq-answer a { color: #385B4F; text-decoration: underline; }
+.faq-answer a:hover { color: #CF2182; }
+.faq-heart { width: 40px; height: auto; margin: 24px auto 0; display: block; }
+
+@media (max-width: 768px) {
+  .faq { padding: 64px 3vw 48px; }
+  .faq-logo { width: 150px; margin: 12px auto; }
+  .faq-title { margin-bottom: 34px; }
+  .faq-section { margin: 28px auto 40px; }
+  .faq-section + .faq-section { margin-top: 40px; }
+  .faq-question { margin: 12px 0 16px; }
+  .faq-answer { font-size: 1.02rem; line-height: 1.8; }
+}
+
+/* Ensure Kollektif for body text already applied globally */
+
+/* === Global: élargir les blocs de texte (lecture desktop) === */
+/* Harmonise les largeurs maxi des paragraphes principaux pour aérer la mise en page */
+.hero-text { max-width: 1200px; }
+.concept-intro p { max-width: 1200px; }
+.content-centered p, .content p, .content ul { max-width: 1200px; }
+.about-content { max-width: 1200px; }
+.history-text { max-width: 1400px; } /* élargi globalement (aligne avec la nouvelle largeur) */
+.season-text { max-width: 1200px; }
+/* Notre mission déjà élargie: .meaning-text à 1040px */
+
+/* Ces overrides n'impactent pas le mobile (seulement la largeur maxi desktop) */
+
+/* === Pages légales / statiques (CGVU, Cookies, Mentions légales, Politique) === */
+.legal {
+  text-align: center;
+  padding: clamp(40px, 6vw, 80px) 3vw;
+}
+
+.legal h1 {
+  color: #d2dca5;               /* titre principal vert pâle, comme la maquette */
+  text-transform: uppercase;     /* capitales */
+  letter-spacing: 1px;
+  font-size: clamp(1.8rem, 5vw, 3rem);
+  margin: 10px 0 24px;
+}
+
+.legal h2 {
+  font-family: 'Schoolbell', cursive !important; /* intertitres manuscrits */
+  color: #385B4F;               /* vert sombre */
+  /* reduced by ~30% */
+  font-size: clamp(0.84rem, 2.24vw, 1.4rem);
+  margin: 36px 0 14px;          /* plus d'air avant et après */
+  text-transform: uppercase;     /* capitales comme sur les autres pages */
+}
+
+.legal p,
+.legal ul {
+  max-width: 840px;             /* largeur de lecture confortable */
+  margin: 0 auto 26px;          /* espace plus généreux entre paragraphes */
+  line-height: 1.85;            /* plus d'air pour les textes légaux */
+  font-size: 1.06rem;
+}
+
+.legal ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.legal ul li { margin-bottom: 12px; } /* espace entre items de liste */
+
+.legal ul li::before {
+  content: "• ";
+  color: #d2dca5;               /* puce vert pâle pour cohérence visuelle */
+}
+
+/* === Nos distributeurs (vendors) === */
+.vendors-page{ background:#FDF9F5; }
+
+/* Hero banner with illustrated hills and centered green title */
+.vendors-hero{
+  position: relative;
+  width: 100%;
+  height: clamp(180px, 42vw, 360px);
+  background: linear-gradient(#bfe6ff, #bfe6ff) top/100% 52% no-repeat,
+              radial-gradient(120% 120% at 20% 100%, #86C771 0 60%, transparent 60%) bottom left/60% 60% no-repeat,
+              radial-gradient(120% 120% at 60% 100%, #B6E388 0 60%, transparent 60%) bottom/70% 60% no-repeat,
+              radial-gradient(120% 120% at 90% 100%, #86C771 0 60%, transparent 60%) bottom right/55% 60% no-repeat,
+              #E9F7FF; /* ciel + collines stylisées pour mimer l'illustration */
+}
+.vendors-hero::before,
+.vendors-hero::after{ content:""; position:absolute; inset:auto 0 0; height: 16px; background:#FDF9F5; }
+.vendors-hero-title{
+  position:absolute; left:50%; top:50%; transform:translate(-50%, -50%);
+  margin:0; padding:0 3vw; text-align:center; color:#d2dca5;
+  font-family:'Bobby Jones', sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:1px;
+  /* Reduced and tuned to match the screenshot proportions */
+  font-size: clamp(28px, 6.8vw, 64px); line-height: 1;
+  /* Use the same strong layered shadow as implemented on the "Notre histoire" page */
+  text-shadow: 0 28px 120px rgba(0,0,0,0.88),
+               0 14px 64px rgba(0,0,0,0.68),
+               0 6px 24px rgba(0,0,0,0.40),
+               0 1px 4px rgba(0,0,0,0.18);
+  white-space: nowrap; max-width: none;
+}
+/* Mobile: allow wrapping on long vendor hero titles */
+@media (max-width: 520px){
+  .vendors-hero-title{ white-space: normal; }
+}
+
+/* Brand line */
+.vendors-brand{ background:#fff8f4; text-align:center; padding: clamp(14px, 3vw, 22px) 3vw 0; padding-bottom: clamp(12px, 2vw, 20px); }
+.vendors-brand-line{
+  margin:0 0 3px; color:#111; font-family:'Bobby Jones', sans-serif; font-weight:700; letter-spacing:0.5px;
+  font-size: clamp(18px, 2.6vw, 22px); /* larger, bold like the capture */
+  white-space: nowrap;                /* force on a single line when possible */
+  word-break: keep-all;               /* avoid hyphenation */
+  overflow-wrap: normal;              /* no forced wrap */
+}
+/* Mobile: allow brand line to wrap */
+@media (max-width: 520px){
+  .vendors-brand-line{ white-space: normal; }
+}
+.vendors-brand-logo{ width: clamp(98px, 15.4vw, 154px); height:auto; display:block; margin: 4px auto 12px; }
+
+/* Inline container to keep logo and flag on a single horizontal line */
+.vendors-brand-inner{
+  display: inline-flex;
+  align-items: center;
+  gap: 1px; /* tightened gap between logo container children */
+  justify-content: center;
+  transform: none; /* center the logo container in the page */
+}
+
+/* On small screens, keep logos centered to avoid layout issues */
+@media (max-width: 520px) {
+  .vendors-brand-inner { transform: none; }
+}
+.vendors-flag-inline{ display: inline-flex; align-items: center; justify-content: center; }
+.vendors-flag-inline svg{ display:block; }
+/* Flag image used in vendors-brand */
+.vendors-flag-img{ display:inline-block; width:45px; height:auto; vertical-align:middle; /* reduced ~20% from 56px -> ~45px */ }
+
+/* Responsive helpers for vendors split introduced in HTML */
+.vendors-split{
+  /* Make the split section full-bleed: span the full viewport width and ignore container centering */
+  width: 100vw;
+  max-width: none;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  box-sizing: border-box;
+  display: grid; /* ensure grid layout if inline styles absent */
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+.vendors-split .vendors-visual{
+  min-height: 220px;
+  background-position: center 60%;
+  background-size: cover;
+  width: 100%;
+}
+.vendors-split .vendors-green-box{
+  display:flex; align-items:center; width:100%; box-sizing:border-box;
+}
+
+@media (max-width: 900px) {
+  .vendors-split { grid-template-columns: 1fr !important; }
+  .vendors-split .vendors-visual{ height: 180px; }
+  .vendors-split .vendors-green-box{ padding: 20px; }
+  .vendors-grid { grid-template-columns: 1fr !important; }
+}
+
+/* Ensure the two-up vendors blocks match heights and center content vertically */
+/* Ensure both column blocks start at the same top so h2 titles align */
+.vendors-grid{
+  /* Make the two-up vendors blocks full-bleed so there is no cream at the sides */
+  width: 100vw;
+  max-width: none;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  align-items: start;
+  grid-auto-rows: 1fr;
+}
+.vendors-grid .vendors-block{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  /* keep readable inner padding while allowing full-bleed outer edges */
+  padding: clamp(20px, 4.5vw, 36px) 5vw;
+  box-sizing: border-box;
+  height: 100%;
+  background: #fff;
+}
+
+/* Normalize headings/margins inside the two-up blocks so paragraph tops align */
+.vendors-grid .vendors-section-title{ margin: 0 0 8px; margin-top: 0; color: #385B4F; font-size: clamp(22px, 3.6vw, 28px); }
+.vendors-grid .vendors-subtitle{ margin: 0 0 2px; font-size: clamp(16px, 2.2vw, 20px); font-weight:700; color:#111; }
+.vendors-grid .vendors-block p{ margin-top: 0.35rem; text-align:center; max-width:520px; margin-left:auto; margin-right:auto; }
+/* Slight downward nudge for the paragraph in the second column (FRAICHEUR) on desktop - halved to tighten spacing */
+@media (min-width: 901px) {
+  /* Fine-tune desktop spacing to match screenshot */
+  .vendors-grid .vendors-block:nth-child(1) { padding-bottom: 40px; }
+  .vendors-grid .vendors-block:nth-child(2) { padding-bottom: 40px; }
+  /* Increase the space above the FRAICHEUR title by ~3x for a more open layout */
+  .vendors-grid .vendors-block:nth-child(2) { padding-top: 33px; }
+  .vendors-grid .vendors-block:nth-child(2) p { margin-top: 4px; }
+}
+/* keep visuals consistent on small screens */
+@media (max-width: 900px){
+  .vendors-grid .vendors-block{ padding: 20px 3vw; }
+}
+
+@media (max-width: 520px) {
+  .vendors-hero-title { font-size: clamp(28px, 10.5vw, 64px); top:30%; }
+  .vendors-brand-line { font-size: 1rem; }
+}
+
+/* Content blocks */
+.vendors-block{ text-align:center; padding: clamp(18px, 5vw, 36px) 3vw; }
+.vendors-section-title{
+  margin: 0 0 8px; color:#385B4F; /* green title like the mock */
+  font-family:'Bobby Jones', sans-serif; font-weight:700; letter-spacing:1px; text-transform:uppercase;
+  font-size: clamp(22px, 3.6vw, 28px);
+}
+.vendors-subtitle{
+  margin: 4px 0 8px; color:#111; text-align:center;
+  font-family:'Bobby Jones', sans-serif; font-weight:700; letter-spacing:0.4px;
+  font-size: clamp(16px, 2.2vw, 20px);
+}
+.vendors-block p{ max-width: 520px; margin: 0 auto; color:#000; font-family:'Kollektif', sans-serif; line-height:1.8; font-size: clamp(14px, 1.7vw, 18px); }
+
+/* Tighten spacing like the capture */
+.vendors-block + .vendors-block{ padding-top: clamp(6px, 1.6vw, 12px); }
+
+@media (max-width: 700px){
+  .stats-grid{ grid-template-columns: 1fr; gap: 11px; margin-top: -24px; }
+  .vendors-hero-title{ font-size: clamp(28px, 10.5vw, 64px); top: 30%; }
+}
+
+/* Accessibilité: réduire/neutraliser l'animation en PRM */
+@media (prefers-reduced-motion: reduce){
+  .hero:hover .hero-image,
+  .hero:focus-within .hero-image,
+  .category-hero:hover::before,
+  .category-hero:focus-within::before,
+  .history-hero:hover::before,
+  .history-hero:focus-within::before,
+  .mission-hero:hover::before,
+  .mission-hero:focus-within::before,
+  .mission-photo:hover::before,
+  .mission-photo:focus-within::before,
+  .concept-card.image:hover::before,
+  .concept-card.image:focus-within::before,
+  .about-visuals a:focus-visible img,
+  .about-visuals img:hover,
+  .bouquet-thumb:hover,
+  .bouquet-item:focus-within .bouquet-thumb{ transform: none !important; }
+}
+
+/* === Verrouillage: garder le layout desktop et activer le scroll horizontal plutôt que d'adapter === */
+@media (max-width: 900px){
+  /* Verrouiller à partir de la dernière mise en page active (palier ~900px) */
+  html, body { min-width: 900px; overflow-x: auto; overflow-anchor: none; }
+  /* Conserver header & footer en position fixe (comme en desktop) pour éviter tout saut au seuil */
+  header, .footer { position: fixed; width: 100%; transition: none; }
+  header { top: 0; left: 0; right: 0; z-index: 10; }
+  .footer { bottom: 0; left: 0; right: 0; z-index: 10; }
+  /* Désactiver l'agrandissement au hover du header en mode verrouillé */
+  header:hover, header:focus-within { height: 47.86px; }
+  header:hover .logo, header:focus-within .logo { height: 29.92px; }
+  /* Conserver l'espace réservé pour le header fixe */
+  main { padding-top: 47.86px; }
+  /* La navigation ne se met plus à la ligne; on conserve la ligne unique desktop */
+  nav { flex-wrap: nowrap; white-space: nowrap; gap: 40px; }
+  /* Figer les tailles/positions clés du héros au palier 900px */
+  .hero { height: 380px; }
+  .hero-overlay h1 { font-size: 2.8rem; left: 70%; transform: translate(-50%, -50%); line-height: 0.44; }
+  .hero-text .hero-subline { font-size: 1.59rem; white-space: nowrap !important; overflow-x: auto; }
+  /* Mission: appliquer le même comportement que l'accueil pour le texte sur la photo */
+  .mission-hero-title { font-size: 2.8rem; left: 70%; top: 50%; transform: translate(-50%, -50%); line-height: 0.44; white-space: nowrap !important; }
+  /* Contact: même comportement que l'accueil pour le titre sur la photo */
+  .contact-hero-title { font-size: 2.8rem; left: 70%; top: 50%; transform: translate(-50%, -50%); line-height: 0.44; white-space: nowrap !important; }
+  /* Bandeau bas: laisser de la place pour le footer fixe */
+  .bottom-banner { margin-bottom: calc(36px + 40px); }
+  /* Verrouiller le bandeau bas (paiements + réseaux) */
+  .bottom-banner { padding-top: 20px; padding-bottom: 20px; font-size: 16px; line-height: 1.2; min-width: 900px; }
+  .bottom-banner-content { display: flex; flex-direction: column; align-items: center; gap: 16px !important; }
+  .payments { justify-content: center; gap: 12px; flex-wrap: nowrap; }
+  .card-badge { height: 32px; padding: 0 10px; }
+  .bottom-socials { gap: 18px; flex-wrap: nowrap; }
+  .social-circle { width: 48px; height: 48px; }
+  /* Verrouiller les espacements des bandeaux (éviter les unités en vw) */
+  header, .footer { padding-left: 56px; padding-right: 56px; }
+  /* Footer: forcer un layout en ligne, sans wrap, comme le header */
+  .footer-content { flex-direction: row !important; align-items: center; justify-content: center; gap: 16px; }
+  .footer-links { flex-direction: row !important; gap: 40px; flex-wrap: nowrap; white-space: nowrap; justify-content: center; }
+  .bottom-banner { padding-left: 56px; padding-right: 56px; }
+  .home-menu { padding-left: 56px; padding-right: 56px; }
+  .footer { min-width: 900px; }
+  /* Verrouiller les grilles à l'état du palier 900px (tablette) */
+  .home-menu-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 36px; }
+  .concept-grid { grid-template-columns: 1fr 1fr; }
+  .stats-grid { grid-template-columns: repeat(2, max-content); }
+  .acn-columns { grid-template-columns: 1fr 1fr; }
+  .bouquet-list { grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
+  /* Verrouiller les hauteurs des autres héros / bandes (valeurs ~palier 900px) */
+  .category-hero { height: 196px; }
+  .history-hero { height: 214px; }
+  .mission-hero { height: 380px; }
+  .vendors-hero { height: 360px; }
+  .mission-photo { height: 315px; }
+  .contact-hero { height: 315px; }
+  /* Forcer les titres longs à rester sur une seule ligne (comportement desktop) */
+  .mission-sub,
+  .vendors-brand-line,
+  .vendors-hero-title,
+  .category-hero-title,
+  .history-hero-title { white-space: nowrap !important; }
+  /* Fixer les tailles de typo proches du palier 900px (minima des clamps dans la plupart des cas) */
+  .mission-lead { font-size: 16px; }
+  .mission-lead .mission-lead-intro { font-size: 19.2px; }
+  .mission-kicker, .mission-sub { font-size: 19.2px; }
+  .history-text p, .meaning-text p, .content-centered p, .content p, .concept-intro p { font-size: 16px; }
+  /* Neutraliser les effets de masquage auto du header/footer en mode verrouillé */
+  .header--hidden, .footer--hidden { transform: none !important; }
+}

@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Le Champêtre — Le Temps des Fleurs</title>
+  <meta name="description" content="Le Champêtre — bouquet champêtre et naturel de Le Temps des Fleurs. Parfait pour une touche nature." />
+  <link rel="canonical" href="https://votre-domaine.tld/liens/le-champetre.html" />
+  <meta property="og:title" content="Le Champêtre — Le Temps des Fleurs" />
+  <meta property="og:description" content="Bouquet champêtre et naturel, parfait pour une touche nature." />
+  <meta property="og:image" content="https://votre-domaine.tld/photos/lechampetre.jpg" />
+  <meta property="og:url" content="https://votre-domaine.tld/liens/le-champetre.html" />
+  <meta name="twitter:card" content="summary_large_image" />
+    <link rel="stylesheet" href="../style.css">
+  <style>
+    /* Product page specific styles (lightweight, scoped) */
+    .product-page { padding-top: 60px; padding-bottom: 80px; }
+    .product-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 36px; align-items: center; padding: 40px 3vw; }
+    .product-gallery { position: relative; display:flex; justify-content:center; align-items:center; }
+    .main-photo { width: min(56vw, 520px); height: min(56vw, 520px); border-radius: 50%; background-size: cover; background-position: center; box-shadow: 0 10px 30px rgba(0,0,0,0.12); }
+    .carousel-btn { position: absolute; width:44px; height:44px; border-radius:50%; border:none; display:flex; align-items:center; justify-content:center; background:#d2dca5; color:#fff; cursor:pointer; box-shadow: 0 6px 12px rgba(0,0,0,0.12); }
+    .carousel-btn svg { width:18px; height:18px; fill: #fff; }
+    .carousel-btn.left { left: calc(50% - (min(56vw,520px)/2) - 22px); transform: translateY(-50%); top: 50%; }
+    .carousel-btn.right { right: calc(50% - (min(56vw,520px)/2) - 22px); transform: translateY(-50%); top: 50%; }
+    /* On small screens stack */
+    @media (max-width: 880px) {
+      .product-grid { grid-template-columns: 1fr; gap: 24px; }
+      .carousel-btn.left { left: 6%; }
+      .carousel-btn.right { right: 6%; }
+      .main-photo { width: min(80vw, 420px); height: min(80vw, 420px); }
+    }
+    .product-info h1 { color: #CF2182; font-size: clamp(1.8rem, 4.5vw, 2.6rem); margin: 0 0 8px; }
+  .product-info .price { color: #385B4F; font-weight: 800; font-size: 2.2rem; margin: 0 0 12px; font-family: 'Bobby Jones', sans-serif !important; letter-spacing: 0.5px; }
+    .product-info .subtitle { font-family: 'Schoolbell', cursive; color:#385B4F; text-transform: none; font-size: 1.1rem; margin-bottom: 10px; }
+    .product-info p { font-size: 1.05rem; line-height: 1.75; color: #111; }
+  .product-cta { margin-top: 18px; }
+  .product-quote { text-align:center; margin-top: 36px; color:#385B4F; font-weight:700; font-family:'Bobby Jones', sans-serif !important; text-transform:uppercase; font-size: clamp(1rem, 2.2vw, 1.3rem); line-height:1.4; }
+    .product-gallery .sr-only { position:absolute; left:-9999px; }
+  .product-back { margin-top: 72px; text-align: center; }
+  .product-back a { text-decoration:none; color:#d2dca5; font-weight:bold; }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="../index.html" aria-label="Accueil" class="logo-link"><img src="../Logos/1.png" alt="Le Temps des Fleurs" class="logo"></a>
+    <nav>
+      <a href="index.html">Accueil</a>
+      <a href="notre-mission.html">Notre mission</a>
+  <a href="ontenteuntrucensemble.html">On tente un truc ensemble ?</a>
+    </nav>
+  </header>
+
+  <main class="product-page page-shell">
+    <div class="product-grid">
+      <div class="product-gallery" aria-roledescription="carousel" aria-label="Photos du bouquet Le Champêtre">
+        <button class="carousel-btn left" aria-label="Image précédente">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+        </button>
+
+        <div class="main-photo" id="mainPhoto" role="img" aria-label="Photo principale du bouquet Le Champêtre" style="background-image: url('../photos/champetre1.png')"></div>
+
+        <button class="carousel-btn right" aria-label="Image suivante">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+        </button>
+
+        <div class="sr-only" aria-live="polite" id="carouselStatus">Image 1 sur 3</div>
+      </div>
+
+      <div class="product-info">
+        <h1>Bouquet "Le Champêtre"</h1>
+        <div class="price">17,90€</div>
+        <div class="subtitle">Un air de campagne qui s'invite partout !</div>
+
+        <p>Le Champêtre, c’est le bouquet qui se compose de délicats œillets roses, aux tons pastels et violacés et de feuillage d’eucalyptus.</p>
+        <p>Un bouquet à la fois coloré et apaisant, qui évoque les balades à la campagne et la simplicité des beaux jours. </p>
+
+      </div>
+    </div>
+
+  <div class="product-quote">Il accompagne les moments doux, les retrouvailles, ou simplement une envie de nature au milieu du quotidien.</div>
+  <div class="product-back"><a href="a-cueillir-chez-nous.html">← Retour aux bouquets</a></div>
+  </main>
+
+  <!-- Bandeau bas: moyens de paiement + réseaux sociaux -->
+  <section class="bottom-banner" aria-label="Moyens de paiement et réseaux sociaux">
+    <div class="bottom-banner-content">
+      <div class="bottom-socials" aria-label="Réseaux sociaux">
+  <a class="social-circle" href="https://www.facebook.com/share/1G2DkKMExw/?mibextid=wwXIfr" aria-label="Facebook" title="Facebook" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12c0-5.522-4.477-10-10-10S2 6.478 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987H7.898v-2.89h2.54V9.845c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.242 0-1.63.771-1.63 1.562v1.875h2.773l-.443 2.89h-2.33v6.987C18.343 21.128 22 16.99 22 12Z"/></svg>
+        </a>
+  <a class="social-circle" href="https://www.instagram.com/letempsdesfloeurs/" aria-label="Instagram" title="Instagram" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h10c2.761 0 5 2.239 5 5v10c0 2.761-2.239 5-5 5H7c-2.761 0-5-2.239-5-5V7c0-2.761 2.239-5 5-5zm10 2H7c-1.654 0-3 1.346-3 3v10c0 1.654 1.346 3 3 3h10c1.654 0 3-1.346 3-3V7c0-1.654-1.346-3-3-3zm-5 3.5a5.5 5.5 0 110 11 5.5 5.5 0 010-11zm0 2a3.5 3.5 0 100 7 3.5 3.5 0 000-7zm5.75-.75a1.25 1.25 0 110 2.5 1.25 1.25 0 010-2.5z"/></svg>
+        </a>
+  <a class="social-circle" href="https://www.linkedin.com/company/le-temps-des-fl%C5%93urs/" aria-label="LinkedIn" title="LinkedIn" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 0H4C1.79 0 0 1.79 0 4v16c0 2.21 1.79 4 4 4h16c2.21 0 4-1.79 4-4V4c0-2.21-1.79-4-4-4zM7.06 19H4.12V9h2.94v10zM5.59 7.61c-.94 0-1.7-.76-1.7-1.7 0-.94.76-1.7 1.7-1.7.94 0 1.7.76 1.7 1.7 0 .94-.76 1.7-1.7 1.7zM20 19h-2.94v-5.3c0-1.26-.02-2.88-1.75-2.88-1.75 0-2.02 1.37-2.02 2.78V19H9.27V9h2.82v1.36h.04c.39-.74 1.35-1.52 2.78-1.52C18.67 8.84 20 11 20 14.29V19z"/></svg>
+        </a>
+      </div>
+      <div class="payments" aria-label="Moyens de paiement acceptés">
+        <span class="card-badge"><img class="card-logo" src="../photos/logocb.jpg" alt="CB"></span>
+        <span class="card-badge"><img class="card-logo" src="../Logos/logomastercard.png" alt="Mastercard"></span>
+        <span class="card-badge"><img class="card-logo" src="../Logos/logovisa.png" alt="VISA"></span>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <nav class="footer-links">
+        <a href="mentions-legales.html">Mentions légales</a>
+        <a href="politique-confidentialite.html">Politique de confidentialité</a>
+        <a href="cookies.html">Cookies</a>
+        <a href="cgv.html">CGVU</a>
+        <a href="faq.html">FAQ</a>
+        <a href="contact.html">Contact</a>
+        <span>Le Temps des Fleurs est une marque</span>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    (function(){
+      const images = ['../photos/champetre1.png','../photos/champetre2.png','../photos/champetre3.png'];
+      let idx = 0;
+      const main = document.getElementById('mainPhoto');
+      const status = document.getElementById('carouselStatus');
+      function show(i){
+        idx = (i + images.length) % images.length;
+        main.style.backgroundImage = `url('${images[idx]}')`;
+        status.textContent = `Image ${idx+1} sur ${images.length}`;
+      }
+      document.querySelector('.carousel-btn.left').addEventListener('click', ()=> show(idx-1));
+      document.querySelector('.carousel-btn.right').addEventListener('click', ()=> show(idx+1));
+      // keyboard support
+      document.addEventListener('keydown', (e)=>{
+        if(e.key === 'ArrowLeft') show(idx-1);
+        if(e.key === 'ArrowRight') show(idx+1);
+      });
+      // swipe support (basic)
+      let startX = null;
+      main.addEventListener('touchstart', (e)=> { startX = e.touches[0].clientX; });
+      main.addEventListener('touchend', (e)=>{
+        if(startX == null) return;
+        const dx = e.changedTouches[0].clientX - startX;
+        if(Math.abs(dx) > 30){ if(dx < 0) show(idx+1); else show(idx-1); }
+        startX = null;
+      });
+    })();
+  </script>
+  <script src="../script.js"></script>
+</body>
+</html>
