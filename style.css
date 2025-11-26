@@ -1890,10 +1890,357 @@ html.transition-back-leave .page-shell    { animation: fb-slide-out-right 520ms 
   .bouquet-item:focus-within .bouquet-thumb{ transform: none !important; }
 }
 
+/* =======================================================
+   Mobile-first responsive overrides (Step 1 + simple Step 2)
+   - Mobile: <= 480px
+   - Tablet: 481-768px
+   - Desktop: >= 769px
+   These rules are additive and intentionally conservative: they
+   only override the problematic properties for small screens
+   (min-width lock, fixed header/footer on phones, nowrap, grids).
+   ======================================================= */
+
+/* Make images and inline photos fluid by default (safe for desktop) */
+img, .hero-image, .mission-photo-block img, .about-visuals img, .stats-logo-100, .stats-logo-80, .vendors-brand-logo, .card-logo {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Mobile: strong overrides to allow reflow and stack columns */
+@media (max-width: 480px) {
+  /* Keep footer flowing on mobile but restore the desktop-like fixed header
+     so the bandeau is visible on phones like on desktop. We keep hover
+     enlargement disabled on touch devices to avoid layout jumps. */
+  .footer {
+    position: static !important;
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  /* Restore fixed header (desktop-like) on small screens. This makes the
+     bandeau visible and pinned to the top like on desktop. Keep a high
+     z-index so it remains above page content and ensure the main
+     container keeps enough top padding to avoid being hidden. */
+  header {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 47.86px !important; /* same compact height used for desktop */
+    z-index: 1100 !important;
+    background-color: #D2DCA5 !important; /* ensure banner background remains visible */
+  }
+
+  /* Ensure page content doesn't sit under the fixed header on mobile */
+  main { padding-top: 47.86px !important; }
+
+  /* Mobile: make header contents fit on one line like desktop by
+     reducing logo and nav sizing and tightening gaps. Keep elements
+     horizontally aligned and prevent unexpected wrapping/overflow. */
+  header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 8px !important;
+    padding: 0 12px !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+  }
+
+  /* Logo smaller so it doesn't push nav to the next line */
+  header .logo,
+  .logo {
+    height: clamp(20px, 6vw, 28px) !important;
+    max-height: 28px !important;
+    width: auto !important;
+    display: block !important;
+  }
+
+  /* Tighten nav spacing and reduce font-size to keep links on one line */
+  nav {
+    gap: 8px !important;
+    flex-wrap: nowrap !important; /* keep nav items on a single line */
+    align-items: center !important;
+    overflow: hidden !important;
+  }
+
+  nav a {
+    font-size: clamp(12px, 3.6vw, 14px) !important;
+    padding: 6px 6px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important; /* truncate if absolutely necessary */
+  }
+
+  /* If nav still overflows, allow the nav container to scroll horizontally
+     rather than wrapping to another line (keeps the visual single-line banner). */
+  nav { -webkit-overflow-scrolling: touch; }
+  nav::-webkit-scrollbar { display: none; }
+
+  /* Ensure nav wraps and doesn't force horizontal scroll */
+  nav { flex-wrap: wrap !important; white-space: normal !important; gap: 12px !important; }
+
+  /* Force main multi-column grids to single column on mobile */
+  .home-menu-grid,
+  .vendors-grid,
+  .vendors-split,
+  .acn-columns,
+  .product-grid,
+  .stats-grid,
+  .bouquet-list {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+
+  /* Additional grids/card groups to collapse on mobile */
+  .cards,
+  .three-cards,
+  .two-columns,
+  .dual-section {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+
+  /* Ensure images are full-width and maintain aspect ratio on mobile */
+  img, picture, source, .card img, .menu-card img, .vendors-visual img, .bouquet-thumb, .about-visuals img {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    display: block !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    object-fit: cover !important;
+  }
+
+  /* Cards: center, constrain width and keep safe padding */
+  .card, .menu-card, .product-card, .card-item, .three-cards > *, .two-columns > * {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    box-sizing: border-box !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  /* Make background-image based thumbnails and cards scale by using relative sizes */
+  .menu-card, .bouquet-thumb { max-width: 92vw; width: 92vw; margin-left: auto; margin-right: auto; }
+  .bouquet-thumb { height: auto; aspect-ratio: 1 / 1; }
+
+  /* Disable forced single-line rules that cause overflow; allow wrapping */
+  .hero-overlay h1,
+  .hero-overlay .hero-line,
+  .mission-sub,
+  .vendors-brand-line,
+  .vendors-hero-title,
+  .category-hero-title,
+  .history-hero-title,
+  .menu-title,
+  .hero-text .hero-subline,
+  nav a {
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+    word-break: break-word !important;
+  }
+
+  /* Center hero titles on mobile for safe layout */
+  .hero-overlay h1,
+  .mission-hero-title,
+  .vendors-hero-title,
+  .category-hero-title,
+  .history-hero-title {
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    text-align: center !important;
+    padding-left: 4vw !important;
+    padding-right: 4vw !important;
+    white-space: normal !important;
+  }
+
+  /* Reduce large paddings/margins to make content denser on narrow screens */
+  .content-centered, .content, .concept-intro, .mission-intro, .bottom-banner {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+    padding-top: 18px !important;
+    padding-bottom: 18px !important;
+  }
+
+  /* Prevent header hover effects from changing size on mobile */
+  header:hover, header:focus-within { height: auto !important; }
+  header:hover .logo, header:focus-within .logo { height: auto !important; }
+
+  /* Make card badges and payment icons scale on mobile */
+  .card-badge { height: auto !important; padding: 6px 8px !important; }
+  .card-badge .card-logo { height: 18px !important; }
+
+  /* Mobile footer fixes: center content, stack columns, scale icons, wrap legal links */
+  .footer {
+    position: static !important; /* ensure footer flows on mobile */
+    padding: 16px !important;
+    height: auto !important;
+    box-sizing: border-box !important;
+    overflow: visible !important;
+  }
+
+  .footer-content {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 20px !important;
+    width: 100% !important;
+    text-align: center !important;
+    padding: 0 !important;
+  }
+
+  .footer-links {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .footer-links a {
+    display: inline-block !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+    word-break: break-word !important;
+    text-align: center !important;
+    padding: 0 8px !important;
+  }
+
+  /* Social icons: center and scale with clamp */
+  .bottom-socials { justify-content: center !important; gap: 12px !important; }
+  .social-circle {
+    width: clamp(40px, 12vw, 60px) !important;
+    height: clamp(40px, 12vw, 60px) !important;
+  }
+  .social-circle svg { width: 60% !important; height: 60% !important; }
+
+  /* Logos: center and constrain to prevent overflow */
+  .footer .logo, .vendors-brand-logo, .stats-logo-100, .stats-logo-80, .footer-logo {
+    display: block !important;
+    margin: 0 auto !important;
+    max-width: 80% !important;
+    height: auto !important;
+  }
+
+  /* Ensure legal / small text wraps and stays centered */
+  .legal, .footer-links span, .footer small {
+    text-align: center !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+    word-break: break-word !important;
+  }
+}
+
+/* Consolidated mobile text fixes (<=480px)
+   - remove forced nowrap on headings where not required
+   - add word-break / overflow-wrap for long titles
+   - reduce font sizes for h1/h2/p with clamps
+   - center titles and ensure hero titles are centered and not off-screen
+   - replace large paddings with padding:16px for main blocks
+   - prevent horizontal overflow
+*/
+@media (max-width: 480px) {
+  /* Remove forced single-line behaviour and enable wrapping for long titles */
+  .hero-overlay .hero-line,
+  .hero-overlay h1,
+  .mission-hero-title,
+  .vendors-hero-title,
+  .category-hero-title,
+  .history-hero-title,
+  .contact-hero-title,
+  .vendors-brand-line,
+  .menu-title,
+  .hero-text .hero-subline,
+  nav a,
+  .footer-links,
+  .footer-links span,
+  h1, h2, h3, h4 {
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+    word-break: break-word !important;
+  }
+
+  /* Reduce mobile type sizes and center headings */
+  h1 { font-size: clamp(1.4rem, 6vw, 2.4rem) !important; text-align: center !important; }
+  h2 { font-size: clamp(1.2rem, 5vw, 2rem) !important; text-align: center !important; }
+  p, li { font-size: 1rem !important; line-height: 1.5 !important; }
+
+  /* Ensure hero-like titles are absolutely centered on mobile to avoid off-screen positions */
+  .hero-overlay h1,
+  .mission-hero-title,
+  .vendors-hero-title,
+  .category-hero-title,
+  .history-hero-title,
+  .contact-hero-title {
+    position: absolute !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    text-align: center !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+    word-break: break-word !important;
+    font-size: clamp(1.2rem, 5vw, 2rem) !important;
+    padding-left: 4vw !important;
+    padding-right: 4vw !important;
+    max-width: 92% !important;
+    line-height: 1.05 !important;
+  }
+
+  /* Replace large paddings with compact 16px padding */
+  .content-centered, .content, .concept-intro, .mission-intro, .mission-meaning, .history-content,
+  .home-menu, .vendors-block, .vendors-grid .vendors-block, .acn, .acn-inner,
+  .bottom-banner, .vendors-brand, .home-menu .menu-card, .footer {
+    padding: 16px !important;
+  }
+
+  /* Prevent horizontal overflow from any remaining elements */
+  html, body, .page-shell { overflow-x: hidden !important; max-width: 100% !important; }
+}
+
+/* Tablet: 481-768px — intermediate layout (two columns for some grids) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .home-menu-grid, .product-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .vendors-grid, .vendors-split { grid-template-columns: 1fr 1fr; }
+  .hero-overlay h1, .mission-hero-title { left: 50%; transform: translate(-50%, -50%); }
+}
+
+/* Desktop: restore intended desktop behaviour including some nowrap rules */
+@media (min-width: 769px) {
+  /* Re-enable nowrap for headings where the desktop layout expects a single line */
+  .hero-overlay .hero-line,
+  .vendors-hero-title,
+  .category-hero-title,
+  .history-hero-title,
+  .menu-title,
+  .hero-text .hero-subline {
+    white-space: nowrap;
+  }
+
+  /* Restore hero horizontal offset for large screens (if desired by the original styles) */
+  .hero-overlay h1 { left: 70%; transform: translate(-50%, -50%); }
+}
+
+
 /* === Verrouillage: garder le layout desktop et activer le scroll horizontal plutôt que d'adapter === */
 @media (max-width: 900px){
   /* Verrouiller à partir de la dernière mise en page active (palier ~900px) */
-  html, body { min-width: 900px; overflow-x: auto; overflow-anchor: none; }
+  /* Remove hard lock that forced horizontal scrolling on small devices.
+    Allow narrow viewports to reflow naturally; overflow-x visible so content
+    can wrap instead of forcing a scrollbar. This neutralizes the previous
+    "verrouillage" while preserving other desktop overrides in the block. */
+  html, body { min-width: 0; overflow-x: visible; overflow-anchor: none; }
   /* Conserver header & footer en position fixe (comme en desktop) pour éviter tout saut au seuil */
   header, .footer { position: fixed; width: 100%; transition: none; }
   header { top: 0; left: 0; right: 0; z-index: 10; }
@@ -1957,3 +2304,136 @@ html.transition-back-leave .page-shell    { animation: fb-slide-out-right 520ms 
   /* Neutraliser les effets de masquage auto du header/footer en mode verrouillé */
   .header--hidden, .footer--hidden { transform: none !important; }
 }
+
+/* Extra portrait-only tightening for very narrow phones
+   - force the header on a single visual line by preventing wrapping
+   - truncate nav items with ellipsis if necessary to avoid a second line
+   - keep the rule narrowly scoped to portrait small phones only */
+@media (max-width: 480px) and (orientation: portrait) {
+  header {
+    padding-left: 6px !important;
+    padding-right: 6px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important; /* prevent wrapping to a second line */
+  }
+
+  /* Smaller logo and fixed flex behavior so it doesn't force wrapping */
+  header .logo,
+  .logo {
+    height: clamp(14px, 5vw, 20px) !important;
+    max-height: 20px !important;
+    margin-right: 8px !important;
+    flex: 0 0 auto !important;
+  }
+
+  /* Nav: single-line flex container that can shrink; hide overflow */
+  nav {
+    display: flex !important;
+    gap: 6px !important;
+    flex: 1 1 auto !important;
+    min-width: 0 !important; /* allow children to shrink */
+    overflow: hidden !important; /* keep everything on one visual line */
+    align-items: center !important;
+  }
+
+  /* Ensure each link truncates instead of wrapping */
+  nav a {
+    flex: 0 1 auto !important;
+    display: inline-block !important;
+    max-width: 8ch !important; /* cap label width to force truncation when necessary */
+    text-overflow: ellipsis !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+    font-size: clamp(10px, 2.8vw, 12px) !important;
+    padding: 4px 6px !important;
+  }
+
+  /* Prevent children from wrapping to next line */
+  header > * { display: inline-flex !important; align-items: center !important; }
+
+  /* keep the nav visually clean on WebKit browsers */
+  nav::-webkit-scrollbar { display: none; }
+}
+
+/* ======= FORCE header/footer appearance on small phones (site-wide) =======
+   This block is intentionally specific + important to override any per-page
+   differences and ensure the header/footer on phones match the CGVU banner.
+*/
+@media (max-width: 480px) {
+  /* Make header fixed and clearly visible like on the CGVU page */
+  header {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    height: 48px !important;
+    background-color: #D2DCA5 !important;
+    z-index: 2200 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 0 12px !important;
+    box-shadow: none !important;
+    overflow: hidden !important;
+  }
+
+  /* Ensure the logo is small and doesn't force wrapping */
+  header .logo, .logo {
+    height: 24px !important;
+    max-height: 28px !important;
+    width: auto !important;
+    display: block !important;
+    margin: 0 !important;
+    flex: 0 0 auto !important;
+  }
+
+  /* Keep nav compact and readable; allow truncation if space lacks */
+  header nav {
+    display: flex !important;
+    gap: 8px !important;
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    overflow: hidden !important;
+  }
+
+  header nav a {
+    font-size: 13px !important;
+    padding: 6px 8px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-width: 10ch !important;
+    display: inline-block !important;
+  }
+
+  /* Ensure main content is not hidden under the fixed header */
+  main { padding-top: 56px !important; }
+
+  /* Footer: fixed appearance similar to CGVU footer but non-obtrusive */
+  .footer {
+    position: fixed !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    background-color: #D2DCA5 !important;
+    color: #CF2182 !important;
+    padding: 8px 12px !important;
+    height: auto !important;
+    z-index: 2100 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .footer .footer-content { gap: 8px !important; }
+  .footer .footer-links { gap: 12px !important; flex-wrap: nowrap !important; overflow: hidden !important; }
+  .footer .footer-links a { font-size: 12px !important; padding: 4px 6px !important; }
+
+  /* Make sure hero and other fixed banners don't overlap the header visually */
+  .hero, .contact-hero, .mission-hero, .vendors-hero, .category-hero, .history-hero { margin-top: 0 !important; }
+}
+

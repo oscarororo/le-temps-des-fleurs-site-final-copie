@@ -314,3 +314,15 @@ document.addEventListener('DOMContentLoaded', function () {
     wire();
   }
 })();
+
+// Ensure header/footer are visible on small screens after load (defensive)
+document.addEventListener('DOMContentLoaded', function () {
+  try {
+    if (window.innerWidth <= 480) {
+      var h = document.querySelector('header');
+      var f = document.querySelector('.footer');
+      if (h && h.classList.contains('header--hidden')) h.classList.remove('header--hidden');
+      if (f && f.classList.contains('footer--hidden')) f.classList.remove('footer--hidden');
+    }
+  } catch (e) { /* ignore */ }
+});
