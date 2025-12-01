@@ -35,16 +35,7 @@
                 filter: none !important;
                 -webkit-filter: none !important;
             }
-            /* Page-scoped: reduce the hero/banner height by 15% for this page only */
-            /* Uses the same clamp used in global CSS and multiplies by 0.85 to shrink */
-            .mission-hero {
-                height: calc(clamp(220px, 41.8vw, 640px) * 0.85) !important;
-            }
-    </style>
-    <!-- Favicon -->
-    <link rel="icon" href="../Logos/favicon.png" type="image/png">
-    <link rel="shortcut icon" href="../Logos/favicon.png" type="image/png">
-    <link rel="apple-touch-icon" href="../Logos/favicon.png">
+        </style>
 </head>
 <body>
     <header>

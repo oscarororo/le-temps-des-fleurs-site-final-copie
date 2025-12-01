@@ -214,7 +214,7 @@ main {
     white-space: nowrap;    /* empêche de casser dans une même ligne */
 }
 
-@media (max-width: 700px) {
+@media (max-width: 0px) { /* disabled: force desktop layout */
   .hero-overlay {
     align-items: center; /* recentre verticalement sur mobile */
     justify-content: center;       /* reste centré sur mobile */
@@ -230,7 +230,7 @@ main {
   }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 0px) { /* disabled: force desktop layout */
   .hero-overlay h1 {
     font-size: clamp(1.6rem, 5.2vw, 2.4rem);
     transform: none; /* centre sur tablettes/mobiles */
@@ -275,7 +275,7 @@ main {
 }
 
 /* Mobile: let the hero subline wrap and stay within the content width */
-@media (max-width: 640px) {
+@media (max-width: 0px) { /* disabled: force desktop layout */
   .hero-text .hero-subline {
     white-space: normal;           /* autorise le retour à la ligne */
     word-break: normal;
@@ -393,7 +393,7 @@ main {
 }
 
 /* Responsive */
-@media (max-width: 900px) {
+@media (max-width: 0px) { /* disabled: force desktop layout */
   .concept-grid {
     grid-template-columns: 1fr;
   }
@@ -579,17 +579,17 @@ button:focus-visible {
 }
 
 /* === Responsive Footer === */
-@media (max-width: 768px) {
-    .footer-content {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 20px;
-    }
+@media (max-width: 0px) { /* disabled: force desktop layout */
+  .footer-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
 
-    .footer-links {
-        flex-direction: column;
-        gap: 10px;
-    }
+  .footer-links {
+    flex-direction: column;
+    gap: 10px;
+  }
 }
 
 /* === About / Statics Pages === */
@@ -733,17 +733,17 @@ header, header *, .footer, .footer *, .footer-links span {
   white-space: nowrap;    /* empêche de casser dans une même ligne */
 }
 
-@media (max-width: 700px) {
+@media (max-width: 0px) { /* disabled: force desktop layout */
   .hero-overlay h1 {
-    font-size: clamp(1.3rem, 5.5vw, 2rem); /* réduit pour garder 2 lignes max sur mobile */
-    transform: none; /* centré sur mobile */
+    font-size: clamp(1.3rem, 5.5vw, 2rem); /* reduced but disabled */
+    transform: none;
   }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 0px) { /* disabled: force desktop layout */
   .hero-overlay h1 {
     font-size: clamp(1.6rem, 5.2vw, 2.4rem);
-    transform: none; /* centre sur tablettes/mobiles */
+    transform: none; /* centre on small screens (disabled) */
     text-align: center;
   }
 }
@@ -758,13 +758,13 @@ header, header *, .footer, .footer *, .footer-links span {
 }
 
 /* Affiner la taille pour éviter tout dépassement sur petits écrans */
-@media (max-width: 900px) {
+@media (max-width: 0px) { /* disabled: force desktop layout */
   .hero-overlay h1 { font-size: clamp(1.6rem, 5.2vw, 2.4rem); }
 }
-@media (max-width: 560px) {
+@media (max-width: 0px) { /* disabled: force desktop layout */
   .hero-overlay h1 { font-size: clamp(1.3rem, 6vw, 1.8rem); }
 }
-@media (max-width: 400px) {
+@media (max-width: 0px) { /* disabled: force desktop layout */
   .hero-overlay h1 { font-size: clamp(1.1rem, 6.5vw, 1.6rem); }
 }
 
@@ -787,13 +787,13 @@ header, header *, .footer, .footer *, .footer-links span {
 }
 
 /* Conserver la réduction d’interligne aussi sur mobile/tablette, mais centré */
-@media (max-width: 900px) {
+@media (max-width: 0px) { /* disabled: force desktop layout */
   .hero-overlay h1 {
     position: absolute;
-    top: 50%; /* remonte encore de 10% (logo + texte) sur mobile/tablette */
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    line-height: 0.4;         /* appliquer aussi la réduction sur mobile/tablette */
+    line-height: 0.4;
   }
 }
 

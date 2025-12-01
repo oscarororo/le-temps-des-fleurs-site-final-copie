@@ -1,10 +1,7 @@
 <!doctype html>
 <html lang="fr">
   <head>
-  <meta charset="utf-8" />
-  <link rel="icon" href="Logos/favicon.png" type="image/png">
-  <link rel="shortcut icon" href="Logos/favicon.png" type="image/png">
-  <link rel="apple-touch-icon" href="Logos/favicon.png">
+    <meta charset="utf-8" />
     <meta http-equiv="refresh" content="0; url=liens/index.html" />
     <title>Redirection…</title>
     <script>location.replace('liens/index.html');</script>

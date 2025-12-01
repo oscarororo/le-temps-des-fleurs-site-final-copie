@@ -2,17 +2,13 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <link rel="icon" href="../Logos/favicon.png" type="image/png">
-  <link rel="shortcut icon" href="../Logos/favicon.png" type="image/png">
-  <link rel="apple-touch-icon" href="../Logos/favicon.png">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Le Pour Toujours — Le Temps des Fleurs</title>
-  <meta name="description" content="Le Pour Toujours — bouquet spécial, durable et élégant par Le Temps des Fleurs." />
-  <link rel="canonical" href="https://votre-domaine.tld/liens/le-pourtoujours.html" />
-  <meta property="og:title" content="Le Pour Toujours — Le Temps des Fleurs" />
-  <meta property="og:description" content="Bouquet spécial, durable et élégant." />
-  <meta property="og:image" content="https://votre-domaine.tld/photos/lepourtoujours.jpg" />
-  <meta property="og:url" content="https://votre-domaine.tld/liens/le-pourtoujours.html" />
+  <title>Le Toujours Chic — Le Temps des Fleurs</title>
+  <meta name="description" content="Le Toujours Chic — bouquet élégant et raffiné, signé Le Temps des Fleurs. Idéal pour occasions spéciales." />
+  <link rel="canonical" href="https://votre-domaine.tld/liens/le-toujours-chic.html" />
+  <meta property="og:title" content="Le Toujours Chic — Le Temps des Fleurs" />
+  <meta property="og:description" content="Bouquet élégant et raffiné, idéal pour occasions spéciales." />
+  <meta property="og:image" content="https://votre-domaine.tld/photos/letoujourschic.jpg" />
+  <meta property="og:url" content="https://votre-domaine.tld/liens/le-toujours-chic.html" />
   <meta name="twitter:card" content="summary_large_image" />
     <link rel="stylesheet" href="../style.css">
   <style>
@@ -33,11 +29,10 @@
       .main-photo { width: min(80vw, 420px); height: min(80vw, 420px); }
     }
     .product-info h1 { color: #CF2182; font-size: clamp(1.8rem, 4.5vw, 2.6rem); margin: 0 0 8px; }
-  .product-info .price { color: #385B4F; font-weight: 800; font-size: 2.2rem; margin: 0 0 12px; font-family: 'Bobby Jones', sans-serif !important; letter-spacing: 0.5px; }
+    .product-info .price { color: #385B4F; font-weight: 800; font-size: 2.2rem; margin: 0 0 12px; font-family: 'Bobby Jones', sans-serif !important; letter-spacing: 0.5px; }
     .product-info .subtitle { font-family: 'Schoolbell', cursive; color:#385B4F; text-transform: none; font-size: 1.1rem; margin-bottom: 10px; }
     .product-info p { font-size: 1.05rem; line-height: 1.75; color: #111; }
-  .product-cta { margin-top: 18px; }
-  .product-quote { text-align:center; margin-top: 36px; color:#385B4F; font-weight:700; font-family:'Bobby Jones', sans-serif !important; text-transform:uppercase; font-size: clamp(1rem, 2.2vw, 1.3rem); line-height:1.4; }
+    .product-quote { text-align:center; margin-top: 36px; color:#385B4F; font-weight:700; font-family:'Bobby Jones', sans-serif !important; text-transform:uppercase; font-size: clamp(1rem, 2.2vw, 1.3rem); line-height:1.4; }
     .product-gallery .sr-only { position:absolute; left:-9999px; }
   .product-back { margin-top: 72px; text-align: center; }
   .product-back a { text-decoration:none; color:#d2dca5; font-weight:bold; }
@@ -55,12 +50,12 @@
 
   <main class="product-page page-shell">
     <div class="product-grid">
-      <div class="product-gallery" aria-roledescription="carousel" aria-label="Photos du bouquet Le Pour Toujours">
+      <div class="product-gallery" aria-roledescription="carousel" aria-label="Photos du bouquet Le Toujours Chic">
         <button class="carousel-btn left" aria-label="Image précédente">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
         </button>
 
-        <div class="main-photo" id="mainPhoto" role="img" aria-label="Photo principale du bouquet Le Pour Toujours" style="background-image: url('../photos/pourtoujours1.png')"></div>
+        <div class="main-photo" id="mainPhoto" role="img" aria-label="Photo principale du bouquet Le Toujours Chic" style="background-image: url('../photos/toujourschic1.png')"></div>
 
         <button class="carousel-btn right" aria-label="Image suivante">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
@@ -70,19 +65,18 @@
       </div>
 
       <div class="product-info">
-        <h1>Bouquet "Le Pour Toujours"</h1>
-        <div class="price">12,90€</div>
-        <div class="subtitle">Parce que certaines attentions méritent de durer !</div>
+        <h1>Bouquet "Le Toujours Chic"</h1>
+        <div class="price">15,90€</div>
+        <div class="subtitle">L'élégance sans effort !</div>
 
-        <p>Le Pour Toujours, c'est le bouquet qui traverse le temps sans perdre son éclat. Fleurs séchées naturelles, il allie la douceur des tons crème et la chaleur des accents rouges pour un rendu à la fois élégant et authentique.</p>
-
-        <p>Un bouquet pour garder un souvenir vivant, sans se soucier des jours qui passent.</p>
+        <p>Le Toujours Chic, c’est le bouquet qui traverse le temps avec style. Ses roses ivoire, ses lisianthus rose poudré et ses nuages de gypsophile sont aussi chic que votre outfit.</p>
+     <p>C’est le genre de bouquet qui dit “j’ai bon goût” sans même avoir besoin de le dire.</p>
 
       </div>
     </div>
 
-  <div class="product-quote">Il parle d'amour calme, de moments précieux, d'un lien qui reste.</div>
-  <div class="product-back"><a href="a-cueillir-chez-nous.html">← Retour aux bouquets</a></div>
+    <div class="product-quote">parfait pour un rendez-vous galant, un dîner à deux, ou simplement pour chez soi.</div>
+    <div class="product-back"><a href="a-cueillir-chez-nous.html">← Retour aux bouquets</a></div>
   </main>
 
   <!-- Bandeau bas: moyens de paiement + réseaux sociaux -->
@@ -123,7 +117,7 @@
 
   <script>
     (function(){
-      const images = ['../photos/pourtoujours1.png','../photos/pourtoujours2.png','../photos/pourtoujours3.png'];
+      const images = ['../photos/toujourschic1.png','../photos/toujourschic2.png','../photos/toujourschic3.png'];
       let idx = 0;
       const main = document.getElementById('mainPhoto');
       const status = document.getElementById('carouselStatus');
