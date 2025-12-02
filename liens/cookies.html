@@ -10,6 +10,17 @@
   <meta property="og:image" content="https://letempsdesfleurs.fr/Logos/1.png" />
   <meta property="og:url" content="https://letempsdesfleurs.fr/liens/cookies.html" />
   <meta name="twitter:card" content="summary_large_image" />
+  <script>
+    (function(){
+      try {
+        var dir = sessionStorage.getItem('vt-dir');
+        if (dir) {
+          document.documentElement.classList.add('transition-' + dir);
+          sessionStorage.removeItem('vt-dir');
+        }
+      } catch(e) {}
+    })();
+  </script>
   <link rel="stylesheet" href="../style.css">
   <!-- Favicon -->
   <link rel="icon" href="../Logos/favicon.png" type="image/png">

@@ -60,7 +60,6 @@
     }
   }, { passive: true });
 })();
-
 // Ensure header/footer are visible when arriving via an intercepted navigation
 // (prevents a page-load where the header appears retracted because the
 // source page had it hidden). We only force it briefly on initial load when
@@ -236,6 +235,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Cross-document sliding transitions between key pages (progressive enhancement)
 (function() {
+  // Apply incoming transition class as early as possible when this script is loaded
+  // (some pages include a head-inline copy of this snippet, but not all). This
+  // ensures the fallback enter animation runs even on pages that don't have a
+  // .page-shell wrapper or an inline head script.
+  try {
+    var _dir = null;
+    try { _dir = sessionStorage.getItem('vt-dir'); } catch (e) { _dir = null; }
+    if (_dir) {
+      document.documentElement.classList.add('transition-' + _dir);
+      try { sessionStorage.removeItem('vt-dir'); } catch (e) {}
+    }
+  } catch (e) { /* ignore */ }
+
   const supportsVT = typeof document.startViewTransition === 'function';
   // Order of pages for determining forward/back transition direction.
   // Extended to include the three home menu targets so clicking the big cards triggers the same VT animation.
@@ -258,12 +270,37 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  function directionTo(targetFile) {
-    const current = filenameFrom(window.location.href);
-    const a = order.indexOf(current);
-    const b = order.indexOf(targetFile);
-    if (a === -1 || b === -1 || a === b) return null;
-    return b > a ? 'forward' : 'back';
+  function directionTo(targetFile, linkEl) {
+    // Prefer explicit data-order when available on the current document and
+    // on the clicked anchor (see wiring below which seeds anchors with a
+    // DOM-only data-order when the file appears in the `order` array).
+    try {
+      const currentFile = filenameFrom(window.location.href);
+      const currentAttr = document.documentElement.getAttribute('data-order');
+      const currentIdx = (currentAttr != null && currentAttr !== '') ? parseInt(currentAttr, 10) : order.indexOf(currentFile);
+      var targetIdx = -1;
+      // Prefer a data-order set on the clicked anchor if present (seeding
+      // happens during wiring). Otherwise fall back to the order[] lookup.
+      try {
+        if (linkEl) {
+          var linkOrder = linkEl.getAttribute('data-order');
+          if (linkOrder != null && linkOrder !== '') targetIdx = parseInt(linkOrder, 10);
+        }
+      } catch (e) { targetIdx = -1; }
+      if (!isFinite(targetIdx) || targetIdx < 0) targetIdx = order.indexOf(targetFile);
+      if (isFinite(currentIdx) && currentIdx >= 0 && targetIdx >= 0 && currentIdx !== targetIdx) {
+        return targetIdx > currentIdx ? 'forward' : 'back';
+      }
+      return null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function getOrderIndexForFilename(file) {
+    try {
+      return order.indexOf(file);
+    } catch (e) { return -1; }
   }
 
   function setOutgoingClass(dir) {
@@ -287,24 +324,69 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
+  function isSameDocumentAnchor(href) {
+    if (!href) return false;
+    try {
+      var u = new URL(href, window.location.href);
+      return u.pathname === window.location.pathname && (u.hash || '') !== '';
+    } catch (e) { return false; }
+  }
+
+  function isInternalLink(a) {
+    if (!a || !a.getAttribute) return false;
+    const href = a.getAttribute('href');
+    if (!href) return false;
+    // Ignore javascript:, mailto:, tel:, data:, and anchors-only
+    if (/^(mailto:|tel:|javascript:|data:)/i.test(href)) return false;
+    if (href.trim().charAt(0) === '#') return false;
+    // target _blank should be left alone
+    if (a.target && a.target.toLowerCase() === '_blank') return false;
+    // If it's a same-document anchor (path equal + hash), let browser handle scroll
+    if (isSameDocumentAnchor(href)) return false;
+    // Only intercept same-origin navigations
+    try {
+      const url = new URL(href, window.location.href);
+      if (url.origin !== window.location.origin) return false;
+    } catch (e) {
+      return false;
+    }
+    return true;
+  }
+
   function onClick(e) {
     const a = e.currentTarget;
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return; // allow modifiers
+    if (!isInternalLink(a)) return; // let external/anchor links behave normally
     const targetFile = filenameFrom(a.getAttribute('href'));
-    const dir = directionTo(targetFile);
-    if (!dir) return; // let default if unknown or same page
-    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || a.target === '_blank') return;
+    // Attempt to determine direction using the page order. If the anchor
+    // was seeding a data-order value during wiring, that will be used via
+    // the directionTo logic which prefers explicit data-order when present.
+    const dir = directionTo(targetFile, a);
+    // If direction unknown, default to forward so we still show a transition
+    const useDir = dir || 'forward';
     e.preventDefault();
-    navigateWithVT(a.href, dir);
+    navigateWithVT(a.href, useDir);
   }
 
   function wire() {
-    // Sélectionne les liens du header, le lien du logo, et les vignettes de la home-menu
-    const links = document.querySelectorAll('header nav a[href], header a.logo-link[href], a.menu-card[href]');
-    links.forEach(a => {
-      const file = filenameFrom(a.getAttribute('href'));
-      if (order.includes(file)) {
+    // Intercept a broad set of internal links site-wide while keeping
+    // default behavior for external links, anchors and modifier-clicks.
+    const all = Array.from(document.querySelectorAll('a[href]'));
+    all.forEach(a => {
+      try {
+        if (!isInternalLink(a)) return;
+        // If we know this target's index from the `order[]` array, seed a
+        // data-order attribute on the anchor (DOM-only). This lets
+        // directionTo prefer explicit indices without having to edit every
+        // HTML file's markup. It also helps future clicks be deterministic.
+        try {
+          const file = filenameFrom(a.href || a.getAttribute('href'));
+          const idx = getOrderIndexForFilename(file);
+          if (idx >= 0) a.setAttribute('data-order', String(idx));
+        } catch (e) { /* ignore seeding errors */ }
+        // Attach handler only once
         a.addEventListener('click', onClick);
-      }
+      } catch (e) { /* ignore individual link errors */ }
     });
   }
 

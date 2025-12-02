@@ -2,6 +2,17 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <script>
+        (function(){
+            try {
+                var dir = sessionStorage.getItem('vt-dir');
+                if (dir) {
+                    document.documentElement.classList.add('transition-' + dir);
+                    sessionStorage.removeItem('vt-dir');
+                }
+            } catch(e) {}
+        })();
+    </script>
     <title>Contact</title>
     <meta name="description" content="Contact — Le Temps des Fleurs. Écrivez-nous pour toute question sur nos bouquets, commandes et partenariats." />
     <link rel="canonical" href="https://letempsdesfleurs.fr/liens/contact.html" />

@@ -1,7 +1,18 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-order="5">
 <head>
-  <meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <script>
+      (function(){
+        try {
+          var dir = sessionStorage.getItem('vt-dir');
+          if (dir) {
+            document.documentElement.classList.add('transition-' + dir);
+            sessionStorage.removeItem('vt-dir');
+          }
+        } catch(e) {}
+      })();
+    </script>
     <title>On tente un truc ensemble ? - Le Temps des Fleurs</title>
     <meta name="description" content="Vous souhaitez accueillir un distributeur Le Temps des Fleurs ? Contactez-nous pour organiser un partenariat, distribution ou événement local." />
     <link rel="canonical" href="https://votre-domaine.tld/liens/ontenteuntrucensemble.html" />

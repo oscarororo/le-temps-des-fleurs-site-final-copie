@@ -1,7 +1,18 @@
 <!doctype html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8">
+    <meta charset="utf-8">
+    <script>
+      (function(){
+        try {
+          var dir = sessionStorage.getItem('vt-dir');
+          if (dir) {
+            document.documentElement.classList.add('transition-' + dir);
+            sessionStorage.removeItem('vt-dir');
+          }
+        } catch(e) {}
+      })();
+    </script>
   <title>Le Amoureux — Le Temps des Fleurs</title>
   <meta name="description" content="L'Amoureux — bouquet romantique par Le Temps des Fleurs. Un choix parfait pour déclarer son affection." />
   <link rel="canonical" href="https://votre-domaine.tld/liens/le-amoureux.html" />

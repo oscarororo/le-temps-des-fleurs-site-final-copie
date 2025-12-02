@@ -1,7 +1,18 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-order="2">
 <head>
   <meta charset="UTF-8" />
+  <script>
+    (function(){
+      try {
+        var dir = sessionStorage.getItem('vt-dir');
+        if (dir) {
+          document.documentElement.classList.add('transition-' + dir);
+          sessionStorage.removeItem('vt-dir');
+        }
+      } catch(e) {}
+    })();
+  </script>
   <link rel="icon" href="../Logos/favicon.png" type="image/png">
   <link rel="shortcut icon" href="../Logos/favicon.png" type="image/png">
   <link rel="apple-touch-icon" href="../Logos/favicon.png">
@@ -39,11 +50,11 @@
 
     <!-- Split illustration + green info (matches the design) -->
     <section class="vendors-split" style="display:grid; grid-template-columns: 1fr 1fr; gap:0; align-items:stretch;">
-      <div class="vendors-visual" aria-hidden="true" style="background: linear-gradient(#bfe6ff, #bfe6ff) top/100% 52% no-repeat, radial-gradient(120% 120% at 20% 100%, #86C771 0 60%, transparent 60%) bottom left/60% 60% no-repeat, radial-gradient(120% 120% at 60% 100%, #B6E388 0 60%, transparent 60%) bottom/70% 60% no-repeat, radial-gradient(120% 120% at 90% 100%, #86C771 0 60%, transparent 60%) bottom right/55% 60% no-repeat, #E9F7FF; height: 260px;">
+  <div class="vendors-visual" aria-hidden="true" style="background: url('../photos/nosdistributeurs2.jpg') center 93%/cover no-repeat; height: 260px;">
       </div>
-      <div class="vendors-green-box" style="background:#d2dca5; padding:36px 32px; display:flex; align-items:center;">
-        <div>
-          <p style="margin:8px auto 0; color:#000; line-height:1.6; max-width:520px; text-align:center; font-size:clamp(14px, 1.7vw, 18px);">Conçus et fabriqués dans le nord de la France avec 98 % de matériaux français, ils sont les plus fiables et robustes du marché. Pas d'espèces, maintenance rapide, et réapprovisionnements journaliers, pour une utilisation optimisée.</p>
+      <div class="vendors-green-box" style="background:#d2dca5; padding:36px 32px; display:flex; align-items:center; justify-content:center;">
+        <div style="width:100%; display:flex; align-items:center; justify-content:center;">
+          <p style="margin:0; color:#000; line-height:1.6; max-width:520px; text-align:center; font-size:clamp(14px, 1.7vw, 18px);">Conçus et fabriqués dans le nord de la France avec 98 % de matériaux français, ils sont les plus fiables et robustes du marché. Pas d'espèces, maintenance rapide, et réapprovisionnements journaliers, pour une utilisation optimisée.</p>
         </div>
       </div>
     </section>

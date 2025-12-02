@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr">
+<html lang="fr" data-order="6">
 <head>
   <meta charset="utf-8">
   <title>Le Joyeux — Le Temps des Fleurs</title>
@@ -47,6 +47,7 @@
       <a href="index.html">Accueil</a>
       <a href="notre-mission.html">Notre mission</a>
   <a href="ontenteuntrucensemble.html">On tente un truc ensemble ?</a>
+      
     </nav>
   </header>
 
@@ -73,6 +74,17 @@
 
         <p>Le Joyeux, c’est la fusion de germinis aux teintes vives, rose fuchsia, orange doux, rouge éclatant et blanc crème, forcement il donne le sourire aux lèvres.</p>
 
+        <script>
+          (function(){
+            try {
+              var dir = sessionStorage.getItem('vt-dir');
+              if (dir) {
+                document.documentElement.classList.add('transition-' + dir);
+                sessionStorage.removeItem('vt-dir');
+              }
+            } catch(e) {}
+          })();
+        </script>
       </div>
     </div>
 

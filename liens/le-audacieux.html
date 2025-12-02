@@ -1,7 +1,18 @@
 <!doctype html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8">
+    <meta charset="utf-8">
+    <script>
+      (function(){
+        try {
+          var dir = sessionStorage.getItem('vt-dir');
+          if (dir) {
+            document.documentElement.classList.add('transition-' + dir);
+            sessionStorage.removeItem('vt-dir');
+          }
+        } catch(e) {}
+      })();
+    </script>
   
   <title>L'Audacieux — Le Temps des Fleurs</title>
   <!-- Favicon -->

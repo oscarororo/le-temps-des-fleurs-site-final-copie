@@ -1,7 +1,18 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-order="1">
 <head>
   <meta charset="UTF-8" />
+  <script>
+    (function(){
+      try {
+        var dir = sessionStorage.getItem('vt-dir');
+        if (dir) {
+          document.documentElement.classList.add('transition-' + dir);
+          sessionStorage.removeItem('vt-dir');
+        }
+      } catch(e) {}
+    })();
+  </script>
   <link rel="icon" href="../Logos/favicon.png" type="image/png">
   <link rel="shortcut icon" href="../Logos/favicon.png" type="image/png">
   <link rel="apple-touch-icon" href="../Logos/favicon.png">

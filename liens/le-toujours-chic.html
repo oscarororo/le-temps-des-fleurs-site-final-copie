@@ -48,6 +48,7 @@
       <a href="index.html">Accueil</a>
       <a href="notre-mission.html">Notre mission</a>
   <a href="ontenteuntrucensemble.html">On tente un truc ensemble ?</a>
+      
     </nav>
   </header>
 
@@ -75,6 +76,17 @@
         <p>Le Toujours Chic, c’est le bouquet qui traverse le temps avec style. Ses roses ivoire, ses lisianthus rose poudré et ses nuages de gypsophile sont aussi chic que votre outfit.</p>
      <p>C’est le genre de bouquet qui dit “j’ai bon goût” sans même avoir besoin de le dire.</p>
 
+      <script>
+        (function(){
+          try {
+            var dir = sessionStorage.getItem('vt-dir');
+            if (dir) {
+              document.documentElement.classList.add('transition-' + dir);
+              sessionStorage.removeItem('vt-dir');
+            }
+          } catch(e) {}
+        })();
+      </script>
       </div>
     </div>
 

@@ -947,11 +947,18 @@ html.transition-back::view-transition-new(root) { animation: vt-slide-in-left 52
 @keyframes fb-slide-in-left   { from { opacity: 0.0; transform: translateX(-40px) scale(0.985); } to { opacity: 1; transform: translateX(0) scale(1); } }
 
 /* Enter animations on the new page (scope to shell so fixed header/footer stay fixed) */
+/* Fallback enter animations: apply to the main content area or .page-shell
+  so pages that don't use a .page-shell wrapper still get a visible animation */
+html.transition-forward main,
 html.transition-forward .page-shell { animation: fb-slide-in-right 520ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+html.transition-back main,
 html.transition-back .page-shell    { animation: fb-slide-in-left  520ms cubic-bezier(0.22, 1, 0.36, 1) both; }
 
 /* Leave animations on the old page before navigation */
+/* Fallback leave animations: same approach—target main or .page-shell */
+html.transition-forward-leave main,
 html.transition-forward-leave .page-shell { animation: fb-slide-out-left 520ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+html.transition-back-leave main,
 html.transition-back-leave .page-shell    { animation: fb-slide-out-right 520ms cubic-bezier(0.22, 1, 0.36, 1) both; }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1117,7 +1124,8 @@ html.transition-back-leave .page-shell    { animation: fb-slide-out-right 520ms 
 /* Bandeau photo avec titre overlay */
 .category-hero{
   position:relative;
-  height: clamp(133.376px, 21.8247vw, 230.373px); /* +10% supplémentaire vs l'état actuel */
+  /* Use the same banner height as the "Notre histoire" page for visual consistency */
+  height: clamp(154px, 23.8vw, 252px);
   background: url('photos/acueillircheznous.jpg') center / cover no-repeat; /* bandeau rempli par l’image */
   background-position: center 60%; /* descend encore de 5% */
   overflow: hidden;
@@ -1711,7 +1719,8 @@ html.transition-back-leave .page-shell    { animation: fb-slide-out-right 520ms 
 .vendors-hero{
   position: relative;
   width: 100%;
-  height: clamp(180px, 42vw, 360px);
+  /* Match the height used on the "Notre histoire" banner for coherence */
+  height: clamp(154px, 23.8vw, 252px);
   background: linear-gradient(#bfe6ff, #bfe6ff) top/100% 52% no-repeat,
               radial-gradient(120% 120% at 20% 100%, #86C771 0 60%, transparent 60%) bottom left/60% 60% no-repeat,
               radial-gradient(120% 120% at 60% 100%, #B6E388 0 60%, transparent 60%) bottom/70% 60% no-repeat,
