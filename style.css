@@ -222,13 +222,7 @@ main {
     white-space: nowrap;    /* empêche de casser dans une même ligne */
 }
 
-@media (max-width: 0px) { /* disabled: force desktop layout */
-  .hero-overlay {
-    align-items: center; /* recentre verticalement sur mobile */
-    justify-content: center;       /* reste centré sur mobile */
-    padding: 0;
-  }
-  .hero-overlay h1 {
+.hero-overlay h1 {
     left: 0;
     transform: none;               /* pas de décalage sur mobile */
     text-align: center;
@@ -238,12 +232,6 @@ main {
   }
 }
 
-@media (max-width: 0px) { /* disabled: force desktop layout */
-  .hero-overlay h1 {
-    font-size: clamp(1.6rem, 5.2vw, 2.4rem);
-    transform: none; /* centre sur tablettes/mobiles */
-    text-align: center;
-  }
 }
 
 /* Texte descriptif sous l'image (reste centré) */
@@ -283,19 +271,6 @@ main {
 }
 
 /* Mobile: let the hero subline wrap and stay within the content width */
-@media (max-width: 0px) { /* disabled: force desktop layout */
-  .hero-text .hero-subline {
-    white-space: normal;           /* autorise le retour à la ligne */
-    word-break: normal;
-    overflow-wrap: anywhere;       /* casse proprement si nécessaire */
-    width: auto;                   /* ne force pas 100vw */
-    max-width: 100%;               /* reste dans le conteneur */
-    margin-left: auto;             /* annule le full-bleed */
-    margin-right: auto;
-    overflow-x: visible;           /* pas de scroll horizontal local */
-    padding-top: 0;                /* enlève les micro-compensations verticales */
-    padding-bottom: 0;
-  }
 }
 
 /* Apply Bobby Jones font and larger size to the specific homepage phrase */
@@ -401,11 +376,7 @@ main {
 }
 
 /* Responsive */
-@media (max-width: 0px) { /* disabled: force desktop layout */
-  .concept-grid {
-    grid-template-columns: 1fr;
-  }
-  .concept-card.text { padding: 28px 24px; }
+.concept-card.text { padding: 28px 24px; }
 }
 
 /* === Content centré sur toutes les pages === */
@@ -587,14 +558,7 @@ button:focus-visible {
 }
 
 /* === Responsive Footer === */
-@media (max-width: 0px) { /* disabled: force desktop layout */
-  .footer-content {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 20px;
-  }
-
-  .footer-links {
+.footer-links {
     flex-direction: column;
     gap: 10px;
   }
@@ -741,19 +705,8 @@ header, header *, .footer, .footer *, .footer-links span {
   white-space: nowrap;    /* empêche de casser dans une même ligne */
 }
 
-@media (max-width: 0px) { /* disabled: force desktop layout */
-  .hero-overlay h1 {
-    font-size: clamp(1.3rem, 5.5vw, 2rem); /* reduced but disabled */
-    transform: none;
-  }
 }
 
-@media (max-width: 0px) { /* disabled: force desktop layout */
-  .hero-overlay h1 {
-    font-size: clamp(1.6rem, 5.2vw, 2.4rem);
-    transform: none; /* centre on small screens (disabled) */
-    text-align: center;
-  }
 }
 
 /* Final override: lock hero title to exactly two lines */
@@ -766,21 +719,23 @@ header, header *, .footer, .footer *, .footer-links span {
 }
 
 /* Affiner la taille pour éviter tout dépassement sur petits écrans */
-@media (max-width: 0px) { /* disabled: force desktop layout */
-  .hero-overlay h1 { font-size: clamp(1.6rem, 5.2vw, 2.4rem); }
-}
-@media (max-width: 0px) { /* disabled: force desktop layout */
-  .hero-overlay h1 { font-size: clamp(1.3rem, 6vw, 1.8rem); }
-}
-@media (max-width: 0px) { /* disabled: force desktop layout */
-  .hero-overlay h1 { font-size: clamp(1.1rem, 6.5vw, 1.6rem); }
-}
 
 /* Restore heading font on hero overlay (prevent DM Sans override on spans) */
 .hero-overlay h1,
 .hero-overlay .hero-line {
   font-family: 'Bobby Jones', sans-serif !important;
   font-weight: 400; /* moins gras que le bold par défaut des h1 */
+}
+
+/* Uniform hero phrase sizing for elements marked .bobby-hero
+   Ensures the homepage phrase has a consistent, responsive size site-wide. */
+.hero-overlay .bobby-hero {
+  font-family: 'Bobby Jones', sans-serif !important;
+  /* Increased by additional 25% (on top of previous sizing). Responsive clamp updated accordingly. */
+  font-size: clamp(1.86rem, 8.14vw, 2.79rem) !important;
+  line-height: 1 !important;
+  display: inline-block; /* ensure transform applies predictably */
+  transform: translateX(-10%); /* move the phrase 10% left as requested */
 }
 
 /* === Hero overlay: spacing -60% and right shift === */
@@ -795,15 +750,6 @@ header, header *, .footer, .footer *, .footer-links span {
 }
 
 /* Conserver la réduction d’interligne aussi sur mobile/tablette, mais centré */
-@media (max-width: 0px) { /* disabled: force desktop layout */
-  .hero-overlay h1 {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    line-height: 0.4;
-  }
-}
 
 /* === Hero overlay: desktop fine-tune (right +20%, font -20%, line-height +10%) === */
 @media (min-width: 901px) {
@@ -988,10 +934,6 @@ html.transition-back-leave .page-shell    { animation: fb-slide-out-right 520ms 
   gap: 36px; /* espacement large entre cartes */
 }
 
-/* On laisse les media queries gérer 3/2/1 colonnes sans forcer 3 colonnes partout */
-/* Option: réduire l’écart si nécessaire sur petits écrans */
-@media (max-width: 700px) { .home-menu-grid { gap: 16px; } }
-
 .menu-card {
   position: relative;
   display: block;
@@ -1079,19 +1021,11 @@ html.transition-back-leave .page-shell    { animation: fb-slide-out-right 520ms 
 .menu-3 { --bg: url('photos/notrehistoire.jpg'); }
 
 /* Responsive: 1 colonne sur mobile, 2 colonnes sur tablette */
-@media (max-width: 1100px) {
-  .home-menu-grid { grid-template-columns: 1fr 1fr; }
-}
 @media (max-width: 700px) {
   .home-menu { padding: 32px 3vw; }
   .home-menu-grid { grid-template-columns: 1fr; gap: 22px; }
   .menu-title { bottom: 84px; }
   .menu-plus { width: 56px; height: 56px; font-size: 1.6rem; }
-}
-
-/* Verrouillage souhaité des 3 vignettes sur une seule ligne même en dessous de 1100px */
-@media (max-width: 1100px) and (min-width: 901px) {
-  .home-menu-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 36px; }
 }
 
 /* Home menu: texte centré avec le + juste en dessous */
@@ -1983,549 +1917,131 @@ html.transition-back-leave .page-shell    { animation: fb-slide-out-right 520ms 
 }
 
 /* =======================================================
-   Mobile-first responsive overrides (Step 1 + simple Step 2)
-   - Mobile: <= 480px
-   - Tablet: 481-768px
-   - Desktop: >= 769px
-   These rules are additive and intentionally conservative: they
-   only override the problematic properties for small screens
-   (min-width lock, fixed header/footer on phones, nowrap, grids).
+   Responsive cleanup: simplifie les anciens verrous et
+   harmonise les points de rupture sans toucher au design.
    ======================================================= */
 
-/* Make images and inline photos fluid by default (safe for desktop) */
+:root {
+  --header-height: 47.86px; /* hauteur compacte utilisée partout */
+  --footer-height: 36px;    /* hauteur du footer fixe */
+}
+
+/* Média fluides partout (allège les débordements mobiles) */
 img, .hero-image, .mission-photo-block img, .about-visuals img, .stats-logo-100, .stats-logo-80, .vendors-brand-logo, .card-logo {
   max-width: 100%;
   height: auto;
   display: block;
 }
 
-/* Mobile: strong overrides to allow reflow and stack columns */
-@media (max-width: 480px) {
-  /* Keep footer flowing on mobile but restore the desktop-like fixed header
-     so the bandeau is visible on phones like on desktop. We keep hover
-     enlargement disabled on touch devices to avoid layout jumps. */
-  .footer {
-    position: static !important;
-    width: 100% !important;
-    height: auto !important;
+@media (max-width: 1100px) {
+  /* Nav un peu plus serré sur tablette large */
+  nav { gap: 2.5vw; }
+  /* Grille accueil passe à 2 colonnes avant de tomber en pile */
+  .home-menu-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+}
+
+@media (max-width: 900px) {
+  /* Header fixe sans effet d'agrandissement pour éviter les sauts sur mobile */
+  header { height: var(--header-height); padding: 0 16px; }
+  header:hover, header:focus-within { height: var(--header-height); }
+  header:hover .logo, header:focus-within .logo { height: 29.92px; }
+  main { padding-top: var(--header-height); }
+  nav { flex-wrap: wrap; gap: 16px; }
+
+  /* Sous-ligne hero: autorise le retour à la ligne pour supprimer le scroll horizontal */
+  .hero-text .hero-subline {
+    white-space: normal;
+    width: auto;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    overflow-x: visible;
   }
 
-  /* Restore fixed header (desktop-like) on small screens. This makes the
-     bandeau visible and pinned to the top like on desktop. Keep a high
-     z-index so it remains above page content and ensure the main
-     container keeps enough top padding to avoid being hidden. */
-  header {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100% !important;
-    height: 47.86px !important; /* same compact height used for desktop */
-    z-index: 1100 !important;
-    background-color: #D2DCA5 !important; /* ensure banner background remains visible */
-  }
-
-  /* Ensure page content doesn't sit under the fixed header on mobile */
-  main { padding-top: 47.86px !important; }
-
-  /* Mobile: make header contents fit on one line like desktop by
-     reducing logo and nav sizing and tightening gaps. Keep elements
-     horizontally aligned and prevent unexpected wrapping/overflow. */
-  header {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    gap: 8px !important;
-    padding: 0 12px !important;
-    box-sizing: border-box !important;
-    overflow: hidden !important;
-    white-space: nowrap !important;
-  }
-
-  /* Logo smaller so it doesn't push nav to the next line */
-  header .logo,
-  .logo {
-    height: clamp(20px, 6vw, 28px) !important;
-    max-height: 28px !important;
-    width: auto !important;
-    display: block !important;
-  }
-
-  /* Tighten nav spacing and reduce font-size to keep links on one line */
-  nav {
-    gap: 8px !important;
-    flex-wrap: nowrap !important; /* keep nav items on a single line */
-    align-items: center !important;
-    overflow: hidden !important;
-  }
-
-  nav a {
-    font-size: clamp(12px, 3.6vw, 14px) !important;
-    padding: 6px 6px !important;
-    white-space: nowrap !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important; /* truncate if absolutely necessary */
-  }
-
-  /* If nav still overflows, allow the nav container to scroll horizontally
-     rather than wrapping to another line (keeps the visual single-line banner). */
-  nav { -webkit-overflow-scrolling: touch; }
-  nav::-webkit-scrollbar { display: none; }
-
-  /* Ensure nav wraps and doesn't force horizontal scroll */
-  nav { flex-wrap: wrap !important; white-space: normal !important; gap: 12px !important; }
-
-  /* Force main multi-column grids to single column on mobile */
-  .home-menu-grid,
-  .vendors-grid,
-  .vendors-split,
+  /* Grilles empilées pour libérer l'espace vertical */
+  .concept-grid,
   .acn-columns,
-  .product-grid,
-  .stats-grid,
-  .bouquet-list {
-    grid-template-columns: 1fr !important;
-    gap: 16px !important;
-  }
+  .vendors-grid,
+  .vendors-split { grid-template-columns: 1fr; }
 
-  /* Additional grids/card groups to collapse on mobile */
-  .cards,
-  .three-cards,
-  .two-columns,
-  .dual-section {
-    display: grid !important;
-    grid-template-columns: 1fr !important;
-    gap: 20px !important;
-  }
+  /* Bouquets : 2 colonnes max pour limiter la hauteur */
+  .bouquet-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
-  /* Ensure images are full-width and maintain aspect ratio on mobile */
-  img, picture, source, .card img, .menu-card img, .vendors-visual img, .bouquet-thumb, .about-visuals img {
-    width: 100% !important;
-    max-width: 100% !important;
-    height: auto !important;
-    display: block !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-    object-fit: cover !important;
-  }
-
-  /* Cards: center, constrain width and keep safe padding */
-  .card, .menu-card, .product-card, .card-item, .three-cards > *, .two-columns > * {
-    width: 100% !important;
-    max-width: 100% !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-    box-sizing: border-box !important;
-    padding-left: 16px !important;
-    padding-right: 16px !important;
-  }
-
-  /* Make background-image based thumbnails and cards scale by using relative sizes */
-  .menu-card, .bouquet-thumb { max-width: 92vw; width: 92vw; margin-left: auto; margin-right: auto; }
-  .bouquet-thumb { height: auto; aspect-ratio: 1 / 1; }
-
-  /* Disable forced single-line rules that cause overflow; allow wrapping */
-  .hero-overlay h1,
-  .hero-overlay .hero-line,
-  .mission-sub,
-  .vendors-brand-line,
-  .vendors-hero-title,
-  .category-hero-title,
-  .history-hero-title,
-  .menu-title,
-  .hero-text .hero-subline,
-  nav a {
-    white-space: normal !important;
-    overflow-wrap: anywhere !important;
-    word-break: break-word !important;
-  }
-
-  /* Center hero titles on mobile for safe layout */
+  /* Titres héros centrés et autorisés à revenir à la ligne */
   .hero-overlay h1,
   .mission-hero-title,
   .vendors-hero-title,
   .category-hero-title,
   .history-hero-title {
-    left: 50% !important;
-    top: 50% !important;
-    transform: translate(-50%, -50%) !important;
-    text-align: center !important;
-    padding-left: 4vw !important;
-    padding-right: 4vw !important;
-    white-space: normal !important;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    white-space: normal;
+    text-align: center;
+    line-height: 1;
   }
 
-  /* Reduce large paddings/margins to make content denser on narrow screens */
-  .content-centered, .content, .concept-intro, .mission-intro, .bottom-banner {
-    padding-left: 16px !important;
-    padding-right: 16px !important;
-    padding-top: 18px !important;
-    padding-bottom: 18px !important;
-  }
-
-  /* Prevent header hover effects from changing size on mobile */
-  header:hover, header:focus-within { height: auto !important; }
-  header:hover .logo, header:focus-within .logo { height: auto !important; }
-
-  /* Make card badges and payment icons scale on mobile */
-  .card-badge { height: auto !important; padding: 6px 8px !important; }
-  .card-badge .card-logo { height: 18px !important; }
-
-  /* Mobile footer fixes: center content, stack columns, scale icons, wrap legal links */
-  .footer {
-    position: static !important; /* ensure footer flows on mobile */
-    padding: 16px !important;
-    height: auto !important;
-    box-sizing: border-box !important;
-    overflow: visible !important;
-  }
-
-  .footer-content {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 20px !important;
-    width: 100% !important;
-    text-align: center !important;
-    padding: 0 !important;
-  }
-
-  .footer-links {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 12px !important;
-    align-items: center !important;
-    justify-content: center !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    box-sizing: border-box !important;
-  }
-
-  .footer-links a {
-    display: inline-block !important;
-    white-space: normal !important;
-    overflow-wrap: anywhere !important;
-    word-break: break-word !important;
-    text-align: center !important;
-    padding: 0 8px !important;
-  }
-
-  /* Social icons: center and scale with clamp */
-  .bottom-socials { justify-content: center !important; gap: 12px !important; }
-  .social-circle {
-    width: clamp(40px, 12vw, 60px) !important;
-    height: clamp(40px, 12vw, 60px) !important;
-  }
-  .social-circle svg { width: 60% !important; height: 60% !important; }
-
-  /* Logos: center and constrain to prevent overflow */
-  .footer .logo, .vendors-brand-logo, .stats-logo-100, .stats-logo-80, .footer-logo {
-    display: block !important;
-    margin: 0 auto !important;
-    max-width: 80% !important;
-    height: auto !important;
-  }
-
-  /* Ensure legal / small text wraps and stays centered */
-  .legal, .footer-links span, .footer small {
-    text-align: center !important;
-    white-space: normal !important;
-    overflow-wrap: anywhere !important;
-    word-break: break-word !important;
-  }
+  /* Bandeau bas respire un peu plus */
+  .bottom-banner { margin-bottom: var(--footer-height); padding: 20px 16px; }
 }
 
-/* Consolidated mobile text fixes (<=480px)
-   - remove forced nowrap on headings where not required
-   - add word-break / overflow-wrap for long titles
-   - reduce font sizes for h1/h2/p with clamps
-   - center titles and ensure hero titles are centered and not off-screen
-   - replace large paddings with padding:16px for main blocks
-   - prevent horizontal overflow
-*/
-@media (max-width: 480px) {
-  /* Remove forced single-line behaviour and enable wrapping for long titles */
-  .hero-overlay .hero-line,
-  .hero-overlay h1,
-  .mission-hero-title,
-  .vendors-hero-title,
-  .category-hero-title,
-  .history-hero-title,
-  .contact-hero-title,
-  .vendors-brand-line,
-  .menu-title,
-  .hero-text .hero-subline,
-  nav a,
-  .footer-links,
-  .footer-links span,
-  h1, h2, h3, h4 {
-    white-space: normal !important;
-    overflow-wrap: anywhere !important;
-    word-break: break-word !important;
+@media (max-width: 760px) {
+  /* Menu accueil passe en pile simple */
+  .home-menu-grid { grid-template-columns: 1fr; gap: 18px; }
+  .payments { flex-wrap: wrap; gap: 10px; }
+  .bottom-banner-content { gap: 12px; }
+
+  /* Footer redevient statique pour ne pas masquer le contenu */
+  .footer {
+    position: static;
+    height: auto;
+    padding: 12px 16px;
   }
+  .footer.footer--hidden { transform: none; } /* évite le décalage visuel en mobile */
+  .footer-content { flex-direction: column; gap: 12px; }
+  .footer-links { flex-direction: column; gap: 10px; }
+  .bottom-banner { margin-bottom: 0; }
 
-  /* Reduce mobile type sizes and center headings */
-  h1 { font-size: clamp(1.4rem, 6vw, 2.4rem) !important; text-align: center !important; }
-  h2 { font-size: clamp(1.2rem, 5vw, 2rem) !important; text-align: center !important; }
-  p, li { font-size: 1rem !important; line-height: 1.5 !important; }
+  /* Bouquets en colonne unique pour éviter les débordements */
+  .bouquet-list { grid-template-columns: 1fr; }
+}
 
-  /* Ensure hero-like titles are absolutely centered on mobile to avoid off-screen positions */
-  .hero-overlay h1,
-  .mission-hero-title,
-  .vendors-hero-title,
-  .category-hero-title,
-  .history-hero-title,
-  .contact-hero-title {
-    position: absolute !important;
-    left: 50% !important;
-    top: 50% !important;
-    transform: translate(-50%, -50%) !important;
-    text-align: center !important;
-    white-space: normal !important;
-    overflow-wrap: anywhere !important;
-    word-break: break-word !important;
-    font-size: clamp(1.2rem, 5vw, 2rem) !important;
-    padding-left: 4vw !important;
-    padding-right: 4vw !important;
-    max-width: 92% !important;
-    line-height: 1.05 !important;
-  }
+/* Desktop : bandeau footer sur une seule ligne comme avant */
+@media (min-width: 761px) {
+  .footer { height: 36px; padding: 0 3vw; }
+  .footer-content { flex-direction: row; align-items: center; justify-content: center; }
+  .footer-links { flex-direction: row; flex-wrap: nowrap; gap: 4vw; }
+}
 
-  /* Replace large paddings with compact 16px padding */
+@media (max-width: 540px) {
+  /* Logo et nav compacts pour tenir sur une ligne */
+  .logo { height: clamp(22px, 6vw, 28px); }
+  nav { gap: 10px; }
+  nav a { font-size: 0.95rem; white-space: normal; }
+
+  /* Titres manuscrits/hero adaptables */
+  h1 { font-size: clamp(1.4rem, 6vw, 2.2rem); }
+  h2 { font-size: clamp(1.2rem, 5vw, 1.8rem); }
+
+  /* Icônes sociaux réduites */
+  .social-circle { width: 44px; height: 44px; }
+  .social-circle svg { width: 22px; height: 22px; }
+
+  /* Contenus resserrés pour éviter les scrolls horizontaux */
   .content-centered, .content, .concept-intro, .mission-intro, .mission-meaning, .history-content,
-  .home-menu, .vendors-block, .vendors-grid .vendors-block, .acn, .acn-inner,
-  .bottom-banner, .vendors-brand, .home-menu .menu-card, .footer {
-    padding: 16px !important;
+  .home-menu, .vendors-block, .acn, .acn-inner, .bottom-banner, .vendors-brand {
+    padding-left: 16px;
+    padding-right: 16px;
   }
 
-  /* Prevent horizontal overflow from any remaining elements */
-  html, body, .page-shell { overflow-x: hidden !important; max-width: 100% !important; }
+  /* Empêche le header/footer d'être masqués par les classes JS */
+  .header--hidden { transform: none; }
 }
 
-/* Tablet: 481-768px — intermediate layout (two columns for some grids) */
-@media (min-width: 481px) and (max-width: 768px) {
-  .home-menu-grid, .product-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
-  .vendors-grid, .vendors-split { grid-template-columns: 1fr 1fr; }
-  .hero-overlay h1, .mission-hero-title { left: 50%; transform: translate(-50%, -50%); }
+@media (max-width: 420px) {
+  /* Nav lisible sur les très petits écrans */
+  nav { gap: 6px; }
+  nav a { font-size: 0.88rem; }
+  /* Bouquets : garde 1 colonne et images carrées */
+  .bouquet-thumb { aspect-ratio: 1 / 1; width: 92vw; }
 }
-
-/* Desktop: restore intended desktop behaviour including some nowrap rules */
-@media (min-width: 769px) {
-  /* Re-enable nowrap for headings where the desktop layout expects a single line */
-  .hero-overlay .hero-line,
-  .vendors-hero-title,
-  .category-hero-title,
-  .history-hero-title,
-  .menu-title,
-  .hero-text .hero-subline {
-    white-space: nowrap;
-  }
-
-  /* Restore hero horizontal offset for large screens (if desired by the original styles) */
-  .hero-overlay h1 { left: 70%; transform: translate(-50%, -50%); }
-}
-
-
-/* === Verrouillage: garder le layout desktop et activer le scroll horizontal plutôt que d'adapter === */
-@media (max-width: 900px){
-  /* Verrouiller à partir de la dernière mise en page active (palier ~900px) */
-  /* Remove hard lock that forced horizontal scrolling on small devices.
-    Allow narrow viewports to reflow naturally; overflow-x visible so content
-    can wrap instead of forcing a scrollbar. This neutralizes the previous
-    "verrouillage" while preserving other desktop overrides in the block. */
-  html, body { min-width: 0; overflow-x: visible; overflow-anchor: none; }
-  /* Conserver header & footer en position fixe (comme en desktop) pour éviter tout saut au seuil */
-  header, .footer { position: fixed; width: 100%; transition: none; }
-  header { top: 0; left: 0; right: 0; z-index: 10; }
-  .footer { bottom: 0; left: 0; right: 0; z-index: 10; }
-  /* Désactiver l'agrandissement au hover du header en mode verrouillé */
-  header:hover, header:focus-within { height: 47.86px; }
-  header:hover .logo, header:focus-within .logo { height: 29.92px; }
-  /* Conserver l'espace réservé pour le header fixe */
-  main { padding-top: 47.86px; }
-  /* La navigation ne se met plus à la ligne; on conserve la ligne unique desktop */
-  nav { flex-wrap: nowrap; white-space: nowrap; gap: 40px; }
-  /* Figer les tailles/positions clés du héros au palier 900px */
-  .hero { height: 380px; }
-  .hero-overlay h1 { font-size: 2.8rem; left: 70%; transform: translate(-50%, -50%); line-height: 0.44; }
-  .hero-text .hero-subline { font-size: 1.59rem; white-space: nowrap !important; overflow-x: auto; }
-  /* Mission: appliquer le même comportement que l'accueil pour le texte sur la photo */
-  .mission-hero-title { font-size: 2.8rem; left: 70%; top: 50%; transform: translate(-50%, -50%); line-height: 0.44; white-space: nowrap !important; }
-  /* Contact: même comportement que l'accueil pour le titre sur la photo */
-  .contact-hero-title { font-size: 2.8rem; left: 70%; top: 50%; transform: translate(-50%, -50%); line-height: 0.44; white-space: nowrap !important; }
-  /* Bandeau bas: laisser de la place pour le footer fixe */
-  .bottom-banner { margin-bottom: calc(36px + 40px); }
-  /* Verrouiller le bandeau bas (paiements + réseaux) */
-  .bottom-banner { padding-top: 20px; padding-bottom: 20px; font-size: 16px; line-height: 1.2; min-width: 900px; }
-  .bottom-banner-content { display: flex; flex-direction: column; align-items: center; gap: 16px !important; }
-  .payments { justify-content: center; gap: 12px; flex-wrap: nowrap; }
-  .card-badge { height: 32px; padding: 0 10px; }
-  .bottom-socials { gap: 18px; flex-wrap: nowrap; }
-  .social-circle { width: 48px; height: 48px; }
-  /* Verrouiller les espacements des bandeaux (éviter les unités en vw) */
-  header, .footer { padding-left: 56px; padding-right: 56px; }
-  /* Footer: forcer un layout en ligne, sans wrap, comme le header */
-  .footer-content { flex-direction: row !important; align-items: center; justify-content: center; gap: 16px; }
-  .footer-links { flex-direction: row !important; gap: 40px; flex-wrap: nowrap; white-space: nowrap; justify-content: center; }
-  .bottom-banner { padding-left: 56px; padding-right: 56px; }
-  .home-menu { padding-left: 56px; padding-right: 56px; }
-  .footer { min-width: 900px; }
-  /* Verrouiller les grilles à l'état du palier 900px (tablette) */
-  .home-menu-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 36px; }
-  .concept-grid { grid-template-columns: 1fr 1fr; }
-  .stats-grid { grid-template-columns: repeat(2, max-content); }
-  .acn-columns { grid-template-columns: 1fr 1fr; }
-  .bouquet-list { grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
-  /* Verrouiller les hauteurs des autres héros / bandes (valeurs ~palier 900px) */
-  .category-hero { height: 196px; }
-  .history-hero { height: 214px; }
-  .mission-hero { height: 380px; }
-  .vendors-hero { height: 360px; }
-  .mission-photo { height: 315px; }
-  .contact-hero { height: 315px; }
-  /* Forcer les titres longs à rester sur une seule ligne (comportement desktop) */
-  .mission-sub,
-  .vendors-brand-line,
-  .vendors-hero-title,
-  .category-hero-title,
-  .history-hero-title { white-space: nowrap !important; }
-  /* Fixer les tailles de typo proches du palier 900px (minima des clamps dans la plupart des cas) */
-  .mission-lead { font-size: 16px; }
-  .mission-lead .mission-lead-intro { font-size: 19.2px; }
-  .mission-kicker, .mission-sub { font-size: 19.2px; }
-  .history-text p, .meaning-text p, .content-centered p, .content p, .concept-intro p { font-size: 16px; }
-  /* Neutraliser les effets de masquage auto du header/footer en mode verrouillé */
-  .header--hidden, .footer--hidden { transform: none !important; }
-}
-
-/* Extra portrait-only tightening for very narrow phones
-   - force the header on a single visual line by preventing wrapping
-   - truncate nav items with ellipsis if necessary to avoid a second line
-   - keep the rule narrowly scoped to portrait small phones only */
-@media (max-width: 480px) and (orientation: portrait) {
-  header {
-    padding-left: 6px !important;
-    padding-right: 6px !important;
-    white-space: nowrap !important;
-    overflow: hidden !important; /* prevent wrapping to a second line */
-  }
-
-  /* Smaller logo and fixed flex behavior so it doesn't force wrapping */
-  header .logo,
-  .logo {
-    height: clamp(14px, 5vw, 20px) !important;
-    max-height: 20px !important;
-    margin-right: 8px !important;
-    flex: 0 0 auto !important;
-  }
-
-  /* Nav: single-line flex container that can shrink; hide overflow */
-  nav {
-    display: flex !important;
-    gap: 6px !important;
-    flex: 1 1 auto !important;
-    min-width: 0 !important; /* allow children to shrink */
-    overflow: hidden !important; /* keep everything on one visual line */
-    align-items: center !important;
-  }
-
-  /* Ensure each link truncates instead of wrapping */
-  nav a {
-    flex: 0 1 auto !important;
-    display: inline-block !important;
-    max-width: 8ch !important; /* cap label width to force truncation when necessary */
-    text-overflow: ellipsis !important;
-    overflow: hidden !important;
-    white-space: nowrap !important;
-    font-size: clamp(10px, 2.8vw, 12px) !important;
-    padding: 4px 6px !important;
-  }
-
-  /* Prevent children from wrapping to next line */
-  header > * { display: inline-flex !important; align-items: center !important; }
-
-  /* keep the nav visually clean on WebKit browsers */
-  nav::-webkit-scrollbar { display: none; }
-}
-
-/* ======= FORCE header/footer appearance on small phones (site-wide) =======
-   This block is intentionally specific + important to override any per-page
-   differences and ensure the header/footer on phones match the CGVU banner.
-*/
-@media (max-width: 480px) {
-  /* Make header fixed and clearly visible like on the CGVU page */
-  header {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    width: 100% !important;
-    height: 48px !important;
-    background-color: #D2DCA5 !important;
-    z-index: 2200 !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    padding: 0 12px !important;
-    box-shadow: none !important;
-    overflow: hidden !important;
-  }
-
-  /* Ensure the logo is small and doesn't force wrapping */
-  header .logo, .logo {
-    height: 24px !important;
-    max-height: 28px !important;
-    width: auto !important;
-    display: block !important;
-    margin: 0 !important;
-    flex: 0 0 auto !important;
-  }
-
-  /* Keep nav compact and readable; allow truncation if space lacks */
-  header nav {
-    display: flex !important;
-    gap: 8px !important;
-    flex: 1 1 auto !important;
-    min-width: 0 !important;
-    align-items: center !important;
-    justify-content: flex-end !important;
-    overflow: hidden !important;
-  }
-
-  header nav a {
-    font-size: 13px !important;
-    padding: 6px 8px !important;
-    white-space: nowrap !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
-    max-width: 10ch !important;
-    display: inline-block !important;
-  }
-
-  /* Ensure main content is not hidden under the fixed header */
-  main { padding-top: 56px !important; }
-
-  /* Footer: fixed appearance similar to CGVU footer but non-obtrusive */
-  .footer {
-    position: fixed !important;
-    left: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    width: 100% !important;
-    background-color: #D2DCA5 !important;
-    color: #CF2182 !important;
-    padding: 8px 12px !important;
-    height: auto !important;
-    z-index: 2100 !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-  }
-
-  .footer .footer-content { gap: 8px !important; }
-  .footer .footer-links { gap: 12px !important; flex-wrap: nowrap !important; overflow: hidden !important; }
-  .footer .footer-links a { font-size: 12px !important; padding: 4px 6px !important; }
-
-  /* Make sure hero and other fixed banners don't overlap the header visually */
-  .hero, .contact-hero, .mission-hero, .vendors-hero, .category-hero, .history-hero { margin-top: 0 !important; }
-}
-
