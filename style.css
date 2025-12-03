@@ -222,18 +222,6 @@ main {
     white-space: nowrap;    /* empêche de casser dans une même ligne */
 }
 
-.hero-overlay h1 {
-    left: 0;
-    transform: none;               /* pas de décalage sur mobile */
-    text-align: center;
-    max-width: 24ch;
-    font-size: clamp(1.6rem, 7vw, 2.4rem);
-    line-height: 1.05;
-  }
-}
-
-}
-
 /* Texte descriptif sous l'image (reste centré) */
 .hero-text {
     padding: 6.9px 3vw; /* reduce side padding so text uses more horizontal space */
@@ -271,8 +259,6 @@ main {
 }
 
 /* Mobile: let the hero subline wrap and stay within the content width */
-}
-
 /* Apply Bobby Jones font and larger size to the specific homepage phrase */
 .hero-text .hero-subline .bobby-intro{
   font-family: 'Schoolbell', cursive !important;
@@ -377,7 +363,6 @@ main {
 
 /* Responsive */
 .concept-card.text { padding: 28px 24px; }
-}
 
 /* === Content centré sur toutes les pages === */
 .content-centered, .content {
@@ -557,13 +542,6 @@ button:focus-visible {
     font-size: 0.81rem; /* réduit de 10% pour le texte du footer */
 }
 
-/* === Responsive Footer === */
-.footer-links {
-    flex-direction: column;
-    gap: 10px;
-  }
-}
-
 /* === About / Statics Pages === */
 .about {
   padding: 60px 3vw;
@@ -703,10 +681,6 @@ header, header *, .footer, .footer *, .footer-links span {
 .hero-overlay .hero-line {
   display: block;         /* force un retour à la ligne */
   white-space: nowrap;    /* empêche de casser dans une même ligne */
-}
-
-}
-
 }
 
 /* Final override: lock hero title to exactly two lines */
