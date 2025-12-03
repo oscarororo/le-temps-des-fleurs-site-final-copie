@@ -49,6 +49,14 @@ body {
     font-style: normal;
     font-display: swap;
 }
+/* Bryndan Write (handwritten accents used for subtitles) */
+@font-face {
+    font-family: 'bryndan_write';
+    src: url('fonts/bryndan_write.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
 @font-face {
     font-family: 'Kollektif';
   src: url('fonts/kollektif-bold.ttf') format('truetype');
@@ -385,7 +393,7 @@ main {
 /* Placeholders d’images (vous ajouterez les fichiers plus tard) */
 .image-1 { background-image: url('photos/photo2pageaccueil.jpg'); }
 .image-2 { background-image: url('photos/photo3pageaccueil.jpg'); }
-.image-3 { background-image: url('Logos/photo4pageaccueil.png'); }
+.image-3 { background-image: url('photos/photo4pageaccueil.png'); }
 
 /* Final focused crop for the 2nd image in the home mosaic. */
 .concept-grid .image-2 {
@@ -1413,6 +1421,81 @@ html.transition-back-leave .page-shell    { animation: fb-slide-out-right 520ms 
 
 /* Green section */
 .history-content{ background:#d2dca5; padding: clamp(36px, 6vw, 72px) 3vw; text-align:center; } /* réduit encore le padding horizontal pour élargir le texte */
+
+/* Reduce the vertical gap between the kicker and the following bryndan paragraph by 20% */
+.history-content > .history-kicker { margin: 8px 0 17.6px; }
+
+/* Opt-out for pages that should keep a white background despite using .history-content */
+.history-content.history-white { background: #FDF9F5 !important; }
+
+/* Bryndan handwritten subtitle utility */
+.bryndan { font-family: 'bryndan_write', 'Bobby Jones', cursive !important; color: #385B4F; }
+
+/* Increase specific bryndan phrases on the "Notre histoire" page by 20%:
+   - the hero subline "TOUT A COMMENCÉ... UN SOIR PAS COMME LES AUTRES"
+   - the short block "3 TÊTES, 1000 IDÉES & 1 FOLLE ENVIE"
+   - the vendors kicker "ET CEUX QUI TRAVAILLENT AVEC NOUS"
+   Use em units so the scale is relative to the inherited text size and
+   keeps responsiveness. */
+.history-content > .hero-subline.bryndan,
+.history-content > p.bryndan {
+  font-size: 1.2em; /* +20% */
+  line-height: 1.15; /* slightly tighter to keep the visual feel */
+}
+
+/* Small decorative flower used in 'Notre histoire' banner */
+.history-flower { width: 44px; height: auto; vertical-align: middle; margin: 0 10px; }
+
+/* Announcement lettering: use the bryndan handwritten font for the big headline and subtitle */
+.announcement-title,
+.announcement-subtitle {
+  font-family: 'bryndan_write', 'Bobby Jones', cursive !important;
+  color: #385B4F !important;
+  text-transform: uppercase;
+}
+
+.announcement-title {
+  font-weight: 400; /* keep weight consistent with subtitle */
+  line-height: 1.05;
+  margin: 0;
+  /* reduced 20% to match user request */
+  font-size: clamp(16px, 3.4vw, 29px);
+  letter-spacing: 1px;
+}
+.announcement-subtitle { font-size: clamp(16px, 3.4vw, 29px); margin-top: 10px; }
+
+/* Positioning of the two decorative flowers around the announcement to match the mock */
+.history-announcement { position: relative; padding: 8px 40px; display:flex; justify-content:center; }
+.history-announcement .announcement-inner { position: relative; display:inline-block; text-align:center; --flower-gap: 40px; }
+.history-announcement .history-flower { position: absolute; width: 56px; height: auto; z-index:5; transition: transform 300ms ease, left 300ms ease; }
+.history-announcement .flower-left { left: calc(-1 * var(--flower-gap, 56px)); top: -22px; transform: translateY(-10%); }
+.history-announcement .flower-right { right: calc(-1 * var(--flower-gap, 56px) + 10%); top: 68px; transform: translateY(30%); }
+
+@media (max-width: 900px) {
+  .history-announcement .flower-left { left: calc(-1 * var(--flower-gap, 56px)); top: -14px; }
+  .history-announcement .flower-right { right: calc(-1 * var(--flower-gap, 56px) + 10%); top: 56px; transform: translateY(30%); }
+  .announcement-title { font-size: clamp(27px, 6.4vw, 58px); }
+}
+
+@media (max-width: 520px) {
+  .history-announcement { padding: 6px 12px; }
+  .history-announcement .flower-left { left: 8%; top: -6px; }
+  .history-announcement .flower-right { left: auto; right: 8%; top: 72px; transform: none; }
+}
+
+/* Ensure purple/kicker titles use Bobby Jones and stay on a single line */
+.history-kicker {
+  font-family: 'Bobby Jones', sans-serif !important;
+  color: #CF2182 !important; /* keep the purple */
+  white-space: nowrap !important; /* force single-line */
+  margin-bottom: 6px !important; /* tighten spacing under kicker */
+}
+
+/* Space control between subtitle (bryndan) and the following body text */
+.hero-subline.bryndan { display: block; margin-bottom: 18px; }
+.history-text p { margin-top: 0; margin-bottom: 18px; }
+.vendors-subtitle { margin-bottom: 6px; }
+.vendors-block p { margin-top: 6px; }
 .history-kicker{ color:#CF2182; text-transform:uppercase; font-family:'Bobby Jones', sans-serif; font-weight:700; letter-spacing:1px; margin: 8px 0 22px; font-size: clamp(18px,2.6vw,32px); }
 .history-text{
   max-width: 1400px;                /* élargit la colonne de lecture */
