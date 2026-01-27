@@ -398,6 +398,72 @@ document.addEventListener('DOMContentLoaded', function () {
 })();
 
 // Ensure header/footer are visible on small screens after load (defensive)
+
+// Mobile auto-inject: ensure every page has the mobile stylesheet, a hamburger
+// button and the mobile nav wiring if they were not added to the HTML. This
+// runs only on mobile and is defensive (no-op on pages that already include
+// these elements). This avoids editing every HTML file while preserving the
+// desktop layout exactly.
+(function(){
+  if (!window.matchMedia) return;
+  var mq = window.matchMedia('(max-width: 768px)');
+  function ensureMobileHeader(){
+    if (!mq.matches) return;
+    try {
+      // ensure mobile stylesheet is present
+      var hasMobileCss = Array.from(document.querySelectorAll('link[rel="stylesheet"]')).some(function(l){ return (l.getAttribute('href')||'').indexOf('overrides-mobile.css') !== -1; });
+      if (!hasMobileCss) {
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = '../overrides-mobile.css';
+        document.head.appendChild(link);
+      }
+
+      var header = document.querySelector('header');
+      if (!header) return;
+      var nav = header.querySelector('nav');
+      if (!nav) return;
+
+      // ensure nav has an id
+      if (!nav.id) nav.id = 'primary-nav';
+
+      // if button already exists, wire it (avoid double-wiring)
+      var btn = header.querySelector('.mobile-menu-toggle');
+      if (!btn) {
+        btn = document.createElement('button');
+        btn.className = 'mobile-menu-toggle';
+        btn.setAttribute('style','display:none');
+        btn.setAttribute('aria-controls','primary-nav');
+        btn.setAttribute('aria-expanded','false');
+        btn.setAttribute('aria-label','Menu');
+        // insert a small accessible SVG inside the button for crisp strokes
+        btn.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g stroke="#14632b" stroke-width="2" stroke-linecap="round"><path d="M4 7h16"/><path d="M4 12h16"/><path d="M4 17h16"/></g></svg>';
+        header.insertBefore(btn, header.firstChild);
+      }
+
+      // set nav to hidden for assistive tech until opened
+      nav.setAttribute('aria-hidden', 'true');
+
+      // attach handler only once
+      if (!btn._mobileWired) {
+        btn.addEventListener('click', function(){
+          var open = header.classList.toggle('nav-open');
+          btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+          nav.setAttribute('aria-hidden', open ? 'false' : 'true');
+        });
+        btn._mobileWired = true;
+      }
+    } catch(e) {
+      // defensive: nothing fatal
+      console.error('mobile header injector error', e);
+    }
+  }
+  // run now and when mq changes
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', ensureMobileHeader);
+  else ensureMobileHeader();
+  if (typeof mq.addEventListener === 'function') mq.addEventListener('change', ensureMobileHeader);
+  else if (typeof mq.addListener === 'function') mq.addListener(ensureMobileHeader);
+})();
 document.addEventListener('DOMContentLoaded', function () {
   try {
     if (window.innerWidth <= 480) {
@@ -408,3 +474,40 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   } catch (e) { /* ignore */ }
 });
+
+// Lightweight mobile toggle fallback: delegated click handler for any
+// `.mobile-menu-toggle` button. Runs only on mobile (max-width:768px) and
+// is defensive — it will not change desktop behaviour.
+(function(){
+  if (!window.matchMedia) return;
+  var mq = window.matchMedia('(max-width: 768px)');
+  function wire() {
+    if (!mq.matches) return;
+    // Ensure nav is initially hidden for assistive tech
+    try {
+      var nav = document.getElementById('primary-nav') || document.querySelector('header nav');
+      if (nav) nav.setAttribute('aria-hidden', 'true');
+    } catch (e) {}
+
+    // Delegated click handler
+    if (!window.__mobileBurgerDelegationInstalled) {
+      document.addEventListener('click', function(e){
+        try {
+          var btn = e.target.closest && e.target.closest('.mobile-menu-toggle');
+          if (!btn) return;
+          var header = document.querySelector('header');
+          if (!header) return;
+          var nav = document.getElementById('primary-nav') || header.querySelector('nav');
+          if (!nav) return;
+          var open = header.classList.toggle('nav-open');
+          btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+          nav.setAttribute('aria-hidden', open ? 'false' : 'true');
+        } catch (err) { /* swallow errors to avoid breaking other scripts */ }
+      }, false);
+      window.__mobileBurgerDelegationInstalled = true;
+    }
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', wire); else wire();
+  if (typeof mq.addEventListener === 'function') mq.addEventListener('change', wire);
+  else if (typeof mq.addListener === 'function') mq.addListener(wire);
+})();

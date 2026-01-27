@@ -57,6 +57,7 @@
       })();
     </script>
   <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../overrides-mobile.css">
     
     <style>
       /* Apply the same strong hero title shadow to the three home menu titles */
@@ -74,14 +75,16 @@
     </style>
 </head>
 <body>
-    <header>
-  <a href="../index.html" aria-label="Accueil" class="logo-link"><img src="../Logos/1.png" alt="Logo Le Temps des Fleurs" class="logo"></a>
-        <nav>
-            <a href="index.html">Accueil</a>
-            <a href="notre-mission.html">Notre mission</a>
-            <a href="ontenteuntrucensemble.html">On tente un truc ensemble ?</a>
-        </nav>
-    </header>
+  <header>
+    <!-- mobile hamburger: hidden by default on desktop via inline style, enabled on mobile by CSS -->
+    <button class="mobile-menu-toggle" style="display:none" aria-controls="primary-nav" aria-expanded="false" aria-label="Menu">☰</button>
+    <a href="../index.html" aria-label="Accueil" class="logo-link"><img src="../Logos/1.png" alt="Logo Le Temps des Fleurs" class="logo"></a>
+    <nav id="primary-nav">
+      <a href="index.html">Accueil</a>
+      <a href="notre-mission.html">Notre mission</a>
+      <a href="ontenteuntrucensemble.html">On tente un truc ensemble ?</a>
+    </nav>
+  </header>
 
       <div class="page-shell">
           <!-- Hidden SEO navigation to speed up crawler discovery (visually-hidden, accessible) -->
@@ -204,5 +207,30 @@
         </div>
     </footer>
   <script src="../script.js"></script>
+  <script>
+    // Mobile-scoped menu toggle: only activates when viewport <= 768px
+    (function(){
+      if (!window.matchMedia) return;
+      var mq = window.matchMedia('(max-width: 768px)');
+      function init(){
+        if (!mq.matches) return; // only run on mobile
+        var btn = document.querySelector('.mobile-menu-toggle');
+        var header = document.querySelector('header');
+        var nav = document.getElementById('primary-nav');
+        if (!btn || !header || !nav) return;
+        btn.addEventListener('click', function(){
+          var open = header.classList.toggle('nav-open');
+          btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+          // toggle nav visibility for assistive tech
+          nav.setAttribute('aria-hidden', open ? 'false' : 'true');
+        });
+        // ensure nav is hidden initially on mobile
+        nav.setAttribute('aria-hidden', 'true');
+      }
+      // init now and when the media query state changes
+      init();
+      mq.addListener(function(){ init(); });
+    })();
+  </script>
 </body>
 </html>

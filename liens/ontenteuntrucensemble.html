@@ -24,6 +24,7 @@
   <meta property="og:url" content="https://www.letempsdesfloeurs.com/liens/ontenteuntrucensemble.html" />
     <meta name="twitter:card" content="summary_large_image" />
   <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../overrides-mobile.css">
       <style>
         /* Page-specific: reduce the previous +60% height by 10% (net +44%) */
         /* original page-scoped was: clamp(288px, 67.2vw, 576px) */
@@ -64,14 +65,15 @@
     <link rel="shortcut icon" href="../Logos/favicon.png" type="image/png">
     <link rel="apple-touch-icon" href="../Logos/favicon.png">
 <body>
-    <header>
+  <header>
+  <button class="mobile-menu-toggle" style="display:none" aria-controls="primary-nav" aria-expanded="false" aria-label="Menu">☰</button>
   <a href="../index.html" aria-label="Accueil" class="logo-link"><img src="../Logos/1.png" alt="Le Temps des Fleurs" class="logo"></a>
-        <nav>
-            <a href="index.html">Accueil</a>
-            <a href="notre-mission.html">Notre mission</a>
-            <a href="ontenteuntrucensemble.html">On tente un truc ensemble ?</a>
-        </nav>
-    </header>
+    <nav id="primary-nav">
+      <a href="index.html">Accueil</a>
+      <a href="notre-mission.html">Notre mission</a>
+      <a href="ontenteuntrucensemble.html">On tente un truc ensemble ?</a>
+    </nav>
+  </header>
     
     <!-- Hero banner (photo) similar to 'Nos distributeurs' -->
   <section class="vendors-hero" aria-label="On tente un truc ensemble" style="background: url('../photos/ontenteuntrucensemble.jpg') center/cover no-repeat; height: clamp(180px, 42vw, 360px);"> <!-- Correction extension: fichier présent en .jpg -->

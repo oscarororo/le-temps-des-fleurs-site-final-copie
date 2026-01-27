@@ -1,0 +1,211 @@
+/* Mobile-only overrides for header and hero. STRICTLY scoped to max-width:768px to avoid any desktop changes */
+
+@media (max-width: 768px) {
+  /* MOBILE HEADER: center logo, show hamburger on left */
+  header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important; /* centers logo horizontally */
+    position: relative !important;
+  }
+
+  /* hamburger button (hidden on desktop via inline style) */
+  .mobile-menu-toggle {
+    display: block !important;
+    position: absolute !important;
+    left: 12px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    background: transparent !important;
+    border: none !important;
+    font-size: 28px !important;
+    line-height: 1 !important;
+    padding: 6px 8px !important;
+    z-index: 30 !important;
+    cursor: pointer !important;
+  }
+
+  /* keep logo same size, centered by header justify-content */
+  header .logo-link { order: 0 !important; }
+  header .logo { height: auto !important; max-height: 40px !important; }
+
+  /* Mobile nav: hidden by default and layered over content when open */
+  header nav {
+    display: none !important; /* hidden by default on mobile */
+    position: absolute !important;
+    top: 100% !important;
+    left: 0 !important;
+    right: 0 !important;
+    background: #fff !important;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12) !important;
+    padding: 12px 4vw !important;
+    z-index: 29 !important;
+  }
+
+  /* show nav when header has .nav-open */
+  header.nav-open nav {
+    display: block !important;
+  }
+
+  header nav a {
+    display: block !important;
+    padding: 10px 0 !important;
+    font-size: 1rem !important;
+  }
+
+  /* ensure the hero overlay is above the image and positioned on the right, vertically centered */
+  .hero { position: relative !important; }
+  .hero-overlay {
+    position: absolute !important;
+    inset: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important; /* place overlay content to the right */
+    padding-right: 6vw !important;
+    pointer-events: none !important;
+    z-index: 5 !important;
+  }
+
+  /* keep the same font sizing on desktop; only adjust layout here (no font-size changes for desktop) */
+  .hero-overlay h1 {
+    margin: 0 !important;
+    text-align: right !important;
+    max-width: 55% !important;
+    transform: none !important; /* remove any desktop transforms that could push it off */
+    left: auto !important;
+  }
+
+  /* ensure hero image behaves responsively on mobile (no desktop changes) */
+  .hero-image {
+    width: 100% !important;
+    height: auto !important;
+    object-fit: cover !important;
+    max-height: 60vh !important;
+  }
+
+  /* accessibility: make taps comfortable */
+  header nav a, .mobile-menu-toggle {
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+  }
+
+}
+/* Mobile-only overrides for header and hero. STRICTLY scoped to max-width:768px to avoid any desktop changes */
+
+@media (max-width: 768px) {
+
+  /* MOBILE HEADER: center logo, show hamburger on left */
+  header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important; /* centers logo horizontally */
+    position: relative !important;
+  }
+
+  /* hamburger button (hidden on desktop via inline style) */
+  .mobile-menu-toggle {
+    display: block !important;
+    position: absolute !important;
+    left: 12px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    background: transparent !important;
+    border: none !important;
+    font-size: 28px !important;
+    line-height: 1 !important;
+    padding: 6px 8px !important;
+    z-index: 30 !important;
+    cursor: pointer !important;
+  }
+  /* Make the burger icon strokes/text dark green on mobile only */
+  .mobile-menu-toggle {
+    color: #14632b !important; /* glyph color for text-based icon */
+  }
+  .mobile-menu-toggle svg {
+    stroke: #14632b !important;
+    fill: none !important;
+    stroke-width: 2.4px !important;
+    width: 28px !important;
+    height: 20px !important;
+  }
+
+  /* Remove the reserved top padding used for a fixed desktop header
+     when header is made non-fixed on mobile. This removes the white
+     gap between the header and the hero image without touching desktop. */
+  main {
+    padding-top: 0 !important;
+  }
+
+  /* Make the header visually distinct from page content on mobile
+     (adds a subtle shadow and thin border at the bottom). This only
+     applies inside the mobile media query so desktop is untouched.) */
+  header {
+    /* stronger but still subtle shadow to make header stand out on busy pages */
+    box-shadow: 0 12px 38px rgba(0,0,0,0.10) !important;
+    border-bottom: 1px solid rgba(0,0,0,0.06) !important;
+    z-index: 50 !important; /* ensure header floats above hero imagery */
+  }
+
+  /* keep logo same size, centered by header justify-content */
+  header .logo-link { order: 0 !important; }
+  header .logo { height: auto !important; max-height: 40px !important; }
+
+  /* Mobile nav: hidden by default and layered over content when open */
+  header nav {
+    display: none !important; /* hidden by default on mobile */
+    position: absolute !important;
+    top: 100% !important;
+    left: 0 !important;
+    right: 0 !important;
+    background: #fff !important;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12) !important;
+    padding: 12px 4vw !important;
+    z-index: 29 !important;
+  }
+
+  /* show nav when header has .nav-open */
+  header.nav-open nav {
+    display: block !important;
+  }
+
+  header nav a {
+    display: block !important;
+    padding: 10px 0 !important;
+    font-size: 1rem !important;
+  }
+
+  /* ensure the hero overlay is above the image and positioned on the right, vertically centered */
+  .hero { position: relative !important; }
+  .hero-overlay {
+    position: absolute !important;
+    inset: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important; /* place overlay content to the right */
+    padding-right: 6vw !important;
+    pointer-events: none !important;
+    z-index: 5 !important;
+  }
+
+  /* keep the same font sizing on desktop; only adjust layout here (no font-size changes for desktop) */
+  .hero-overlay h1 {
+    margin: 0 !important;
+    text-align: right !important;
+    max-width: 55% !important;
+    transform: none !important; /* remove any desktop transforms that could push it off */
+    left: auto !important;
+  }
+
+  /* ensure hero image behaves responsively on mobile (no desktop changes) */
+  .hero-image {
+    width: 100% !important;
+    height: auto !important;
+    object-fit: cover !important;
+    max-height: 60vh !important;
+  }
+
+  /* accessibility: make taps comfortable */
+  header nav a, .mobile-menu-toggle {
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+  }
+
+}

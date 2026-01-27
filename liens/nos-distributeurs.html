@@ -27,14 +27,16 @@
   <meta property="og:url" content="https://www.letempsdesfloeurs.com/liens/nos-distributeurs.html" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../overrides-mobile.css">
 </head>
 <body>
   <header>
-  <a href="../index.html" aria-label="Accueil" class="logo-link"><img src="../Logos/1.png" alt="Logo Le Temps des Fleurs" class="logo" /></a>
-    <nav>
+    <button class="mobile-menu-toggle" style="display:none" aria-controls="primary-nav" aria-expanded="false" aria-label="Menu">☰</button>
+  <a href="../index.html" aria-label="Accueil" class="logo-link"><img src="../Logos/1.png" alt="Logo Le Temps des Fleurs" class="logo"></a>
+    <nav id="primary-nav">
       <a href="index.html">Accueil</a>
       <a href="notre-mission.html">Notre mission</a>
-  <a href="ontenteuntrucensemble.html">On tente un truc ensemble ?</a>
+      <a href="ontenteuntrucensemble.html">On tente un truc ensemble ?</a>
     </nav>
   </header>
 
@@ -134,5 +136,26 @@
   </footer>
 
   <script src="../script.js"></script>
+  <script>
+    (function(){
+      if (!window.matchMedia) return;
+      var mq = window.matchMedia('(max-width: 768px)');
+      function init(){
+        if (!mq.matches) return;
+        var btn = document.querySelector('.mobile-menu-toggle');
+        var header = document.querySelector('header');
+        var nav = document.getElementById('primary-nav');
+        if (!btn || !header || !nav) return;
+        btn.addEventListener('click', function(){
+          var open = header.classList.toggle('nav-open');
+          btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+          nav.setAttribute('aria-hidden', open ? 'false' : 'true');
+        });
+        nav.setAttribute('aria-hidden', 'true');
+      }
+      init();
+      mq.addListener(function(){ init(); });
+    })();
+  </script>
 </body>
 </html>

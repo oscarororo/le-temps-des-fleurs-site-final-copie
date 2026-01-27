@@ -26,6 +26,7 @@
   <meta property="og:url" content="https://www.letempsdesfloeurs.com/liens/le-pourtoujours.html" />
   <meta name="twitter:card" content="summary_large_image" />
     <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../overrides-mobile.css">
   <style>
     /* Product page specific styles (lightweight, scoped) */
     .product-page { padding-top: 60px; padding-bottom: 80px; }
@@ -56,8 +57,9 @@
 </head>
 <body>
   <header>
+    <button class="mobile-menu-toggle" style="display:none" aria-controls="primary-nav" aria-expanded="false" aria-label="Menu">☰</button>
     <a href="../index.html" aria-label="Accueil" class="logo-link"><img src="../Logos/1.png" alt="Le Temps des Fleurs" class="logo"></a>
-    <nav>
+    <nav id="primary-nav">
       <a href="index.html">Accueil</a>
       <a href="notre-mission.html">Notre mission</a>
   <a href="ontenteuntrucensemble.html">On tente un truc ensemble ?</a>

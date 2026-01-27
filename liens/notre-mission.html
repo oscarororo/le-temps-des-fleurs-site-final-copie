@@ -24,6 +24,7 @@
             })();
         </script>
     <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../overrides-mobile.css">
         <style>
             /* Apply the same strong title shadow as on 'Notre histoire' */
             .mission-hero-title {
@@ -50,8 +51,9 @@
 </head>
 <body>
     <header>
+    <button class="mobile-menu-toggle" style="display:none" aria-controls="primary-nav" aria-expanded="false" aria-label="Menu">☰</button>
     <a href="../index.html" aria-label="Accueil" class="logo-link"><img src="../Logos/1.png" alt="Le Temps des Fleurs" class="logo"></a>
-        <nav>
+        <nav id="primary-nav">
             <a href="index.html">Accueil</a>
             <a href="notre-mission.html">Notre mission</a>
             <a href="ontenteuntrucensemble.html">On tente un truc ensemble ?</a>
@@ -144,6 +146,33 @@
             </nav>
         </div>
     </footer>
-    <script src="../script.js"></script>
+    </script>
+            <script src="../script.js"></script>
+            <script>
+                (function(){
+                    if (!window.matchMedia) return;
+                    var mq = window.matchMedia('(max-width: 768px)');
+                    function init(){
+                        if (!mq.matches) return;
+                        var btn = document.querySelector('.mobile-menu-toggle');
+                        var header = document.querySelector('header');
+                        var nav = document.getElementById('primary-nav') || (header && header.querySelector('nav'));
+                        if (!btn || !header || !nav) return;
+                        // ensure aria state
+                        try { nav.setAttribute('aria-hidden', 'true'); } catch(e){}
+                        // avoid double-wiring
+                        if (!btn._wiredForMobile) {
+                            btn.addEventListener('click', function(){
+                                var open = header.classList.toggle('nav-open');
+                                btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+                                nav.setAttribute('aria-hidden', open ? 'false' : 'true');
+                            });
+                            btn._wiredForMobile = true;
+                        }
+                    }
+                    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+                    if (mq.addEventListener) mq.addEventListener('change', init); else if (mq.addListener) mq.addListener(init);
+                })();
+            </script>
 </body>
 </html>
