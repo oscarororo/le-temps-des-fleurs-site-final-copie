@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 # Sitemap pointé vers le domaine final pour éviter les duplications
-Sitemap: https://letempsdesfleurs.fr/sitemap.xml
+Sitemap: https://www.letempsdesfloeurs.com/sitemap.xml
