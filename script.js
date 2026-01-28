@@ -60,6 +60,56 @@
     }
   }, { passive: true });
 })();
+
+// Defensive fallback for external social links on mobile: some browsers or
+// overlapping layout can prevent the native anchor navigation for specific
+// icons (observed: Instagram on some pages). This delegated handler will
+// open Instagram links via window.open on mobile when a normal click does
+// not navigate — but only when viewport <= 768px to avoid changing desktop.
+(function(){
+  if (!window.matchMedia) return;
+  var mq = window.matchMedia('(max-width: 768px)');
+  function wireInstagramFallback(){
+    if (!mq.matches) return;
+    if (window.__instagramFallbackInstalled) return;
+    // Helper to open the href synchronously
+    function openHref(href) {
+      try {
+        window.open(href, '_blank');
+      } catch (err) {
+        try { window.location.href = href; } catch (e) {}
+      }
+    }
+
+    // We attach capture-phase handlers so we run before other listeners that
+    // may stop propagation or prevent default on the bubble phase.
+    function handler(e) {
+      try {
+        var a = e.target && e.target.closest && e.target.closest('a.social-circle[href*="instagram.com"]');
+        if (!a) return;
+        var href = a.getAttribute('href');
+        // Only act on primary touch/pointer/click gestures to avoid interfering
+        // with keyboard or non-primary input.
+        if (e.type === 'pointerup' && e.pointerType && e.pointerType !== 'touch') return;
+        // Prevent other handlers from blocking this gesture and open immediately
+        try { e.preventDefault(); } catch (er) {}
+        try { e.stopImmediatePropagation && e.stopImmediatePropagation(); } catch (er) {}
+        try { e.stopPropagation && e.stopPropagation(); } catch (er) {}
+        openHref(href);
+      } catch (err) { /* swallow */ }
+    }
+
+    // pointerup covers most modern browsers; touchend for older mobile webviews;
+    // click as a fallback. Use capture:true so we run early.
+    document.addEventListener('pointerup', handler, true);
+    document.addEventListener('touchend', handler, true);
+    document.addEventListener('click', handler, true);
+    window.__instagramFallbackInstalled = true;
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', wireInstagramFallback); else wireInstagramFallback();
+  if (typeof mq.addEventListener === 'function') mq.addEventListener('change', wireInstagramFallback);
+  else if (typeof mq.addListener === 'function') mq.addListener(wireInstagramFallback);
+})();
 // Ensure header/footer are visible when arriving via an intercepted navigation
 // (prevents a page-load where the header appears retracted because the
 // source page had it hidden). We only force it briefly on initial load when

@@ -161,6 +161,21 @@
       margin-top: 0 !important;
       margin-bottom: 4px !important;
     }
+
+      /* Ensure bottom social icons remain clickable on mobile. Some layout/overlay
+         changes (absolute overlays covering the viewport) could intercept taps.
+         Raise the z-index of the bottom banner and make it positioned so it can
+         receive pointer events reliably on small screens. */
+      .bottom-banner {
+        position: relative !important;
+        z-index: 60 !important;
+        pointer-events: auto !important;
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
+      }
+      .bottom-banner .bottom-socials {
+        position: relative !important;
+        z-index: 61 !important;
+      }
 }
 /* Mobile-only overrides for header and hero. STRICTLY scoped to max-width:768px to avoid any desktop changes */
 

@@ -134,5 +134,31 @@
         </div>
     </footer>
   <script src="../script.js"></script>
+  <script>
+    // Mobile-scoped menu toggle: only activates when viewport <= 768px
+    (function(){
+      if (!window.matchMedia) return;
+      var mq = window.matchMedia('(max-width: 768px)');
+      function init(){
+        if (!mq.matches) return; // only run on mobile
+        var btn = document.querySelector('.mobile-menu-toggle');
+        var header = document.querySelector('header');
+        var nav = document.getElementById('primary-nav');
+        if (!btn || !header || !nav) return;
+        if (btn._mobileBound) return; // avoid double-binding
+        btn.addEventListener('click', function(){
+          var open = header.classList.toggle('nav-open');
+          btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+          nav.setAttribute('aria-hidden', open ? 'false' : 'true');
+        });
+        // ensure nav is hidden initially on mobile
+        nav.setAttribute('aria-hidden', 'true');
+        btn._mobileBound = true;
+      }
+      init();
+      if (typeof mq.addEventListener === 'function') mq.addEventListener('change', init);
+      else if (typeof mq.addListener === 'function') mq.addListener(init);
+    })();
+  </script>
 </body>
 </html>
