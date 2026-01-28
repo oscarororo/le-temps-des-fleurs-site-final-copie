@@ -89,6 +89,79 @@
   }
 
 }
+/* Homepage-specific adjustments (mobile only). Targets only the homepage via data-order="0" on <html>. */
+@media (max-width: 768px) {
+  html[data-order="0"] .hero-overlay {
+    /* place overlay at a fixed distance from the top-right of the image, slightly raised under the header */
+    /* Use explicit top/right to avoid any inherited padding/transform issues on some pages. */
+    position: absolute !important;
+    /* move up slightly compared to header baseline */
+    top: calc(48px - 8px) !important; /* header height minus small offset to raise the phrase */
+    right: 12px !important;
+    left: auto !important;
+    align-items: flex-start !important;
+    justify-content: flex-end !important; /* push overlay content to the right */
+    padding: 0 !important;
+    pointer-events: none !important;
+    /* keep hero overlay visually behind the header and the menu */
+    z-index: 5 !important;
+  }
+
+  /* make each hero-line a block so we control the line break after "tous" */
+  html[data-order="0"] .hero-overlay .hero-line { display: block !important; }
+
+  /* reduce the hero phrase size on mobile to avoid overflow and keep visual balance */
+  /* Reduce the hero phrase size to about one third of large desktop text (approx 3.6rem/3 = 1.2rem)
+     and position it top-left under the fixed header. */
+  html[data-order="0"] .hero-overlay h1 {
+    font-size: 1.2rem !important; /* restored: user requested x3 */
+    line-height: 1.02 !important;
+    text-align: right !important; /* align text to the right side */
+    max-width: 85% !important; /* allow each span to fit on its own line while staying on the right */
+  /* shift left additional 5% (relative) and raise additional 10% (relative): translate(-15%, -140%) */
+  transform: translate(-15%, -140%) !important;
+    color: #385B4F !important;
+    text-shadow: 0 6px 18px rgba(0,0,0,0.28) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Ensure the mobile nav (when open) appears above the hero overlay */
+  html[data-order="0"] header.nav-open nav {
+    z-index: 250 !important; /* well above the hero overlay */
+    position: absolute !important;
+  }
+
+  /* Remove temporary debug styling and restore Bobby span size to match h1 */
+  html[data-order="0"] .hero-overlay .bobby-hero {
+    font-size: 1.2rem !important;
+    line-height: 1.02 !important;
+    transform: none !important;
+    display: block !important;
+    white-space: nowrap !important;
+    text-align: right !important; /* ensure each span aligns right */
+  }
+
+    /* Ensure each .hero-line is a separate block on mobile homepage so the break
+       occurs after the first span ("...à tous,"). This removes nowrap from global CSS. */
+    html[data-order="0"] .hero-overlay .hero-line {
+      display: block !important;
+      /* Prevent internal wrapping so each span stays on a single line */
+      white-space: nowrap !important;
+      overflow: visible !important;
+    }
+
+    /* Reduce the vertical gap between the hero image and the first below-section title
+       on mobile homepage only. This reduces the top padding of the concept intro and
+       tightens the h2 margins so "UN CONCEPT INNOVANT" sits closer to the hero. */
+    html[data-order="0"] .concept-intro {
+      padding-top: 6px !important;
+    }
+    html[data-order="0"] .concept-intro h2 {
+      margin-top: 0 !important;
+      margin-bottom: 4px !important;
+    }
+}
 /* Mobile-only overrides for header and hero. STRICTLY scoped to max-width:768px to avoid any desktop changes */
 
 @media (max-width: 768px) {
