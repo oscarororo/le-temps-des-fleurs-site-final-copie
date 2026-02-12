@@ -58,6 +58,12 @@
       width: min(92vw, 920px);          /* use most of the viewport up to 920px */
       height: auto; display: inline-block;
     }
+    /* Mobile-only: soften history hero title shadow for small screens */
+    @media (max-width: 768px) {
+      .history-hero-title {
+        text-shadow: 0 6px 18px rgba(0,0,0,0.36) !important;
+      }
+    }
   </style>
 </head>
 <body>

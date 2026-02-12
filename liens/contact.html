@@ -34,6 +34,35 @@
                                              0 6px 24px rgba(0,0,0,0.40),
                                              0 1px 4px rgba(0,0,0,0.18);
                 }
+                /* Mobile-only: soften contact hero title shadow for small screens */
+                @media (max-width: 768px) {
+                    .contact-hero-title {
+                        text-shadow: 0 6px 18px rgba(0,0,0,0.36) !important;
+                    }
+                }
+                /* Mobile-only: slight "dézoom" on very small screens by reducing root font-size
+                   This reduces the perceived zoom without touching desktop rules. Adjust value
+                   if you want a stronger/weaker effect (14px -> stronger dezoom). */
+                @media (max-width: 520px) {
+                    html { font-size: 14px !important; }
+                    /* ensure hero title scales nicely after root size change */
+                    .contact-hero-title { font-size: clamp(18px, 7vw, 24px) !important; }
+                    /* Also apply 'dézoom' and tighter spacing to the lower form area */
+                    main { padding: 0.5rem 1rem !important; }
+                    form { max-width: 100% !important; margin: 0 auto !important; }
+                    /* Add more space between hero (photo) and the form */
+                    .contact-hero { margin-bottom: 1.25rem !important; }
+                    form { margin-top: 1.25rem !important; }
+                    form label { display:block !important; margin-bottom: 6px !important; font-size: 0.95rem !important; }
+                    input[type="text"], input[type="email"], textarea {
+                        font-size: 0.95rem !important;
+                        padding: 0.5rem 0.6rem !important;
+                        border-radius: 6px !important;
+                    }
+                    textarea { min-height: 110px !important; }
+                    button[type="submit"] { font-size: 0.95rem !important; padding: 0.55rem 0.9rem !important; }
+                    .return-home { margin: 12px 0 !important; }
+                }
             </style>
         <!-- Favicon -->
         <link rel="icon" href="../Logos/favicon.png" type="image/png">
@@ -56,9 +85,12 @@
         </section>
 
         <main>
-        <form action="submit_form.php" method="post">
+        <form action="https://formspree.io/f/xqedpear" method="POST">
+            <input type="hidden" name="_subject" value="[CONTACT] Nouveau message - Le Temps des Floeurs">
+            <input type="hidden" name="_redirect" value="/merci.html">
+            <input type="text" name="_gotcha" style="display:none">
             <label for="name">Nom:</label>
-            <input type="text" id="name" name="name" required>
+            <input type="text" id="name" name="nom" required>
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required>
             <label for="message">Message:</label>

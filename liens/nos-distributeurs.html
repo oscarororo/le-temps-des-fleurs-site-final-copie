@@ -28,6 +28,14 @@
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="stylesheet" href="../style.css" />
   <link rel="stylesheet" href="../overrides-mobile.css">
+  <style>
+    /* Mobile-only: soften vendors hero title shadow for better readability on small screens */
+    @media (max-width: 768px) {
+      .vendors-hero-title {
+        text-shadow: 0 6px 18px rgba(0,0,0,0.36) !important;
+      }
+    }
+  </style>
 </head>
 <body>
   <header>

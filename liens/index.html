@@ -126,7 +126,7 @@
     <!-- Removed homepage subline per request: phrase and its white full-bleed banner were deleted -->
 
         <section class="concept-intro">
-            <h2>RAMENONS LE TEMPS DES FLEURS</h2>
+            <h2>FAIRE RENAITRE LE TEMPS DES FLEURS</h2>
             <p> Parce que nous sommes nostalgiques d’une époque où  l’on offrait des bouquets de fleurs à toutes les occasions, <strong>Le Temps des Flœurs</strong> fait renaître le temps des fleurs grâce à des distributeurs automatiques de bouquets à prix abordables, accessibles 24h/24.</p>
  <p>Simple et efficace.</p>
         </section>
@@ -229,6 +229,51 @@
       // init now and when the media query state changes
       init();
       mq.addListener(function(){ init(); });
+    })();
+  </script>
+  <script>
+    // Mobile-only DOM reorder for homepage concept grid
+    (function(){
+      if (!window.matchMedia) return;
+      var mq = window.matchMedia('(max-width: 768px)');
+      var grid = document.querySelector('.concept-grid');
+      if (!grid) return;
+      // store original order so we can restore on desktop
+      var originalOrder = Array.prototype.slice.call(grid.children);
+
+      function findTextBlock(titleStarts){
+        var texts = grid.querySelectorAll('.concept-card.text');
+        for (var i=0;i<texts.length;i++){
+          var h = texts[i].querySelector('.concept-kicker');
+          if (!h) continue;
+          if (h.textContent.trim().toUpperCase().indexOf(titleStarts.toUpperCase()) === 0) return texts[i];
+        }
+        return null;
+      }
+
+      function applyOrder(){
+        if (!mq.matches) {
+          // restore original desktop order
+          originalOrder.forEach(function(n){ grid.appendChild(n); });
+          return;
+        }
+
+        // target elements
+        var quality = findTextBlock('DES FLEURS');
+        var img1 = grid.querySelector('.image-1');
+        var pourTous = findTextBlock('POUR TOUS');
+        var img2 = grid.querySelector('.image-2');
+        var tout = findTextBlock('TOUT LE TEMPS');
+        var img3 = grid.querySelector('.image-3');
+
+        var newOrder = [quality, img1, pourTous, img2, tout, img3];
+        // append in desired order (appendChild moves existing nodes)
+        newOrder.forEach(function(node){ if (node) grid.appendChild(node); });
+      }
+
+      // run once and on state change
+      applyOrder();
+      mq.addListener(applyOrder);
     })();
   </script>
 </body>

@@ -46,6 +46,12 @@
   /* Keep the increased gap between the season intro paragraph and the following H2 */
   .acn-season .season-text + .season-title { margin-top: 60px; }
   /* paragraphs will reuse .season-text for identical sizing/format */
+  /* Mobile-only: soften hero title shadow for better readability on small screens */
+  @media (max-width: 768px) {
+    .category-hero-title {
+      text-shadow: 0 6px 18px rgba(0,0,0,0.36) !important;
+    }
+  }
   </style>
 </head>
 <body>

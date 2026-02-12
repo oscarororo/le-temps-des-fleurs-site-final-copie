@@ -58,6 +58,15 @@
           text-align: center;
           margin-top: 0.375rem; /* reduced by 50% */
         }
+        /* Mobile-only: soften and improve hero title shadow for better readability on small screens
+           This targets only viewports <= 768px and uses !important to override existing styles
+           without touching desktop rules or global CSS files. */
+        @media (max-width: 768px) {
+          .vendors-hero-title {
+            /* Less-heavy, slightly sharper shadow for improved contrast on mobile */
+            text-shadow: 0 6px 18px rgba(0,0,0,0.36) !important;
+          }
+        }
       </style>
 </head>
     <!-- Favicon -->
