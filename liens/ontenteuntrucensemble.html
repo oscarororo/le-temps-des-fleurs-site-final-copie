@@ -38,12 +38,20 @@
           .vendors-hero { height: 534px !important; }
         }
 
-        /* Page-specific: reduce the hero title size by 30% only on this page */
+        /* Page-specific: reduce the hero title size and force a maximum of two lines */
         /* global: .vendors-hero-title { font-size: clamp(28px, 6.8vw, 64px); } */
-        /* 30% reduction → clamp(19.6px, 4.76vw, 44.8px) ≈ clamp(20px, 4.76vw, 45px) */
+        /* Slightly smaller than global and constrained to two lines for better composition */
         .vendors-hero-title {
-          font-size: clamp(20px, 4.76vw, 45px) !important;
-          line-height: 1 !important;
+          font-size: clamp(18px, 4.2vw, 40px) !important;
+          line-height: 1.05 !important;
+          max-width: 86% !important; /* keep it narrow so two lines are likely */
+          white-space: normal !important;
+          display: -webkit-box !important;
+          -webkit-line-clamp: 2 !important; /* limit to two lines */
+          line-clamp: 2 !important;
+          -webkit-box-orient: vertical !important;
+          overflow: hidden !important;
+          text-overflow: ellipsis !important;
         }
         /* Ensure the smaller title is also enforced on small screens */
         @media (max-width: 520px) {
@@ -67,6 +75,31 @@
             text-shadow: 0 6px 18px rgba(0,0,0,0.36) !important;
           }
         }
+          /* Mobile-only: apply the same (or stronger) "dézoom" and spacing used on the Contact page
+             This reduces the perceived zoom without touching desktop rules. Values match `liens/contact.html`. */
+          @media (max-width: 520px) {
+            /* stronger dezoom used on contact page */
+            html { font-size: 14px !important; }
+              /* ensure hero title scales nicely after root size change (match contact)
+                 reduced by 20% compared to previous mobile size */
+              .vendors-hero-title { font-size: clamp(14px, 5.6vw, 19px) !important; }
+            /* Match contact page crop and height so the photo appears equally 'dézoomée' on mobile */
+            .vendors-hero { height: clamp(220px, 35vw, 360px) !important; background-position: center 30% !important; }
+            /* Also apply 'dézoom' and tighter spacing to the lower form area */
+            main { padding: 0.5rem 1rem !important; }
+            /* Add more space between hero (photo) and the form to match contact */
+            .vendors-hero { margin-bottom: 1.25rem !important; }
+            form { max-width: 100% !important; margin: 0 auto !important; margin-top: 1.25rem !important; }
+            form label { display: block !important; margin-bottom: 6px !important; font-size: 0.95rem !important; }
+            input[type="text"], input[type="email"], textarea {
+              font-size: 0.95rem !important;
+              padding: 0.5rem 0.6rem !important;
+              border-radius: 6px !important;
+            }
+            textarea { min-height: 110px !important; }
+            button[type="submit"] { font-size: 0.95rem !important; padding: 0.55rem 0.9rem !important; }
+            .return-home { margin: 12px 0 !important; }
+          }
       </style>
 </head>
     <!-- Favicon -->

@@ -52,6 +52,27 @@
       text-shadow: 0 6px 18px rgba(0,0,0,0.36) !important;
     }
   }
+  /* Mobile-only: hide the top "NOS FLEURS SÉCHÉES" heading to avoid duplicate
+     title because we insert a mobile-friendly copy under the thumbnails. This
+     only hides it visually on small screens; the element remains in the DOM so
+     the cloning script can access it. */
+  @media (max-width: 480px) {
+    .acn-header .acn-heading:nth-of-type(2) { display: none !important; }
+  }
+  </style>
+  <style>
+    /* Mobile-only fix: ensure bouquet thumbnails remain perfectly square on small viewports
+       Some global rules set a fixed height via --size while later rules change width to viewport
+       which can cause oval/stretch; enforce square aspect-ratio and let width drive size. */
+    @media (max-width: 480px) {
+      .bouquet-thumb {
+        height: auto !important;
+        width: 92vw !important;
+        aspect-ratio: 1 / 1 !important;
+        background-size: cover !important;
+        border-radius: 50% !important;
+      }
+    }
   </style>
 </head>
 <body>
@@ -207,6 +228,47 @@
       }
       init();
       mq.addListener(function(){ init(); });
+    })();
+  </script>
+
+  <script>
+    // Mobile-only: duplicate the "NOS FLEURS SÉCHÉES" heading and insert it
+    // before the dried-flowers paragraph when the layout stacks. This keeps
+    // desktop markup untouched while providing the requested visual order on
+    // small screens.
+    (function(){
+      if (!window.matchMedia) return;
+      var mq = window.matchMedia('(max-width: 480px)');
+      var cloneClass = 'acn-heading--mobile-clone';
+
+      function insertClone(){
+        try {
+          var orig = document.querySelector('.acn-header .acn-heading:nth-of-type(2)');
+          var target = document.querySelector('.acn-columns > .acn-col:nth-child(2) .acn-desc');
+          if (!orig || !target) return;
+          if (document.querySelector('.' + cloneClass)) return; // already inserted
+          var c = orig.cloneNode(true);
+          c.classList.add(cloneClass);
+          // ensure it is visible only on mobile (defensive)
+          c.style.display = '';
+          target.parentElement.insertBefore(c, target);
+        } catch (e) { /* swallow */ }
+      }
+
+      function removeClone(){
+        try {
+          var existing = document.querySelector('.' + cloneClass);
+          if (existing && existing.parentElement) existing.parentElement.removeChild(existing);
+        } catch (e) { /* swallow */ }
+      }
+
+      function sync(){
+        if (mq.matches) insertClone(); else removeClone();
+      }
+
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', sync); else sync();
+      if (typeof mq.addEventListener === 'function') mq.addEventListener('change', sync);
+      else if (typeof mq.addListener === 'function') mq.addListener(sync);
     })();
   </script>
 </body>
