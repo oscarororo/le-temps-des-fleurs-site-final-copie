@@ -306,7 +306,6 @@ document.addEventListener('DOMContentLoaded', function () {
     'a-cueillir-chez-nous.html',
     'nos-distributeurs.html',
     'notre-histoire.html',
-    'notre-mission.html',
   'ontenteuntrucensemble.html'
   ];
 
