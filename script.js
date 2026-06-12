@@ -560,3 +560,113 @@ document.addEventListener('DOMContentLoaded', function () {
   if (typeof mq.addEventListener === 'function') mq.addEventListener('change', wire);
   else if (typeof mq.addListener === 'function') mq.addListener(wire);
 })();
+
+/* =====================================================================
+   BARRE D'ONGLETS MOBILE (refonte juin 2026)
+   Injecte une barre de navigation fixe en bas, style application.
+   Toutes les pages chargent script.js : la barre apparaît partout.
+   Aucune modification du HTML ni du desktop (masquée par CSS hors mobile).
+   ===================================================================== */
+(function(){
+  if (!window.matchMedia) return;
+
+  // Icônes monoline (stroke = currentColor via CSS)
+  var ICONS = {
+    home:    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 11 12 4l8.5 7"/><path d="M5.5 9.7V19h13V9.7"/></svg>',
+    bouquet: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="7" r="2.3"/><circle cx="8.3" cy="9.6" r="2.3"/><circle cx="15.7" cy="9.6" r="2.3"/><circle cx="12" cy="11.4" r="2.3"/><path d="M9.5 12.5 12 20l2.5-7.5"/></svg>',
+    locker:  '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.4"/><rect x="13" y="4" width="7" height="7" rx="1.4"/><rect x="4" y="13" width="7" height="7" rx="1.4"/><rect x="13" y="13" width="7" height="7" rx="1.4"/></svg>',
+    heart:   '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-6.8-4.4-8.8-8.6C1.7 7.9 4 5.1 6.9 5.6c1.9.3 3.4 1.9 5.1 4 1.7-2.1 3.2-3.7 5.1-4 2.9-.5 5.2 2.3 3.7 5.8C18.8 15.6 12 20 12 20z"/></svg>'
+  };
+
+  // file(s) qui activent chaque onglet
+  var TABS = [
+    { label:'Accueil',      href:'index.html',                  icon:'home',
+      match:['index.html',''] },
+    { label:'Bouquets',     href:'a-cueillir-chez-nous.html',   icon:'bouquet',
+      match:['a-cueillir-chez-nous.html','le-joyeux.html','le-toujours-chic.html','le-champetre.html','le-amoureux.html','le-pourtoujours.html','le-audacieux.html'] },
+    { label:'Distributeurs',href:'nos-distributeurs.html',      icon:'locker',
+      match:['nos-distributeurs.html','distributeur-automatique-fleurs.html','distributeur-fleurs-localisation.html','fleurs-24h-24.html','lieux-installation.html','solution-distributeur-fleurs-professionnels.html'] },
+    { label:'Ensemble',     href:'ontenteuntrucensemble.html',  icon:'heart',
+      match:['ontenteuntrucensemble.html','contact.html','notre-histoire.html','notre-mission.html'] }
+  ];
+
+  function currentFile(){
+    try {
+      var p = window.location.pathname.split('/').pop() || 'index.html';
+      return decodeURIComponent(p);
+    } catch(e){ return 'index.html'; }
+  }
+
+  function build(){
+    if (document.querySelector('.m-tabbar')) return;
+    var here = currentFile();
+    var bar = document.createElement('nav');
+    bar.className = 'm-tabbar';
+    bar.setAttribute('aria-label', 'Navigation principale');
+    TABS.forEach(function(t){
+      var a = document.createElement('a');
+      a.href = t.href;
+      a.innerHTML = ICONS[t.icon] + '<span>' + t.label + '</span>';
+      if (t.match.indexOf(here) !== -1) a.className = 'is-active';
+      bar.appendChild(a);
+    });
+    document.body.appendChild(bar);
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build);
+  else build();
+})();
+
+/* =====================================================================
+   ZONE DE SÉCURITÉ (encoche / barre d'état) + LIENS LÉGAUX DANS LE BURGER
+   ---------------------------------------------------------------------
+   • Active env(safe-area-inset-*) en ajoutant viewport-fit=cover.
+   • Déplace les liens du footer (mentions légales, etc.) dans le menu
+     burger, puis le footer est masqué en CSS sur mobile.
+   ===================================================================== */
+(function(){
+  // 1) viewport-fit=cover -> permet à env(safe-area-inset-top) de fonctionner
+  try {
+    var vp = document.querySelector('meta[name="viewport"]');
+    if (vp && !/viewport-fit/i.test(vp.getAttribute('content') || '')) {
+      vp.setAttribute('content', vp.getAttribute('content') + ', viewport-fit=cover');
+    }
+  } catch(e){}
+
+  // 2) Recopier les liens légaux du footer vers le bas du menu burger
+  function moveLegalLinks(){
+    var nav = document.getElementById('primary-nav');
+    if (!nav || nav.querySelector('.m-legal-links')) return;
+    var links = document.querySelectorAll('.footer-links a');
+    if (!links.length) return;
+    var group = document.createElement('div');
+    group.className = 'm-legal-links';
+    links.forEach(function(a){
+      var c = document.createElement('a');
+      c.setAttribute('href', a.getAttribute('href'));
+      c.textContent = a.textContent;
+      group.appendChild(c);
+    });
+    nav.appendChild(group);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', moveLegalLinks);
+  else moveLegalLinks();
+})();
+
+/* Fermer le menu plein écran en tapant en dehors d'un lien */
+(function(){
+  if (!window.matchMedia) return;
+  document.addEventListener('click', function(e){
+    var header = document.querySelector('header.nav-open');
+    if (!header) return;
+    var nav = header.querySelector('nav');
+    if (!nav) return;
+    // clic sur le fond du menu (pas un lien, pas le bouton hamburger)
+    if (e.target === nav) {
+      header.classList.remove('nav-open');
+      var btn = header.querySelector('.mobile-menu-toggle');
+      if (btn) btn.setAttribute('aria-expanded','false');
+      nav.setAttribute('aria-hidden','true');
+    }
+  }, false);
+})();

@@ -1,299 +1,454 @@
-/* Mobile-only overrides for header and hero. STRICTLY scoped to max-width:768px to avoid any desktop changes */
+/* =====================================================================
+   Le Temps des Flœurs — Couche MOBILE (refonte propre, juin 2026)
+   ---------------------------------------------------------------------
+   • Tout est strictement scopé à @media (max-width: 768px).
+     => le design DESKTOP n'est jamais modifié.
+   • Direction retenue : en-tête + hero en vignette arrondie + cartes
+     douces (variante C) ; barre d'onglets fixe en bas (variante B).
+   • Ce fichier remplace entièrement l'ancien overrides-mobile.css
+     (qui était un empilement de correctifs !important contradictoires).
+   ===================================================================== */
+
+/* La barre d'onglets est injectée dans le DOM mais reste masquée hors mobile */
+.m-tabbar { display: none; }
 
 @media (max-width: 768px) {
-  /* MOBILE HEADER: center logo, show hamburger on left */
+
+  /* ---- Jetons mobiles ---- */
+  :root {
+    --m-green:#D2DCA5;
+    --m-dark:#385B4F;
+    --m-fuchsia:#CF2182;
+    --m-cream:#FDF9F5;
+    --m-ink:#333;
+    --m-header-h:54px;
+    --m-tabbar-h:66px;
+    --m-safe-top: env(safe-area-inset-top, 0px);
+    --m-safe-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  /* On laisse de la place pour la tab-bar fixe en bas */
+  body {
+    overflow-x: hidden;
+    padding-bottom: calc(var(--m-tabbar-h) + var(--m-safe-bottom));
+  }
+
+  /* =================================================================
+     EN-TÊTE  (logo centré, hamburger à gauche, pas d'agrandissement)
+     ================================================================= */
   header {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important; /* centers logo horizontally */
-    position: relative !important;
+    position: fixed;
+    inset: 0 0 auto 0;
+    /* la barre verte descend SOUS l'encoche/l'heure : padding = zone de sécurité */
+    height: calc(var(--m-header-h) + var(--m-safe-top)) !important;
+    padding: var(--m-safe-top) 14px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--m-green);
+    box-shadow: 0 6px 22px rgba(0,0,0,.08);
+    border-bottom: 1px solid rgba(0,0,0,.05);
+    z-index: 1300;
+    will-change: auto; /* évite que le header devienne bloc conteneur de l'overlay fixe */
   }
+  header:hover, header:focus-within { height: calc(var(--m-header-h) + var(--m-safe-top)) !important; }
+  /* menu ouvert : pas de transform sur le header (sinon il piège l'overlay) */
+  header.nav-open { transform: none !important; }
 
-  /* hamburger button (hidden on desktop via inline style) */
+  header .logo-link { display: flex; }
+  header .logo,
+  header:hover .logo,
+  header:focus-within .logo { height: 36px !important; width: auto; }
+
+  main { padding-top: calc(var(--m-header-h) + var(--m-safe-top)) !important; }
+
+  /* Hamburger */
   .mobile-menu-toggle {
-    display: block !important;
-    position: absolute !important;
-    left: 12px !important;
-    top: 50% !important;
-    transform: translateY(-50%) !important;
-    background: transparent !important;
-    border: none !important;
-    font-size: 28px !important;
-    line-height: 1 !important;
-    padding: 6px 8px !important;
-    z-index: 30 !important;
-    cursor: pointer !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    left: 8px;
+    /* centré dans la bande de 54px SOUS la zone de sécurité */
+    top: calc(var(--m-safe-top) + var(--m-header-h) / 2);
+    transform: translateY(-50%);
+    width: 42px; height: 42px;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    color: var(--m-dark);
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+    z-index: 1310;
+    -webkit-tap-highlight-color: transparent;
   }
+  .mobile-menu-toggle svg { width: 24px; height: 24px; }
+  .mobile-menu-toggle svg g,
+  .mobile-menu-toggle svg path { stroke: var(--m-dark) !important; }
+  header.nav-open .mobile-menu-toggle { color: var(--m-fuchsia); }
+  header.nav-open .mobile-menu-toggle svg g,
+  header.nav-open .mobile-menu-toggle svg path { stroke: var(--m-fuchsia) !important; }
 
-  /* keep logo same size, centered by header justify-content */
-  header .logo-link { order: 0 !important; }
-  header .logo { height: auto !important; max-height: 40px !important; }
-
-  /* Mobile nav: hidden by default and layered over content when open */
+  /* =================================================================
+     MENU PLEIN ÉCRAN (overlay)  — basé sur header.nav-open
+     ================================================================= */
   header nav {
-    display: none !important; /* hidden by default on mobile */
-    position: absolute !important;
-    top: 100% !important;
-    left: 0 !important;
-    right: 0 !important;
-    background: #fff !important;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.12) !important;
-    padding: 12px 4vw !important;
-    z-index: 29 !important;
+    display: none;
   }
-
-  /* show nav when header has .nav-open */
   header.nav-open nav {
-    display: block !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    margin: 0;
+    padding: calc(var(--m-header-h) + var(--m-safe-top) + 20px) 24px calc(40px + var(--m-safe-bottom));
+    background: rgba(253,249,245,.98);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 1200;
+    overflow-y: auto;
+    animation: m-fade .25s ease both;
   }
+  @keyframes m-fade { from { opacity:0; } to { opacity:1; } }
 
-  header nav a {
-    display: block !important;
-    padding: 10px 0 !important;
-    font-size: 1rem !important;
+  header.nav-open nav a {
+    display: block;
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+    font-family: 'Bobby Jones', sans-serif !important;
+    font-size: 1.5rem;
+    color: var(--m-dark);
+    padding: 16px 8px;
+    border-bottom: 1px solid rgba(56,91,79,.12);
+    text-decoration: none;
   }
+  header.nav-open nav a:last-child { border-bottom: 0; }
+  header.nav-open nav a:active { color: var(--m-fuchsia); }
 
-  /* ensure the hero overlay is above the image and positioned on the right, vertically centered */
-  .hero { position: relative !important; }
+  /* --- Liens légaux déplacés du footer vers le bas du menu burger --- */
+  .m-legal-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 4px 12px;
+    width: 100%;
+    max-width: 420px;
+    margin-top: 26px;
+    padding-top: 22px;
+    border-top: 1px solid rgba(56,91,79,.16);
+  }
+  header.nav-open nav .m-legal-links a {
+    width: auto;
+    max-width: none;
+    font-family: 'Kollektif', sans-serif !important;
+    font-size: .82rem;
+    color: var(--m-dark);
+    opacity: .82;
+    padding: 7px 4px;
+    border-bottom: 0;
+  }
+  header.nav-open nav .m-legal-links a:active { color: var(--m-fuchsia); opacity: 1; }
+
+  /* =================================================================
+     BARRE D'ONGLETS FIXE EN BAS  (injectée par script.js)
+     ================================================================= */
+  .m-tabbar {
+    position: fixed;
+    left: 12px; right: 12px;
+    bottom: calc(10px + var(--m-safe-bottom));
+    height: var(--m-tabbar-h);
+    display: flex;
+    background: rgba(56,91,79,.97);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 22px;
+    box-shadow: 0 12px 30px rgba(0,0,0,.26);
+    z-index: 1000;
+  }
+  .m-tabbar a {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    text-decoration: none;
+    color: rgba(255,255,255,.6);
+    font-family: 'Kollektif', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: .2px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .m-tabbar a svg { width: 23px; height: 23px; display: block; }
+  .m-tabbar a svg * { stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .m-tabbar a.is-active { color: #fff; }
+  .m-tabbar a.is-active svg * { stroke: var(--m-green); }
+  .m-tabbar a.is-active span { color: #fff; }
+
+  /* =================================================================
+     ACCUEIL — HERO en vignette arrondie + titre centré lisible
+     ================================================================= */
+  .hero {
+    height: 300px !important;
+    margin: 14px 14px 0;
+    border-radius: 26px;
+    overflow: hidden;
+    box-shadow: 0 16px 34px rgba(0,0,0,.16);
+  }
+  .hero-image { width: 100%; height: 100%; object-fit: cover; }
   .hero-overlay {
-    position: absolute !important;
     inset: 0 !important;
     display: flex !important;
     align-items: center !important;
-    justify-content: flex-end !important; /* place overlay content to the right */
-    padding-right: 6vw !important;
-    pointer-events: none !important;
-    z-index: 5 !important;
+    justify-content: center !important;
+    padding: 0 22px !important;
+    background: linear-gradient(180deg, rgba(0,0,0,.12), rgba(0,0,0,.4));
+    pointer-events: none;
   }
-
-  /* keep the same font sizing on desktop; only adjust layout here (no font-size changes for desktop) */
   .hero-overlay h1 {
     margin: 0 !important;
-    text-align: right !important;
-    max-width: 55% !important;
-    transform: none !important; /* remove any desktop transforms that could push it off */
     left: auto !important;
-  }
-
-  /* ensure hero image behaves responsively on mobile (no desktop changes) */
-  .hero-image {
-    width: 100% !important;
-    height: auto !important;
-    object-fit: cover !important;
-    max-height: 60vh !important;
-  }
-
-  /* accessibility: make taps comfortable */
-  header nav a, .mobile-menu-toggle {
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
-  }
-
-}
-/* Homepage-specific adjustments (mobile only). Targets only the homepage via data-order="0" on <html>. */
-@media (max-width: 768px) {
-  html[data-order="0"] .hero-overlay {
-    /* place overlay at a fixed distance from the top-right of the image, slightly raised under the header */
-    /* Use explicit top/right to avoid any inherited padding/transform issues on some pages. */
-    position: absolute !important;
-    /* move up slightly compared to header baseline */
-    top: calc(48px - 8px) !important; /* header height minus small offset to raise the phrase */
-    right: 12px !important;
-    left: auto !important;
-    align-items: flex-start !important;
-    justify-content: flex-end !important; /* push overlay content to the right */
-    padding: 0 !important;
-    pointer-events: none !important;
-    /* keep hero overlay visually behind the header and the menu */
-    z-index: 5 !important;
-  }
-
-  /* make each hero-line a block so we control the line break after "tous" */
-  html[data-order="0"] .hero-overlay .hero-line { display: block !important; }
-
-  /* reduce the hero phrase size on mobile to avoid overflow and keep visual balance */
-  /* Reduce the hero phrase size to about one third of large desktop text (approx 3.6rem/3 = 1.2rem)
-     and position it top-left under the fixed header. */
-  html[data-order="0"] .hero-overlay h1 {
-    font-size: 1.2rem !important; /* restored: user requested x3 */
-    line-height: 1.02 !important;
-    text-align: right !important; /* align text to the right side */
-    max-width: 85% !important; /* allow each span to fit on its own line while staying on the right */
-  /* shift left additional 5% (relative) and raise additional 10% (relative): translate(-15%, -140%) */
-  transform: translate(-15%, -140%) !important;
-    color: #385B4F !important;
-    text-shadow: 0 6px 18px rgba(0,0,0,0.28) !important;
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-
-  /* Ensure the mobile nav (when open) appears above the hero overlay */
-  html[data-order="0"] header.nav-open nav {
-    z-index: 250 !important; /* well above the hero overlay */
-    position: absolute !important;
-  }
-
-  /* Remove temporary debug styling and restore Bobby span size to match h1 */
-  html[data-order="0"] .hero-overlay .bobby-hero {
-    font-size: 1.2rem !important;
-    line-height: 1.02 !important;
+    top: auto !important;
     transform: none !important;
-    display: block !important;
-    white-space: nowrap !important;
-    text-align: right !important; /* ensure each span aligns right */
+    max-width: 100% !important;
+    text-align: center !important;
+    line-height: 1.12 !important;
+    color: #fff !important;
+    text-shadow: 0 4px 20px rgba(0,0,0,.55) !important;
   }
+  .hero-overlay .hero-line { display: block !important; white-space: normal !important; transform: none !important; }
+  .hero-overlay .bobby-hero,
+  .hero-overlay .accent {
+    font-family: 'Bobby Jones', sans-serif !important;
+    font-size: 1.55rem !important;
+    line-height: 1.12 !important;
+    transform: none !important;
+    color: #fff !important;
+    white-space: normal !important;
+    display: inline !important;
+  }
+  .hero .hero-overlay .accent { color: #fff !important; }
 
-    /* Ensure each .hero-line is a separate block on mobile homepage so the break
-       occurs after the first span ("...à tous,"). This removes nowrap from global CSS. */
-    html[data-order="0"] .hero-overlay .hero-line {
-      display: block !important;
-      /* Prevent internal wrapping so each span stays on a single line */
-      white-space: nowrap !important;
-      overflow: visible !important;
-    }
+  /* ---- Intro concept ---- */
+  .concept-intro { padding: 28px 24px 26px !important; }
+  .concept-intro h2 { font-size: 1.55rem !important; line-height: 1.12; margin-bottom: 12px; }
+  .concept-intro p { font-size: 1rem !important; line-height: 1.6; }
 
-    /* Reduce the vertical gap between the hero image and the first below-section title
-       on mobile homepage only. This reduces the top padding of the concept intro and
-       tightens the h2 margins so "UN CONCEPT INNOVANT" sits closer to the hero. */
-    html[data-order="0"] .concept-intro {
-      padding-top: 6px !important;
-    }
-    html[data-order="0"] .concept-intro h2 {
-      margin-top: 0 !important;
-      margin-bottom: 4px !important;
-    }
+  /* =================================================================
+     ACCUEIL — Cartes "douces" (photo en haut + bandeau blanc + cœur)
+     ================================================================= */
+  .home-menu { background: var(--m-cream) !important; padding: 6px 18px 34px !important; }
+  .home-menu-grid { grid-template-columns: 1fr !important; gap: 22px !important; }
 
-      /* Ensure bottom social icons remain clickable on mobile. Some layout/overlay
-         changes (absolute overlays covering the viewport) could intercept taps.
-         Raise the z-index of the bottom banner and make it positioned so it can
-         receive pointer events reliably on small screens. */
-      .bottom-banner {
-        position: relative !important;
-        z-index: 60 !important;
-        pointer-events: auto !important;
-        -webkit-tap-highlight-color: rgba(0,0,0,0);
-      }
-      .bottom-banner .bottom-socials {
-        position: relative !important;
-        z-index: 61 !important;
-      }
-}
-/* Mobile-only overrides for header and hero. STRICTLY scoped to max-width:768px to avoid any desktop changes */
-
-@media (max-width: 768px) {
-
-  /* MOBILE HEADER: center logo, show hamburger on left */
-  header {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important; /* centers logo horizontally */
+  .home-menu .menu-card {
+    display: block !important;
     position: relative !important;
-  }
-
-  /* hamburger button (hidden on desktop via inline style) */
-  .mobile-menu-toggle {
-    display: block !important;
-    position: absolute !important;
-    left: 12px !important;
-    top: 50% !important;
-    transform: translateY(-50%) !important;
-    background: transparent !important;
-    border: none !important;
-    font-size: 28px !important;
-    line-height: 1 !important;
-    padding: 6px 8px !important;
-    z-index: 30 !important;
-    cursor: pointer !important;
-  }
-  /* Make the burger icon strokes/text dark green on mobile only */
-  .mobile-menu-toggle {
-    color: #14632b !important; /* glyph color for text-based icon */
-  }
-  .mobile-menu-toggle svg {
-    stroke: #14632b !important;
-    fill: none !important;
-    stroke-width: 2.4px !important;
-    width: 28px !important;
-    height: 20px !important;
-  }
-
-  /* Remove the reserved top padding used for a fixed desktop header
-     when header is made non-fixed on mobile. This removes the white
-     gap between the header and the hero image without touching desktop. */
-  main {
-    padding-top: 0 !important;
-  }
-
-  /* Make the header visually distinct from page content on mobile
-     (adds a subtle shadow and thin border at the bottom). This only
-     applies inside the mobile media query so desktop is untouched.) */
-  header {
-    /* stronger but still subtle shadow to make header stand out on busy pages */
-    box-shadow: 0 12px 38px rgba(0,0,0,0.10) !important;
-    border-bottom: 1px solid rgba(0,0,0,0.06) !important;
-    z-index: 50 !important; /* ensure header floats above hero imagery */
-  }
-
-  /* keep logo same size, centered by header justify-content */
-  header .logo-link { order: 0 !important; }
-  header .logo { height: auto !important; max-height: 40px !important; }
-
-  /* Mobile nav: hidden by default and layered over content when open */
-  header nav {
-    display: none !important; /* hidden by default on mobile */
-    position: absolute !important;
-    top: 100% !important;
-    left: 0 !important;
-    right: 0 !important;
+    height: 232px !important;
+    border-radius: 26px !important;
+    overflow: hidden !important;
     background: #fff !important;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.12) !important;
-    padding: 12px 4vw !important;
-    z-index: 29 !important;
+    box-shadow: 0 16px 34px rgba(56,91,79,.16) !important;
+    isolation: isolate;
   }
-
-  /* show nav when header has .nav-open */
-  header.nav-open nav {
-    display: block !important;
+  /* image = partie haute */
+  .home-menu .menu-card::before {
+    inset: 0 0 70px 0 !important;
+    transform: none !important;
+    border-radius: 0 !important;
+    z-index: 0 !important;
   }
+  .home-menu .menu-card:hover::before { transform: none !important; }
+  /* on supprime le voile foncé des cartes mobiles */
+  .home-menu .menu-card::after { display: none !important; }
 
-  header nav a {
-    display: block !important;
-    padding: 10px 0 !important;
-    font-size: 1rem !important;
-  }
-
-  /* ensure the hero overlay is above the image and positioned on the right, vertically centered */
-  .hero { position: relative !important; }
-  .hero-overlay {
+  /* bandeau blanc bas = titre */
+  .home-menu .menu-title {
     position: absolute !important;
-    inset: 0 !important;
+    left: 0; right: 0; bottom: 0;
+    height: 70px !important;
+    margin: 0 !important;
+    transform: none !important;
+    z-index: 2 !important;
     display: flex !important;
     align-items: center !important;
-    justify-content: flex-end !important; /* place overlay content to the right */
-    padding-right: 6vw !important;
-    pointer-events: none !important;
-    z-index: 5 !important;
+    justify-content: flex-start !important;
+    text-align: left !important;
+    padding: 0 64px 0 20px !important;
+    background: #fff !important;
+    color: var(--m-dark) !important;
+    font-family: 'Bobby Jones', sans-serif !important;
+    font-size: 1.12rem !important;
+    line-height: 1.1 !important;
+    letter-spacing: .3px;
+    text-shadow: none !important;
   }
+  /* pastille cœur fuchsia (réutilise plus.svg) */
+  .home-menu .menu-plus {
+    position: absolute !important;
+    right: 16px; bottom: 16px; top: auto !important; left: auto !important;
+    transform: none !important;
+    z-index: 3 !important;
+    width: 40px !important; height: 40px !important;
+    padding: 8px !important;
+    border-radius: 50%;
+    background: var(--m-green) !important;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .home-menu .menu-plus::before { width: 22px; height: 22px; }
 
-  /* keep the same font sizing on desktop; only adjust layout here (no font-size changes for desktop) */
-  .hero-overlay h1 {
+  /* =================================================================
+     ACCUEIL — Mosaïque concept (texte / image en pile)
+     ================================================================= */
+  .concept-grid { grid-template-columns: 1fr !important; gap: 0 !important; }
+  .concept-card { min-height: 0 !important; }
+  .concept-card.image { height: 210px !important; }
+  .concept-card.text { padding: 28px 26px !important; }
+  .concept-kicker { font-size: 1.5rem !important; margin-bottom: 10px !important; }
+  .concept-card.text p { font-size: 1rem !important; line-height: 1.6; }
+
+  /* =================================================================
+     BANNIÈRES (heros) des pages intérieures — vignette arrondie
+     ================================================================= */
+  .category-hero,
+  .history-hero,
+  .mission-hero,
+  .contact-hero {
+    height: clamp(190px, 50vw, 240px) !important;
+    margin: 14px 14px 0 !important;
+    border-radius: 26px !important;
+    overflow: hidden !important;
+    box-shadow: 0 16px 34px rgba(0,0,0,.16) !important;
+    position: relative;
+  }
+  .category-hero::after,
+  .history-hero::after,
+  .mission-hero::after,
+  .contact-hero::after {
+    content: "";
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,.12), rgba(0,0,0,.42));
+    z-index: 1;
+    pointer-events: none;
+  }
+  .category-hero-title,
+  .history-hero-title,
+  .mission-hero-title,
+  .contact-hero-title {
+    position: absolute !important;
+    left: 50% !important; top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: calc(100% - 36px);
     margin: 0 !important;
-    text-align: right !important;
-    max-width: 55% !important;
-    transform: none !important; /* remove any desktop transforms that could push it off */
-    left: auto !important;
+    z-index: 2 !important;
+    white-space: normal !important;
+    text-align: center !important;
+    line-height: 1.05 !important;
+    color: #fff !important;
+    text-shadow: 0 4px 18px rgba(0,0,0,.5) !important;
+  }
+  .category-hero-title { font-size: clamp(26px, 8vw, 40px) !important; }
+  .history-hero-title  { font-size: clamp(28px, 8.5vw, 44px) !important; letter-spacing: 1px !important; }
+  .mission-hero-title  { font-size: clamp(20px, 6vw, 32px) !important; letter-spacing: .4px !important; }
+  .contact-hero-title  { font-size: clamp(26px, 8vw, 40px) !important; }
+
+  /* Vendors hero : illustration en dégradé, on garde le plein cadre */
+  .vendors-hero { height: clamp(170px, 44vw, 230px) !important; }
+  .vendors-hero-title {
+    white-space: normal !important;
+    width: calc(100% - 36px);
+    font-size: clamp(28px, 9vw, 46px) !important;
+    top: 50% !important;
   }
 
-  /* ensure hero image behaves responsively on mobile (no desktop changes) */
-  .hero-image {
+  /* =================================================================
+     SECTIONS DE CONTENU — paddings homogènes & lisibles
+     ================================================================= */
+  .acn { padding: 34px 18px !important; }
+  .acn-header { grid-template-columns: 1fr !important; gap: 10px !important; }
+  .acn-heart { order: 2; }
+  .acn-columns { grid-template-columns: 1fr !important; gap: 30px !important; }
+  .acn-desc { font-size: 15px !important; }
+
+  /* Bouquets : grille 2 colonnes nette, sans quinconce ni décalages */
+  .bouquet-list { grid-template-columns: repeat(2, 1fr) !important; gap: 22px 16px !important; justify-items: center; }
+  .bouquet-list .bouquet-item { transform: none !important; grid-column: auto !important; grid-row: auto !important; width: 100%; }
+  .bouquet-thumb {
+    --size: auto !important;
     width: 100% !important;
     height: auto !important;
-    object-fit: cover !important;
-    max-height: 60vh !important;
+    aspect-ratio: 1 / 1 !important;
+    transform: rotate(var(--rot, 0deg)) !important;
+    background-size: cover !important;
   }
+  .bouquet-caption { font-size: 16px !important; }
 
-  /* accessibility: make taps comfortable */
-  header nav a, .mobile-menu-toggle {
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
+  /* Notre histoire */
+  .history-content { padding: 32px 20px !important; }
+  .history-text { width: auto !important; }
+  .history-text p { font-size: 16px !important; line-height: 1.7 !important; }
+
+  /* Notre mission */
+  .mission-intro { padding: 26px 20px !important; }
+  .mission-photo-block { flex-direction: column !important; gap: 16px !important; padding: 18px 18px !important; }
+  .mission-photo-block .mission-photo-left,
+  .mission-photo-block .mission-photo-right { width: 100% !important; }
+  .mission-photo-block .mission-photo-left { aspect-ratio: 4/3 !important; height: auto !important; }
+  .mission-meaning { padding: 26px 20px !important; }
+  .mission-quote { margin-top: 36px !important; }
+  .stats-grid { grid-template-columns: 1fr !important; gap: 16px !important; margin-top: 0 !important; }
+
+  /* Nos distributeurs */
+  .vendors-split { grid-template-columns: 1fr !important; }
+  .vendors-grid { grid-template-columns: 1fr !important; }
+  .vendors-grid .vendors-block { padding: 24px 22px !important; }
+
+  /* Pages texte (légal, FAQ, contact) */
+  .legal, .content, .content-centered, .about, .faq { padding-left: 20px !important; padding-right: 20px !important; }
+  .contact-section { min-height: 0 !important; padding: 24px 20px 8px !important; }
+  .contact-section form, form { max-width: 100% !important; }
+
+  /* =================================================================
+     BANDEAU BAS (réseaux + paiement) & PIED DE PAGE
+     ================================================================= */
+  .bottom-banner {
+    position: static !important;
+    margin-bottom: 0 !important;
+    padding: 26px 20px !important;
+    background: var(--m-cream) !important;
+    border-top: 1px solid rgba(0,0,0,.06);
+    z-index: 1 !important;
   }
+  .bottom-banner-content { gap: 16px !important; }
+  .payments { margin-bottom: 0 !important; flex-wrap: wrap; }
 
+  /* Le pied de page légal d'origine est masqué sur mobile : ses liens
+     sont déplacés dans le menu burger (voir .m-legal-links + script.js). */
+  .footer { display: none !important; }
+
+  /* Le header peut se masquer au scroll (géré par script.js) — OK.
+     La tab-bar, elle, reste toujours visible. */
+  .return-home { margin: 28px 0 !important; }
+}
+
+/* Très petits écrans : on resserre encore un peu */
+@media (max-width: 380px) {
+  .hero-overlay .bobby-hero,
+  .hero-overlay .accent { font-size: 1.35rem !important; }
+  .home-menu .menu-title { font-size: 1.02rem !important; }
+  .m-tabbar a { font-size: 10px !important; }
+}
+
+/* Respect du mouvement réduit */
+@media (max-width: 768px) and (prefers-reduced-motion: reduce) {
+  header.nav-open nav { animation: none !important; }
 }
