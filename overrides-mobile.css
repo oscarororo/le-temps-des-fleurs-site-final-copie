@@ -379,18 +379,56 @@
   .acn-columns { grid-template-columns: 1fr !important; gap: 30px !important; }
   .acn-desc { font-size: 15px !important; }
 
-  /* Bouquets : grille 2 colonnes nette, sans quinconce ni décalages */
-  .bouquet-list { grid-template-columns: repeat(2, 1fr) !important; gap: 22px 16px !important; justify-items: center; }
-  .bouquet-list .bouquet-item { transform: none !important; grid-column: auto !important; grid-row: auto !important; width: 100%; }
-  .bouquet-thumb {
+  /* =================================================================
+     BOUQUETS (page "Nos bouquets") — 2 colonnes nettes qui tiennent
+     dans l'écran, sans dézoom. Sélecteurs à SPÉCIFICITÉ RENFORCÉE pour
+     l'emporter sur le <style> inline de la page (.bouquet-thumb:92vw).
+     ================================================================= */
+  .acn-page .acn-columns { grid-template-columns: 1fr !important; gap: 8px !important; }
+  .acn-page .acn-col { width: 100% !important; }
+
+  .acn-page .bouquet-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 20px 14px !important;
+    justify-items: center !important;
+    padding: 0 !important;
+    margin: 0 auto !important;
+    grid-auto-flow: row !important;
+  }
+  .acn-page .bouquet-list .bouquet-item {
+    transform: none !important;
+    grid-column: auto !important;
+    grid-row: auto !important;
+    width: 100% !important;
+    margin: 0 !important;
+  }
+  /* le lien produit doit être un bloc pleine largeur pour porter la vignette */
+  .acn-page .bouquet-list .product-link {
+    display: block !important;
+    width: 100% !important;
+  }
+  /* filet de sécurité : annuler tout placement quinconce/diagonale hérité
+     (specificité élevée pour battre les règles desktop sur tablette aussi) */
+  .acn-page .acn-columns > .acn-col .bouquet-list .bouquet-item:nth-child(n) {
+    transform: none !important;
+    grid-column: auto !important;
+    grid-row: auto !important;
+  }
+  /* la vignette suit la largeur de sa colonne -> jamais de débordement */
+  .acn-page .bouquet-list .bouquet-thumb {
     --size: auto !important;
     width: 100% !important;
+    max-width: 152px !important;
     height: auto !important;
     aspect-ratio: 1 / 1 !important;
-    transform: rotate(var(--rot, 0deg)) !important;
+    transform: none !important;
     background-size: cover !important;
+    border-radius: 50% !important;
+    margin: 0 auto !important;
   }
-  .bouquet-caption { font-size: 16px !important; }
+  .acn-page .bouquet-list .bouquet-caption { font-size: 15px !important; }
+  .acn-page .bouquet-list .bouquet-name { font-size: 16px !important; }
+  .acn-page .bouquet-list .bouquet-price { font-size: 14px !important; }
 
   /* Notre histoire */
   .history-content { padding: 32px 20px !important; }
